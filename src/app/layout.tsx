@@ -1,4 +1,4 @@
-import "@/services/mockAdapter";
+// import "@/services/mockAdapter";
 import "@/styles/fonts.css";
 import "@/styles/globals.css";
 

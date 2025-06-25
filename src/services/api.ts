@@ -10,6 +10,7 @@ import {
 } from "@/data/user";
 import { mockTodaySummary } from "@/data/attendance";
 import { mockDisciplined } from "@/data/discipline";
+import { mockDevices } from "@/data/devices";
 
 // 1) Создаём единый axios-инстанс
 export const api = axios.create({
@@ -32,4 +33,7 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
 
   // disciplineService мок
   mock.onGet("/disciplined").reply(200, mockDisciplined);
+
+  // devicesService мок
+  mock.onGet("/devices").reply(200, mockDevices);
 }

@@ -21,8 +21,13 @@
 
 @font-face {
   font-family: "Bounded";
-  src: url("../assets/fonts/Bounded/Bounded-Variable.ttf") format("truetype");
+  src: url("../assets/fonts/Bounded/Bounded-Variable566.ttf") format("truetype");
   font-weight: 566;
+}
+@font-face {
+  font-family: "Bounded";
+  src: url("../assets/fonts/Bounded/Bounded-Variable466.ttf") format("truetype");
+  font-weight: 466;
 }
 
 @font-face {

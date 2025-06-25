@@ -1,5 +1,6 @@
 import { MainHeadline } from "@/components/MainHeadline";
 import { Navbar } from "@/components/Navbar";
+import { Devices } from "@/layouts/Devices";
 import { TodayReview } from "@/layouts/TodayReview";
 import { TopDisciplined } from "@/layouts/TopDisciplined";
 
@@ -12,9 +13,13 @@ export default function Home() {
 
         <TodayReview />
 
-        <div className="flex justify-between items-start gap-x-[20px]">
-          <TopDisciplined />
-          <TopDisciplined />
+        <div className="flex justify-between gap-x-[20px] items-stretch">
+          <div className="flex-1 flex flex-col">
+            <TopDisciplined />
+          </div>
+          <div className="flex-1 flex flex-col">
+            <Devices />
+          </div>
         </div>
       </main>
     </div>

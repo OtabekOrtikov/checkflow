@@ -1,21 +1,19 @@
 "use client";
 
 import { TableHeadline } from "@/components/TableHeadline";
-import DisciplinedIcon from "@/assets/icons/disciplinedIcon.svg";
-import { Disciplined } from "@/types/discipline.t";
+import DevicesIcon from "@/assets/icons/devicesIcon.svg";
+import { Device } from "@/types/devices.t";
 import { useEffect, useState } from "react";
-import { fetchDisciplined } from "@/services/disciplinedService";
-import { DisciplinedCard } from "@/components/DisciplinedCard";
+import { fetchDevices } from "@/services/devicesService";
+import { DevicesCard } from "@/components/DevicesCard";
 
-export const TopDisciplined = () => {
-  // Here you would typically fetch the data for the top disciplined users
-  // For now, we will just return a placeholder component
-  const [data, setData] = useState<Disciplined[]>([]);
+export const Devices = () => {
+  const [data, setData] = useState<Device[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchDisciplined()
+    fetchDevices()
       .then((res) => {
         setData(res.data);
         setLoading(false);
@@ -29,22 +27,22 @@ export const TopDisciplined = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
-
   if (error) {
     return <div>Error: {error}</div>;
   }
+
   return (
     <section className="flex-1 h-full p-[20px] flex gap-[10px] flex-col rounded-[20px] bg-(--white) w-full">
       <TableHeadline
         isIconVisible
         isButtonVisible={false}
-        title="Топ дисциплинированные"
-        icon={<DisciplinedIcon />}
+        title="Устройства"
+        icon={<DevicesIcon />}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-[10px]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[10px] h-full">
         {data.map((item) => (
-          <DisciplinedCard key={item.id} data={item} />
+          <DevicesCard key={item.id} data={item} />
         ))}
       </div>
     </section>
