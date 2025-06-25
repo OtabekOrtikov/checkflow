@@ -32,7 +32,7 @@ export const Devices = () => {
   }
 
   return (
-    <section className="flex-1 h-full p-[20px] flex gap-[10px] flex-col rounded-[20px] bg-(--white) w-full">
+    <section className="flex-1 border border-(--gray-e6) h-full p-[20px] flex gap-[10px] flex-col rounded-[20px] bg-(--white) w-full">
       <TableHeadline
         isIconVisible
         isButtonVisible={false}

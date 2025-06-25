@@ -24,7 +24,7 @@ export const TodayReview = () => {
   const start = (page - 1) * pageSize;
   const displayed = data.slice(start, start + pageSize);
   return (
-    <section className="today-review flex flex-col gap-y-[20px] p-[20px] bg-(--white) rounded-[20px]">
+    <section className="today-review border border-(--gray-e6) flex flex-col gap-y-[20px] p-[20px] bg-(--white) rounded-[20px]">
       <TableHeadline
         title="Сводка на сегодня"
         isButtonVisible
