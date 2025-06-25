@@ -42,7 +42,7 @@ export const TopDisciplined = () => {
         icon={<DisciplinedIcon />}
       />
 
-      <div className="grid grid-cols-2 gap-[10px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-[10px]">
         {data.map((item) => (
           <DisciplinedCard key={item.id} data={item} />
         ))}
