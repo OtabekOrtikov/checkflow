@@ -12,7 +12,7 @@ import { TodayReviewTable } from "@/components/TodayReviewTable";
 export const TodayReview = () => {
   const [data, setData] = useState<TodaySummaryRow[]>([]);
   const [page, setPage] = useState(1);
-  const pageSize = 6;
+  const pageSize = 6; // Количество записей на странице
 
   useEffect(() => {
     fetchTodaySummary()
@@ -21,7 +21,6 @@ export const TodayReview = () => {
   }, []);
 
   const total = data.length;
-  const totalPages = Math.ceil(total / pageSize);
   const start = (page - 1) * pageSize;
   const displayed = data.slice(start, start + pageSize);
   return (
