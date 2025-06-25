@@ -1,0 +1,69 @@
+import type { TodaySummaryRow } from "@/types/attendance.t";
+
+export const mockTodaySummary: TodaySummaryRow[] = [
+  {
+    id: "1",
+    employee: "Абдиев Амир",
+    position: "Продукт менеджер",
+    arrivedAt: "10:22",
+    leftAt: "16:00",
+    late: "00:00",
+    earlyLeave: "03:00",
+  },
+  {
+    id: "2",
+    employee: "Латыпов Артём",
+    position: "Flutter разработчик",
+    arrivedAt: "10:00",
+    leftAt: "18:00",
+    late: "00:00",
+    earlyLeave: "01:00",
+  },
+  {
+    id: "3",
+    employee: "Aslan",
+    position: "Backend Developer",
+    arrivedAt: "08:34",
+    leftAt: undefined,
+    late: undefined,
+    earlyLeave: undefined,
+  },
+  {
+    id: "4",
+    employee: "Исламов Камрон",
+    position: "UX/UI Дизайнер",
+    arrivedAt: "12:56",
+    leftAt: "17:50",
+    late: "02:56",
+    earlyLeave: "01:10",
+  },
+  {
+    id: "5",
+    employee: "Ахмедов Ислом",
+    position: "Frontend Developer",
+    arrivedAt: "10:01",
+    leftAt: undefined,
+    late: "00:01",
+    earlyLeave: undefined,
+  },
+  // ... добавьте ещё записей, чтобы было >6 для пагинации
+  {
+    id: "6",
+    employee: "Новый Сотрудник",
+    position: "QA Engineer",
+    arrivedAt: "09:15",
+    leftAt: "17:15",
+    late: undefined,
+    earlyLeave: undefined,
+  },
+  {
+    id: "7",
+    employee: "Ещё Один",
+    position: "DevOps",
+    arrivedAt: "09:00",
+    leftAt: "17:00",
+    late: undefined,
+    earlyLeave: undefined,
+  },
+  // … итого, например, 12 строк …
+];
