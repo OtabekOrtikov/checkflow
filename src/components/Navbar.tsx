@@ -1,18 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import Logo from "@/assets/images/logo.svg";
 import { SearchInput } from "./SearchInput";
-import BurgerIcon from "@/assets/icons/burgerIcon.svg";
 import { usePathname } from "next/navigation";
 import { navSections, profileTabs } from "@/data/nav-sections";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ProfileInfo } from "@/types/profile.t";
-import { fetchProfileInfo } from "@/services/api";
+import { fetchProfileInfo } from "@/services/userService";
 import { BackToHome } from "@/components/BackToHome";
 import { TopHeader } from "@/components/TopHeader";
 import { ProfileCard } from "@/components/ProfileCard";
-import { useRouter } from "next/router";
 
 export const Navbar = () => {
   const pathname = usePathname();

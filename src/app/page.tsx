@@ -1,6 +1,7 @@
 import { MainHeadline } from "@/components/MainHeadline";
 import { Navbar } from "@/components/Navbar";
 import { TodayReview } from "@/layouts/TodayReview";
+import { TopDisciplined } from "@/layouts/TopDisciplined";
 
 export default function Home() {
   return (
@@ -10,6 +11,11 @@ export default function Home() {
         <MainHeadline />
 
         <TodayReview />
+
+        <div className="flex justify-between items-start gap-x-[20px]">
+          <TopDisciplined />
+          <TopDisciplined />
+        </div>
       </main>
     </div>
   );
