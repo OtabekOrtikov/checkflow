@@ -23,7 +23,7 @@ export const Navbar = () => {
 
   if (pathname.startsWith("/profile") && user) {
     return (
-      <aside className="max-w-[400px] min-w-[350px] w-full bg-white min-h-[calc(100vh-40px)] flex flex-col gap-y-[25px] m-[20px] p-[25px] rounded-[20px]">
+      <aside className="max-w-[400px] min-w-[350px] w-full bg-white h-fit flex flex-col gap-y-[25px] m-[20px] p-[25px] rounded-[20px]">
         {/* логотип + бургер */}
         <TopHeader />
 
@@ -142,7 +142,7 @@ export const Navbar = () => {
   return (
     <aside
       className="max-w-[400px] min-w-[350px] 
-    w-full bg-white min-h-[calc(100vh-40px)] 
+    w-full bg-white h-screen
     flex flex-col gap-y-[25px] m-[20px] 
     p-[25px] rounded-[20px]"
     >
