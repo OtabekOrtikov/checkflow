@@ -23,12 +23,15 @@ export const Navbar = () => {
 
   if (pathname.startsWith("/profile") && user) {
     return (
-      <aside className="max-w-[400px] min-w-[350px] w-full bg-white h-fit flex flex-col gap-y-[25px] m-[20px] p-[25px] rounded-[20px]">
-        {/* логотип + бургер */}
+      <aside
+        className="max-w-[400px] min-w-[350px] 
+    w-full bg-white h-[calc(100vh-45px)]
+    flex flex-col gap-y-[25px] m-[20px] 
+    p-[25px] rounded-[20px] mb-0"
+      >
         <TopHeader />
 
-        {/* поиск */}
-        <SearchInput id="search-profile" placeholder="Поиск" isSlashVisible />
+        <SearchInput placeholder="Поиск" isSlashVisible id="search-navbar" />
 
         <BackToHome />
 
@@ -81,18 +84,18 @@ export const Navbar = () => {
     return (
       <aside
         className="max-w-[400px] min-w-[350px] 
-    w-full bg-white min-h-[calc(100vh-40px)] 
+    w-full bg-white h-[calc(100vh-45px)]
     flex flex-col gap-y-[25px] m-[20px] 
-    p-[25px] rounded-[20px]"
+    p-[25px] rounded-[20px] mb-0"
       >
         <TopHeader />
 
-        <SearchInput id="search-navbar" placeholder="Поиск" isSlashVisible />
+        <SearchInput placeholder="Поиск" isSlashVisible id="search-navbar" />
 
         <BackToHome />
 
-        <nav className="flex items-start flex-col justify-start flex-1 gap-y-[25px]">
-          <p className="text-black text-[16px] font-medium">
+        <nav className="flex items-start flex-col justify-start flex-1 gap-y-[5px]">
+          <p className="text-black text-[16px] mb-[5px]">
             {parentSection.title}
           </p>
 
@@ -101,28 +104,28 @@ export const Navbar = () => {
             className={`flex items-center rounded-[15px] 
                         justify-start gap-x-[10px] text-[20px] 
                         font-semibold text-(--primary) px-[20px] 
-                        min-h-[60px] w-full border-1 border-primary 
+                        min-h-[60px] bg-(--background) w-full border-1 border-primary 
                         transition-all`}
           >
             {activeParent.icon}
             <p>{activeParent.title}</p>
           </Link>
 
-          <ul className="space-y-2">
+          <ul className="space-y-2 flex max-w-[calc(100%-35px)] w-full flex-col ml-auto">
             {activeParent.items!.map((sub) => {
               const isActive = pathname === sub.href;
 
               return (
-                <li key={sub.href}>
+                <li key={sub.href} className="w-full">
                   <Link
                     href={sub.href}
                     className={`flex items-center rounded-[15px] 
                         justify-start gap-x-[10px] text-[20px] 
-                        font-semibold text-(--grey-80) px-[20px] 
+                        font-semibold text-(--black-50) px-[20px] 
                         min-h-[60px] w-full border-1 border-transparent 
                         hover:border-(--black-10) hover:text-(--foreground) transition-all ${
                           isActive
-                            ? "text-(--primary) bg-(--background) hover:border-(--primary)"
+                            ? "text-(--foreground) bg-(--background) hover:border-transparent"
                             : ""
                         }`}
                   >
@@ -132,9 +135,8 @@ export const Navbar = () => {
               );
             })}
           </ul>
-
-          {user && <ProfileCard {...user} />}
         </nav>
+        {user && <ProfileCard {...user} />}
       </aside>
     );
   }
@@ -142,9 +144,9 @@ export const Navbar = () => {
   return (
     <aside
       className="max-w-[400px] min-w-[350px] 
-    w-full bg-white h-screen
+    w-full bg-white h-[calc(100vh-45px)]
     flex flex-col gap-y-[25px] m-[20px] 
-    p-[25px] rounded-[20px]"
+    p-[25px] rounded-[20px] mb-0"
     >
       <TopHeader />
 

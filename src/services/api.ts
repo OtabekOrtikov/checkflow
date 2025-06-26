@@ -12,6 +12,8 @@ import { mockTodaySummary } from "@/data/attendance";
 import { mockDisciplined } from "@/data/discipline";
 import { mockDevices } from "@/data/devices";
 import { mockEmployees } from "@/data/employees";
+import { mockSchedules } from "@/data/schedule";
+import { mockReports } from "@/data/reports";
 
 // 1) Создаём единый axios-инстанс
 export const api = axios.create({
@@ -40,4 +42,10 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
 
   // employeesService мок
   mock.onGet("/employees").reply(200, mockEmployees);
+
+  // schedulesService мок
+  mock.onGet("/schedules").reply(200, mockSchedules);
+
+  // reportsService мок
+  mock.onGet("/reports").reply(200, mockReports);
 }

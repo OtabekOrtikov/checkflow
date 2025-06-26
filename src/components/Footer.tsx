@@ -1,8 +1,14 @@
 import XeondLogo from "@/assets/images/xeond.svg";
 
-export const Footer = () => {
+interface FooterProps {
+  className?: string;
+}
+
+export const Footer = ({
+  className = "",
+}: FooterProps) => {
   return (
-    <footer className="flex justify-between border border-(--gray-e6) items-center w-full h-fit bg-(--white) rounded-full px-[50px] py-[30px]">
+    <footer className={`flex justify-between border border-(--gray-e6) items-center w-full h-fit bg-(--white) rounded-full px-[50px] py-[30px] ${className}`}>
       <div className="">
         <XeondLogo />
       </div>

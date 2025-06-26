@@ -41,7 +41,7 @@ export const navSections: NavSection[] = [
         href: "/time-off",
         icon: <OtgulIcon className="fill-current" />,
         items: [
-          { title: "В ожидании", href: "/time-off/pending" },
+          { title: "В ожидании", href: "/time-off" },
           { title: "Принятые", href: "/time-off/approved" },
           { title: "Непринятые", href: "/time-off/rejected" },
           { title: "Удалённые", href: "/time-off/deleted" },
