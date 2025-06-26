@@ -3,6 +3,7 @@
 :root {
   --background: #f3f5f7;
   --foreground: #1a1a1a;
+  --foreground-50: rgba(26, 26, 26, 0.5);
   --black-10: rgba(0, 0, 0, 0.1);
   --grey-80: #808080;
   --font-family: "VelaSans", sans-serif;

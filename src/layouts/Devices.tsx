@@ -5,7 +5,7 @@ import DevicesIcon from "@/assets/icons/devicesIcon.svg";
 import { Device } from "@/types/devices.t";
 import { useEffect, useState } from "react";
 import { fetchDevices } from "@/services/devicesService";
-import { DevicesCard } from "@/components/DevicesCard";
+import { DevicesCard } from "@/app/components/DevicesCard";
 
 export const Devices = () => {
   const [data, setData] = useState<Device[]>([]);

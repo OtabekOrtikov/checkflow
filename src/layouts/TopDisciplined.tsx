@@ -5,7 +5,7 @@ import DisciplinedIcon from "@/assets/icons/disciplinedIcon.svg";
 import { Disciplined } from "@/types/discipline.t";
 import { useEffect, useState } from "react";
 import { fetchDisciplined } from "@/services/disciplinedService";
-import { DisciplinedCard } from "@/components/DisciplinedCard";
+import { DisciplinedCard } from "@/app/components/DisciplinedCard";
 
 export const TopDisciplined = () => {
   // Here you would typically fetch the data for the top disciplined users

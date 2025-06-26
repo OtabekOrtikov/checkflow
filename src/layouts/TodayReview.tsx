@@ -7,7 +7,7 @@ import { fetchTodaySummary } from "@/services/attendanceService";
 import { TodaySummaryRow } from "@/types/attendance.t";
 import { useState, useEffect } from "react";
 import Pagination from "@/components/Pagination";
-import { TodayReviewTable } from "@/components/TodayReviewTable";
+import { TodayReviewTable } from "@/app/components/TodayReviewTable";
 
 export const TodayReview = () => {
   const [data, setData] = useState<TodaySummaryRow[]>([]);

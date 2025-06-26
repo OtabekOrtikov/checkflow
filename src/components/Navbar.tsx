@@ -28,7 +28,7 @@ export const Navbar = () => {
         <TopHeader />
 
         {/* поиск */}
-        <SearchInput />
+        <SearchInput id="search-profile" placeholder="Поиск" isSlashVisible />
 
         <BackToHome />
 
@@ -87,7 +87,7 @@ export const Navbar = () => {
       >
         <TopHeader />
 
-        <SearchInput />
+        <SearchInput id="search-navbar" placeholder="Поиск" isSlashVisible />
 
         <BackToHome />
 
@@ -148,7 +148,7 @@ export const Navbar = () => {
     >
       <TopHeader />
 
-      <SearchInput />
+      <SearchInput placeholder="Поиск" isSlashVisible id="search-navbar" />
 
       <nav className="flex items-start flex-col justify-start flex-1 gap-y-[25px]">
         {navSections.map(({ title, items }) => (
