@@ -14,6 +14,7 @@ import { mockDevices } from "@/data/devices";
 import { mockEmployees } from "@/data/employees";
 import { mockSchedules } from "@/data/schedule";
 import { mockReports } from "@/data/reports";
+import { mockTimeOffRequests } from "@/data/timeOff";
 
 // 1) Создаём единый axios-инстанс
 export const api = axios.create({
@@ -21,8 +22,8 @@ export const api = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-// 2) Вешаем моки **только в development** и **только на клиенте**
-if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+// 2) Вешаем моки только в development (и на сервере, и в браузере)
+if (process.env.NODE_ENV === "development") {
   const mock = new MockAdapter(api, { delayResponse: 200 });
 
   // userService моки
@@ -48,4 +49,25 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
 
   // reportsService мок
   mock.onGet("/reports").reply(200, mockReports);
+
+  // timeOffService моки
+  mock.onGet(/\/time-off\?status=.*/).reply((config) => {
+    const status = config.url!.split("status=")[1];
+    const list = mockTimeOffRequests.filter((r) => r.status === status as any);
+    return [200, list];
+  });
+
+  mock.onPost(/\/time-off\/\w+\/approve/).reply((config) => {
+    const id = config.url!.split("/")[2];
+    const req = mockTimeOffRequests.find((r) => r.id === id);
+    if (req) req.status = "approved";
+    return [200, req];
+  });
+
+  mock.onPost(/\/time-off\/\w+\/reject/).reply((config) => {
+    const id = config.url!.split("/")[2];
+    const req = mockTimeOffRequests.find((r) => r.id === id);
+    if (req) req.status = "rejected";
+    return [200, req];
+  });
 }

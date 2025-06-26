@@ -25,7 +25,7 @@ export const Navbar = () => {
     return (
       <aside
         className="max-w-[400px] min-w-[350px] 
-    w-full bg-white h-[calc(100vh-45px)]
+    w-full bg-white min-h-[calc(100vh-45px)] h-fit
     flex flex-col gap-y-[25px] m-[20px] 
     p-[25px] rounded-[20px] mb-0"
       >
@@ -84,7 +84,7 @@ export const Navbar = () => {
     return (
       <aside
         className="max-w-[400px] min-w-[350px] 
-    w-full bg-white h-[calc(100vh-45px)]
+    w-full bg-white min-h-[calc(100vh-45px)] h-fit
     flex flex-col gap-y-[25px] m-[20px] 
     p-[25px] rounded-[20px] mb-0"
       >
@@ -144,7 +144,7 @@ export const Navbar = () => {
   return (
     <aside
       className="max-w-[400px] min-w-[350px] 
-    w-full bg-white h-[calc(100vh-45px)]
+    w-full bg-white min-h-[calc(100vh-45px)] h-fit
     flex flex-col gap-y-[25px] m-[20px] 
     p-[25px] rounded-[20px] mb-0"
     >

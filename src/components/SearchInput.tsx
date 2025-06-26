@@ -40,7 +40,8 @@ export const SearchInput:
             onChange(e.target.value);
           }
         }}
-        className={`w-full outline-0 pl-[54px] font-semibold h-full p-[10px] rounded-[15px] border-[1px] border-(--black-10) ${
+        className={`w-full outline-0 pl-[54px] font-semibold min-h-[60px] h-fit p-[10px] 
+          rounded-[15px] border-[1px] border-(--black-10) ${
           className || ""
         }`}
         autoComplete="off"
