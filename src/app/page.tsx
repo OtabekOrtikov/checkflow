@@ -1,4 +1,4 @@
-import { MainHeadline } from "@/app/components/MainHeadline";
+import { MainHeadline } from "@/components/app/MainHeadline";
 import { Navbar } from "@/components/Navbar";
 import { VisitStatistics } from "@/layouts/VisitStatistics";
 import { Devices } from "@/layouts/Devices";

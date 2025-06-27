@@ -11,7 +11,7 @@ import { DropdownSelect } from "@/components/DropdownSelect";
 import PlusInCircle from "@/assets/icons/plusInCircle.svg";
 import Link from "next/link";
 import { SearchInput } from "@/components/SearchInput";
-import { GridEmployeeTable } from "@/app/employees/components/GridEmployeeTable";
+import { GridEmployeeTable } from "@/components/employees/GridEmployeeTable";
 import { Footer } from "@/components/Footer";
 
 type SortField = "name" | "position" | "department" | "salary" | "identified";
@@ -131,14 +131,14 @@ export default function EmployeesPage() {
   }
 
   return (
-    <div className="flex items-start">
+    <div className="flex items-start max-w-screen overflow-hidden">
       <Navbar />
 
       <main className="flex-1 2xl:py-[45px] 2xl:px-[50px] lg:py-[30px] lg:px-[35px] flex flex-col gap-y-[20px]">
         <PageHeadline title="Сотрудники" isCountVisible count={all.length} />
 
         {/* Фильтры */}
-        <div className="flex items-center gap-[10px] justify-between">
+        <div className="flex flex-3 items-center gap-[10px] justify-between overflow-x-auto flex-wrap">
           <div className="flex text-nowrap w-fit gap-[5px] bg-(--white) border border-(--gray-e6) rounded-full p-[5px] items-center">
             <DropdownSelect
               options={statusOptions}
@@ -194,7 +194,7 @@ export default function EmployeesPage() {
               className="w-fit"
             />
           </div>
-          <div className="flex items-center gap-x-[10px]">
+          <div className="flex items-center gap-x-[10px] w-full flex-1">
             <div className="relative flex-1 h-[60px] min-w-[210px] ">
               <SearchInput
                 id="search-employees"

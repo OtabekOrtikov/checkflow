@@ -10,7 +10,7 @@ import { fetchSchedules } from "@/services/scheduleService";
 import { WorkSchedule } from "@/types/schedule.t";
 import { useState, useEffect, useMemo } from "react";
 import Pagination from "@/components/Pagination";
-import { GridScheduleTable } from "./components/GridScheduleTable";
+import { GridScheduleTable } from "../../components/schedules/GridScheduleTable";
 import { Footer } from "@/components/Footer";
 
 export default function SchedulesPage() {

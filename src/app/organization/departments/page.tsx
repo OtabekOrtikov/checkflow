@@ -17,6 +17,7 @@ import PlusInCircle from "@/assets/icons/plusInCircle.svg";
 import { SearchInput } from "@/components/SearchInput";
 import { OrgModal } from "@/components/organization/OrgModal";
 import { Department } from "@/types/organization.t";
+import { Footer } from "@/components/Footer";
 
 export default function DepartmentsPage() {
   const [data, setData] = useState<Department[]>([]);
@@ -51,7 +52,7 @@ export default function DepartmentsPage() {
 
   return (
     <>
-      <main className="flex-1 p-[30px] flex flex-col gap-y-[20px] min-h-screen">
+      <main className="flex-1 p-[30px] flex flex-col gap-y-[20px] min-h-screen h-full">
         <PageHeadline title="Организация">
           <div className="flex items-stretch gap-x-[10px] ml-auto">
             <button
@@ -59,7 +60,7 @@ export default function DepartmentsPage() {
                 setEditItem(undefined);
                 setModalOpen(true);
               }}
-              className="flex items-center gap-x-[10px] bg-(--primary) text-(--white) text-[24px] px-[20px] py-[10px] rounded-[50px] font-medium"
+              className="flex items-center cursor-pointer gap-x-[10px] bg-(--primary) text-(--white) text-[24px] px-[20px] py-[10px] rounded-[50px] font-medium"
             >
               <PlusInCircle />
               Добавить
@@ -76,6 +77,8 @@ export default function DepartmentsPage() {
           onUpdate={handleUpdate}
           onDelete={handleDelete}
         />
+
+        <Footer className="mt-auto" />
       </main>
 
       <OrgModal<Department>

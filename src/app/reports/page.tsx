@@ -5,7 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { PageHeadline } from "@/components/PageHeadline";
 import { fetchReports } from "@/services/reportService";
 import { useState, useEffect } from "react";
-import { ReportCard } from "./components/ReportCard";
+import { ReportCard } from "../../components/reports/ReportCard";
 import type { Report } from "@/types/report.t";
 
 export default function ReportsPage() {
