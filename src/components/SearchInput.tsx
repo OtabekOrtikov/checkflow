@@ -14,6 +14,7 @@ interface SearchInputProps {
 export const SearchInput:
   | React.FC<SearchInputProps>
   | React.FunctionComponent<SearchInputProps> = ({
+  id,
   placeholder,
   isSlashVisible,
   onChange,
@@ -23,7 +24,7 @@ export const SearchInput:
   return (
     <div className="relative w-full 2xl:min-h-[60px] h-fit">
       <label
-        htmlFor={"search-input"}
+        htmlFor={id}
         className="absolute top-[50%] translate-y-[-50%] left-[20px]"
       >
         <SearchIcon className="search-icon" />
@@ -32,8 +33,8 @@ export const SearchInput:
       <input
         type="search"
         name="search"
-        id="search-input"
-        placeholder={placeholder? placeholder : "Поиск..."}
+        id={id}
+        placeholder={placeholder ? placeholder : "Поиск..."}
         value={value}
         onChange={(e) => {
           if (onChange) {
@@ -41,9 +42,7 @@ export const SearchInput:
           }
         }}
         className={`w-full outline-0 pl-[54px] font-semibold min-h-[60px] h-fit p-[10px] 
-          rounded-[15px] border-[1px] border-(--black-10) ${
-          className || ""
-        }`}
+          rounded-[15px] border-[1px] border-(--black-10) ${className || ""}`}
         autoComplete="off"
       />
 

@@ -49,7 +49,7 @@ export const navSections: NavSection[] = [
       },
       {
         title: "Организация",
-        href: "/organization",
+        href: "/organization/departments",
         icon: <OrganizationIcon className="fill-current" />,
         items: [
           { title: "Отделы", href: "/organization/departments" },

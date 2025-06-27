@@ -7,17 +7,13 @@ import { Navbar } from "@/components/Navbar";
 import { PageHeadline } from "@/components/PageHeadline";
 import { SearchInput } from "@/components/SearchInput";
 import PlusInCircle from "@/assets/icons/plusInCircle.svg";
-import Pagination from "@/components/Pagination";
 import { mockTimeOffRequests } from "@/data/timeOff";
 import { GridTimeOffTable } from "@/components/GridTimeOffTable";
 import Link from "next/link";
 import { TimeOffRequest } from "@/types/timeOff.t";
+import { Footer } from "@/components/Footer";
 
 type Status = "pending" | "approved" | "rejected" | "deleted";
-
-interface Props {
-  params: { status: Status };
-}
 
 export default function TimeOffStatusPage() {
   const params = useParams();
@@ -39,8 +35,6 @@ export default function TimeOffStatusPage() {
     setLoading(false);
   }, [status]);
 
-  console.log("Current status:", status);
-
   // Обновление статуса «внутри» мока
   const handleApprove = (id: string) => {
     const rec = mockTimeOffRequests.find((r) => r.id === id);
@@ -56,7 +50,6 @@ export default function TimeOffStatusPage() {
   };
 
   // Пагинация
-  const total = data.length;
   const start = (page - 1) * pageSize;
   const paged = data.slice(start, start + pageSize);
 
@@ -72,8 +65,11 @@ export default function TimeOffStatusPage() {
     <div className="flex items-start">
       <Navbar />
 
-      <main className="flex-1 p-[30px] w-full flex flex-col gap-y-[20px]">
-        <PageHeadline title="Рабочие графики">
+      <main
+        className="flex-1 2xl:py-[45px] 2xl:px-[50px] min-h-screen 
+        lg:py-[30px] lg:px-[35px] flex flex-col gap-y-[20px]"
+      >
+        <PageHeadline title="Отгулы">
           <div className="flex items-center gap-x-[10px] ml-auto">
             <div className="relative flex-1 h-[60px] min-w-[210px] ">
               <SearchInput
@@ -99,16 +95,13 @@ export default function TimeOffStatusPage() {
           data={paged}
           loading={loading}
           status={status}
+          page={page}
+          setPage={setPage}
           onApprove={handleApprove}
           onReject={handleReject}
         />
 
-        <Pagination
-          total={total}
-          page={page}
-          pageSize={pageSize}
-          onPageChange={setPage}
-        />
+        <Footer className="mt-auto" />
       </main>
     </div>
   );

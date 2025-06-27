@@ -60,7 +60,7 @@ export default function Pagination({
       <p className="xl:text-[24px] font-[Bounded] font-[566] flex flex-col gap-0">
         <span className="text-(--black-30)">Показаны пришедшие</span>
         <span className="text-(--foreground)">
-          {start}–{Math.min(start - 1 + pageSize, total)} из {total}
+          {total !== 0 ? `${start}-` : ""}{Math.min(start - 1 + pageSize, total)} из {total}
         </span>
       </p>
       <div className="flex items-center gap-x-[10px]">
