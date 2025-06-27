@@ -1,56 +1,54 @@
+// src/app/organization/calendars/page.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { Navbar } from "@/components/Navbar";
 import { PageHeadline } from "@/components/PageHeadline";
 import PlusInCircle from "@/assets/icons/plusInCircle.svg";
-import {
-  fetchDayTemplates,
-  createDayTemplate,
-  updateDayTemplate,
-  deleteDayTemplate,
-} from "@/services/organizationService";
-import type { DayTemplate } from "@/types/organization.t";
-// дефолтный импорт компонента
+import Pagination from "@/components/Pagination";
 import { OrgModal } from "@/components/organization/OrgModal";
-import { GridDayTemplateTable } from "@/components/organization/GridDayTemplateTable";
+import {
+  fetchCalendars,
+  createCalendar,
+  updateCalendar,
+  deleteCalendar,
+} from "@/services/organizationService";
+import type { Calendar } from "@/types/organization.t";
+import { GridCalendarTable } from "@/components/organization/GridCalendarTable";
 import { Footer } from "@/components/Footer";
 
-export default function DayTemplatesPage() {
-  const [data, setData] = useState<DayTemplate[]>([]);
+export default function CalendarsPage() {
+  const [data, setData] = useState<Calendar[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const pageSize = 5;
-
   const [modalOpen, setModalOpen] = useState(false);
-  const [editItem, setEditItem] = useState<DayTemplate | undefined>();
+  const [editItem, setEditItem] = useState<Calendar | undefined>(undefined);
 
   const load = () => {
     setLoading(true);
-    fetchDayTemplates()
+    fetchCalendars()
       .then((r) => setData(r.data))
       .finally(() => setLoading(false));
   };
+
   useEffect(load, []);
 
-  const handleSave = (vals: DayTemplate) => {
+  const handleSave = (vals: Calendar) => {
     const action = vals.id
-      ? updateDayTemplate(vals.id, vals)
-      : createDayTemplate({ ...vals, id: uuid() });
+      ? updateCalendar(vals.id, vals)
+      : createCalendar({ ...vals, id: uuid() });
     return action.then(load).then(() => setModalOpen(false));
   };
 
   const handleDelete = (id: string) =>
-    deleteDayTemplate(id)
+    deleteCalendar(id)
       .then(load)
       .then(() => setModalOpen(false));
 
-  const handleDuplicate = (row: DayTemplate) => {
-    createDayTemplate({ ...row, id: uuid(), name: `${row.name} (копия)` }).then(
-      load
-    );
-  };
+  const total = data.length;
+  const paged = data.slice((page - 1) * pageSize, page * pageSize);
 
   return (
     <>
@@ -70,40 +68,35 @@ export default function DayTemplatesPage() {
           </div>
         </PageHeadline>
 
-        <GridDayTemplateTable
-          data={data}
+        <GridCalendarTable
+          data={paged}
           loading={loading}
           page={page}
           pageSize={pageSize}
           setPage={setPage}
-          // здесь аннотируем тип
-          onEdit={(row: DayTemplate) => {
+          onEdit={(row) => {
             setEditItem(row);
             setModalOpen(true);
           }}
-          onDuplicate={handleDuplicate}
+          onRefresh={load}
           onDelete={handleDelete}
         />
 
-        {modalOpen && (
-          <OrgModal<DayTemplate>
-            setIsOpen={setModalOpen}
-            title="Шаблон дня"
-            isOpen={modalOpen}
-            onClose={() => setModalOpen(false)}
-            item={editItem}
-            fields={[
-              { key: "name", label: "Название шаблона", type: "text" },
-              { key: "color", label: "Цвет", type: "color" },
-              { key: "description", label: "Описание", type: "text" },
-            ]}
-            onSave={handleSave}
-            onDelete={handleDelete}
-          />
-        )}
-
         <Footer className="mt-auto" />
       </main>
+
+      {modalOpen && (
+        <OrgModal<Calendar>
+          title="Календарь"
+          isOpen={modalOpen}
+          setIsOpen={setModalOpen}
+          onClose={() => setModalOpen(false)}
+          item={editItem}
+          fields={[{ key: "name", label: "Название", type: "text" }]}
+          onSave={handleSave}
+          onDelete={handleDelete}
+        />
+      )}
     </>
   );
 }

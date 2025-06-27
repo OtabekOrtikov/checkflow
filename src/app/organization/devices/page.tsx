@@ -17,6 +17,7 @@ import {
 } from "@/services/organizationService";
 import type { Device, Location } from "@/types/organization.t";
 import { GridDeviceTable } from "@/components/organization/GridDeviceTable";
+import { Footer } from "@/components/Footer";
 
 export default function DevicesPage() {
   const [data, setData] = useState<Device[]>([]);
@@ -89,6 +90,8 @@ export default function DevicesPage() {
           }}
           onDelete={handleDelete}
         />
+
+        <Footer className="mt-auto" />
       </main>
 
       {modalOpen && (
