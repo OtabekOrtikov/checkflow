@@ -71,10 +71,19 @@ export const Navbar = () => {
     );
   }
 
-  const allItems = navSections.flatMap((sec) => sec.items);
-  const activeParent = allItems.find(
-    (i) => i.items && pathname.startsWith(i.href)
-  );
+  const parentItems = navSections
+    .flatMap((sec) => sec.items)
+    .filter((i) => Array.isArray(i.items));
+
+  // Ищем тот пункт, в котором либо совпадает сам href, либо совпадает любой из его саб-путей
+  const activeParent = parentItems.find((i) => {
+    // если точное совпадение /organization
+    if (pathname === i.href) return true;
+    // если мы на одном из sub-routes: /organization/…
+    if (i.items!.some((sub) => pathname === sub.href)) return true;
+    // либо просто startsWith для вложенных страниц
+    return pathname.startsWith(i.href + "/");
+  });
 
   if (activeParent) {
     const parentSection = navSections.find((sec) =>
