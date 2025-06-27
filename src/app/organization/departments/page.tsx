@@ -82,6 +82,7 @@ export default function DepartmentsPage() {
       </main>
 
       <OrgModal<Department>
+        setIsOpen={setModalOpen}
         title="Отдел"
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}

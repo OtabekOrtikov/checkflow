@@ -16,8 +16,7 @@
   --white: #ffffff;
   --yellow: #ffd527;
   --green: #24d56d;
-  --gray-e6: #E6E6E6;
-
+  --gray-e6: #e6e6e6;
 }
 
 @theme inline {
@@ -42,4 +41,8 @@ body {
 
 .search-icon path {
   stroke: var(--grey-80);
+}
+
+button {
+  cursor: pointer;
 }

@@ -92,7 +92,8 @@ export default function LocationsPage() {
 
       {modalOpen && (
         <OrgModal<Location>
-            title="Локации"
+          title="Локации"
+          setIsOpen={setModalOpen}
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           item={editItem}

@@ -86,6 +86,7 @@ export default function DayTemplatesPage() {
 
         {modalOpen && (
           <OrgModal<DayTemplate>
+            setIsOpen={setModalOpen}
             title="Шаблон дня"
             isOpen={modalOpen}
             onClose={() => setModalOpen(false)}

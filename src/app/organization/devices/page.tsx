@@ -93,23 +93,28 @@ export default function DevicesPage() {
 
       {modalOpen && (
         <OrgModal<Device>
+          setIsOpen={setModalOpen}
           title="Устройство"
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           item={editItem}
           fields={[
-            { key: "name", label: "Название устройства", type: "text" },
-            { key: "id", label: "ID", type: "text" },
-            {
-              key: "type",
-              label: "Тип камеры",
-              type: "select",
-              options: [
-                { label: "Приход", value: "Приход" },
-                { label: "Уход", value: "Уход" },
-              ],
-            },
-            { key: "ipAddress", label: "IP Адрес", type: "text" },
+            [
+              { key: "name", label: "Название устройства", type: "text" },
+              { key: "id", label: "ID", type: "text" },
+            ],
+            [
+              {
+                key: "type",
+                label: "Тип камеры",
+                type: "select",
+                options: [
+                  { label: "Приход", value: "Приход" },
+                  { label: "Уход", value: "Уход" },
+                ],
+              },
+              { key: "ipAddress", label: "IP Адрес", type: "text" },
+            ],
             { key: "location", label: "Местоположение", type: "text" },
             {
               key: "cameraLocation",

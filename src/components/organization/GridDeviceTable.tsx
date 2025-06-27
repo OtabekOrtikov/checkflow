@@ -79,9 +79,9 @@ export const GridDeviceTable: React.FC<Props> = ({
             <div>
               <div className="flex items-center gap-2">
                 <img
-                  src={`/api/devices/${row.id}/thumbnail`} // если есть картинка
+                  src={`/assets/phone.png`} // если есть картинка
                   alt=""
-                  className="w-8 h-8 rounded"
+                  className="w-10 h-10 rounded bg-(--white) object-cover"
                 />
                 <div>
                   <div>{row.name}</div>

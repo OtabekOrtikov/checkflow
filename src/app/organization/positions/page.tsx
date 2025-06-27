@@ -85,7 +85,8 @@ export default function PositionsPage() {
 
       {modalOpen && (
         <OrgModal<Position>
-            title="Должности"
+          title="Должности"
+          setIsOpen={setModalOpen}
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           item={editItem}
