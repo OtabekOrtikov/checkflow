@@ -1,16 +1,23 @@
-// src/components/organization/OrgModal.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 
-interface Field<T> {
+export type FieldOption = {
+  label: string;
+  value: string | number;
+};
+
+export interface Field<T> {
   key: keyof T;
   label: string;
-  type: "text" | "number" | "color" | "textarea";
+  type: "text" | "number" | "color" | "textarea" | "select";
+  /** only used when type === "select" */
+  options?: FieldOption[];
 }
 
 interface OrgModalProps<T extends { id: string }> {
+  title: string;
   isOpen: boolean;
   onClose: () => void;
   item?: T;
@@ -20,6 +27,7 @@ interface OrgModalProps<T extends { id: string }> {
 }
 
 export function OrgModal<T extends { id: string }>({
+  title,
   isOpen,
   onClose,
   item,
@@ -27,59 +35,85 @@ export function OrgModal<T extends { id: string }>({
   onSave,
   onDelete,
 }: OrgModalProps<T>) {
-  const [form, setForm] = useState<any>({} as T);
+  const [form, setForm] = useState<Partial<T>>({});
 
+  // initialize form state whenever the modal opens or `item` changes
   useEffect(() => {
     if (item) {
       setForm(item);
     } else {
-      // создаём пустой объект с нужными полями
-      const fresh = {} as any;
-      fields.forEach((f) => (fresh[f.key] = ""));
+      const fresh: Partial<T> = {};
+      fields.forEach((f) => {
+        fresh[f.key] = (f.type === "number" ? 0 : "") as any;
+      });
       setForm(fresh);
     }
   }, [item, fields]);
+
+  const handleChange = <K extends keyof T>(key: K, value: any) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  };
 
   return (
     <Dialog open={isOpen} onClose={onClose} className="fixed inset-0 z-50">
       <div className="flex items-center justify-center min-h-screen bg-black/30 px-4">
         <Dialog.Panel className="bg-white rounded-[20px] w-full max-w-md p-6 space-y-4">
-          <Dialog.Title className="text-xl font-semibold">
-            {item ? "Редактировать" : "Добавить"}
+          <Dialog.Title className="text-2xl font-semibold">
+            {title}
           </Dialog.Title>
 
           <div className="grid grid-cols-1 gap-4">
-            {fields.map((f) => (
-              <div key={String(f.key)}>
-                <label className="block mb-1 text-sm font-medium">
-                  {f.label}
-                </label>
-                {f.type === "textarea" ? (
-                  <textarea
-                    value={form[f.key] || ""}
-                    onChange={(e) =>
-                      setForm({ ...form, [f.key]: e.target.value })
-                    }
-                    className="w-full h-24 border rounded px-3 py-2"
-                  />
-                ) : (
-                  <input
-                    type={f.type}
-                    value={form[f.key] || ""}
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        [f.key]:
+            {fields.map((f) => {
+              const value = (form[f.key] ?? "") as any;
+
+              return (
+                <div key={String(f.key)}>
+                  <label className="block mb-1 text-sm font-medium">
+                    {f.label}
+                  </label>
+
+                  {f.type === "textarea" ? (
+                    <textarea
+                      value={value}
+                      onChange={(e) => handleChange(f.key, e.target.value)}
+                      className="w-full h-24 border rounded px-3 py-2"
+                    />
+                  ) : f.type === "select" ? (
+                    <select
+                      value={value}
+                      onChange={(e) =>
+                        handleChange(
+                          f.key,
+                          // try to parse number if option.value was numeric
+                          e.target.value
+                        )
+                      }
+                      className="w-full border rounded px-3 py-2"
+                    >
+                      {(f.options || []).map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type={f.type}
+                      value={value}
+                      onChange={(e) =>
+                        handleChange(
+                          f.key,
                           f.type === "number"
                             ? Number(e.target.value)
-                            : e.target.value,
-                      })
-                    }
-                    className="w-full border rounded px-3 py-2"
-                  />
-                )}
-              </div>
-            ))}
+                            : e.target.value
+                        )
+                      }
+                      className="w-full border rounded px-3 py-2"
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           <div className="flex justify-between mt-6">
@@ -92,14 +126,11 @@ export function OrgModal<T extends { id: string }>({
               </button>
             )}
             <div className="space-x-2 ml-auto">
-              <button
-                onClick={onClose}
-                className="px-4 py-2 border rounded"
-              >
+              <button onClick={onClose} className="px-4 py-2 border rounded">
                 Отмена
               </button>
               <button
-                onClick={() => onSave(form).then(onClose)}
+                onClick={() => onSave(form as T).then(onClose)}
                 className="px-4 py-2 bg-(--primary) text-white rounded"
               >
                 Сохранить

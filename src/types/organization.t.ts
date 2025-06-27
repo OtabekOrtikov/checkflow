@@ -24,6 +24,18 @@ export interface DayTemplate {
   description: string;
 }
 
+export interface Device {
+  id: string;
+  name: string;
+  type: string;            // например "Приход" или "Уход"
+  ipAddress: string;
+  location: string;        // строковое представление локации
+  cameraLocation: string;  // текст из выпадашки
+  timeZone: string;        // например "GMT (+05:00)"
+  lastConnection: string;  // например "13/06/2025 15:39"
+  status: string;          // "Активен" / "Неактивен"
+}
+
 export interface DeviceDetailed {
   id: string;
   name: string;

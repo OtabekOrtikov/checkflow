@@ -1,77 +1,88 @@
-import {
-  DeviceDetailed,
+// src/data/organization.ts
+
+import type {
   Department,
   Position,
-  DayTemplate,
-  Calendar,
   Location,
+  DayTemplate,
+  Device,
+  Calendar,
 } from "@/types/organization.t";
 
-// === Departments ===
+// Отделы
 export const mockDepartments: Department[] = [
-  { id: "dep-1", name: "СММ", employeeCount: 1 },
-  { id: "dep-2", name: "Отдел продаж", employeeCount: 12 },
-  { id: "dep-3", name: "Производство", employeeCount: 14 },
-  { id: "dep-4", name: "Дизайн и разработка", employeeCount: 5 },
-  { id: "dep-5", name: "Цех БДМ", employeeCount: 41 },
+  { id: "dept-1", name: "Отдел продаж",       employeeCount: 12 },
+  { id: "dept-2", name: "Отдел разработки",   employeeCount:  5 },
+  { id: "dept-3", name: "Отдел тестирования", employeeCount:  3 },
 ];
 
-// === Positions ===
+// Должности
 export const mockPositions: Position[] = [
-  { id: "pos-1", name: "Дизайнер", employeeCount: 2 },
-  { id: "pos-2", name: "Уборщица", employeeCount: 4 },
-  { id: "pos-3", name: "Разработчик", employeeCount: 3 },
-  { id: "pos-4", name: "Электрик", employeeCount: 1 },
-  { id: "pos-5", name: "Продукт менеджер", employeeCount: 1 },
+  { id: "pos-1", name: "Менеджер",        employeeCount:  8 },
+  { id: "pos-2", name: "Разработчик",     employeeCount: 10 },
+  { id: "pos-3", name: "QA Engineer",     employeeCount:  4 },
 ];
 
-// === Locations ===
+// Локации
 export const mockLocations: Location[] = [
   {
-    id: "loc-1",
-    name: "г.Ташкент, Бектемирский р-н, ул. Хусейна Байкара 87",
-    deviceCount: 2,
-    employeeCount: 117,
+    id:             "loc-1",
+    name:           "Главный офис, Ташкент",
+    deviceCount:    3,
+    employeeCount:  25,
   },
   {
-    id: "loc-2",
-    name: "Локация по умолчанию",
-    deviceCount: 0,
-    employeeCount: 1,
+    id:             "loc-2",
+    name:           "Склад, Чиланзар",
+    deviceCount:    1,
+    employeeCount:   4,
   },
 ];
 
-// === Day Templates ===
+// Шаблоны дня
 export const mockDayTemplates: DayTemplate[] = [
   {
-    id: "tpl-1",
-    name: "Шаблон 1",
-    color: "#FF4D4F", // красный
-    description: "Описание шаблона",
+    id:          "tpl-1",
+    name:        "Стандартный",
+    color:       "#FF4D4F",
+    description: "09:00–18:00 без перерыва",
+  },
+  {
+    id:          "tpl-2",
+    name:        "Укороченный",
+    color:       "#52C41A",
+    description: "09:00–15:00, обед 12:00–13:00",
   },
 ];
 
-// === Devices ===
-export const mockDevices: DeviceDetailed[] = [
+// Устройства
+export const mockDevices: Device[] = [
   {
-    id: "dev-1",
-    name: "Hikvision",
-    workType: "Уход",
-    location: "г.Ташкент, ул. Байкара 87",
-    timeZone: "GMT (+05:00)",
-    lastConnection: "13.06.2025 15:39",
-    status: "Активен",
+    id:             "L42687655",
+    name:           "Hikvision",
+    type:           "Приход",
+    ipAddress:      "192.168.0.101",
+    location:       "Главный офис, Ташкент",
+    cameraLocation: "Лобби",
+    timeZone:       "GMT+05:00",
+    lastConnection: "13/06/2025 15:39",
+    status:         "Активен",
   },
   {
-    id: "dev-2",
-    name: "Hikvision",
-    workType: "Приход",
-    location: "г.Ташкент, ул. Байкара 87",
-    timeZone: "GMT (+05:00)",
-    lastConnection: "13.06.2025 15:39",
-    status: "Активен",
+    id:             "L42687656",
+    name:           "Hikvision ",
+    type:           "Уход",
+    ipAddress:      "192.168.0.102",
+    location:       "Склад, Чиланзар",
+    cameraLocation: "Парадная",
+    timeZone:       "GMT+05:00",
+    lastConnection: "12/06/2025 11:22",
+    status:         "Неактивен",
   },
 ];
 
-// === Calendars ===
-export const mockCalendars: Calendar[] = [{ id: "cal-1", name: "Календарь 1" }];
+// Календари
+export const mockCalendars: Calendar[] = [
+  { id: "cal-1", name: "Календарь 2025" },
+  { id: "cal-2", name: "Постпраздничный июль" },
+];

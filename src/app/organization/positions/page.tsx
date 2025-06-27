@@ -10,7 +10,6 @@ import {
 import { PageHeadline } from "@/components/PageHeadline";
 import { GridPositionTable } from "@/components/organization/GridPositionTable";
 import { Position } from "@/types/organization.t";
-import { Navbar } from "@/components/Navbar";
 import PlusInCircle from "@/assets/icons/plusInCircle.svg";
 import { OrgModal } from "@/components/organization/OrgModal";
 import { v4 as uuid } from "uuid";
@@ -54,7 +53,7 @@ export default function PositionsPage() {
 
   return (
     <>
-      <main className="flex-1 2xl:py-[45px] 2xl:px-[50px] lg:py-[30px] lg:px-[35px] flex flex-col gap-y-[20px]">
+      <main className="flex-1 p-[30px] flex flex-col gap-y-[20px] min-h-screen h-full">
         <PageHeadline title="Организация">
           <div className="flex items-stretch gap-x-[10px] ml-auto">
             <button
@@ -86,6 +85,7 @@ export default function PositionsPage() {
 
       {modalOpen && (
         <OrgModal<Position>
+            title="Должности"
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           item={editItem}
