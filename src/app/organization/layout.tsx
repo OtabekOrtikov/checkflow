@@ -7,12 +7,12 @@ export default function OrganizationLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-strech">
+    <div className="flex items-start">
       {/* Сайдбар */}
       <Navbar />
 
       {/* Основной контент */}
-      {children}
+      <main className="flex-1 min-h-screen">{children}</main>
     </div>
   );
 }

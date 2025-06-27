@@ -1,4 +1,4 @@
-// src/components/OrgModal.tsx
+// src/components/organization/OrgModal.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -33,7 +33,7 @@ export function OrgModal<T extends { id: string }>({
     if (item) {
       setForm(item);
     } else {
-      // пустой объект со всеми ключами
+      // создаём пустой объект с нужными полями
       const fresh = {} as any;
       fields.forEach((f) => (fresh[f.key] = ""));
       setForm(fresh);
@@ -56,7 +56,7 @@ export function OrgModal<T extends { id: string }>({
                 </label>
                 {f.type === "textarea" ? (
                   <textarea
-                    value={form[f.key] as string}
+                    value={form[f.key] || ""}
                     onChange={(e) =>
                       setForm({ ...form, [f.key]: e.target.value })
                     }
@@ -65,7 +65,7 @@ export function OrgModal<T extends { id: string }>({
                 ) : (
                   <input
                     type={f.type}
-                    value={form[f.key] as any}
+                    value={form[f.key] || ""}
                     onChange={(e) =>
                       setForm({
                         ...form,
@@ -83,18 +83,19 @@ export function OrgModal<T extends { id: string }>({
           </div>
 
           <div className="flex justify-between mt-6">
-            <div>
-              {item && onDelete && (
-                <button
-                  onClick={() => onDelete(item.id).then(onClose)}
-                  className="px-4 py-2 border border-red-500 text-red-500 rounded"
-                >
-                  Удалить
-                </button>
-              )}
-            </div>
-            <div className="space-x-2">
-              <button onClick={onClose} className="px-4 py-2 border rounded">
+            {item && onDelete && (
+              <button
+                onClick={() => onDelete(item.id).then(onClose)}
+                className="px-4 py-2 border border-red-500 text-red-500 rounded"
+              >
+                Удалить
+              </button>
+            )}
+            <div className="space-x-2 ml-auto">
+              <button
+                onClick={onClose}
+                className="px-4 py-2 border rounded"
+              >
                 Отмена
               </button>
               <button
