@@ -45,3 +45,20 @@ export const mockRoleAssignments: RoleAssignment[] = [
     location: "Ташкент",
   },
 ];
+
+import { TimeOffType } from "@/types/settings.t";
+
+export const mockTimeOffTypes: TimeOffType[] = [
+  {
+    id: "1",
+    name: "По учёбе",
+    color: "#52C41A",
+    description: "Экзамены",
+  },
+  {
+    id: "2",
+    name: "По семейным делам",
+    color: "#F5222D",
+    description: "Гулять",
+  },
+];

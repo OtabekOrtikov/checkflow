@@ -15,7 +15,7 @@ import { mockEmployees } from "@/data/employees";
 import { mockSchedules } from "@/data/schedule";
 import { mockReports } from "@/data/reports";
 import { mockTimeOffRequests } from "@/data/timeOff";
-import { mockGeneralSettings, mockRoleAssignments } from "@/data/settings";
+import { mockGeneralSettings, mockRoleAssignments, mockTimeOffTypes } from "@/data/settings";
 import { RoleAssignment } from "@/types/settings.t";
 
 export const api = axios.create({
@@ -141,6 +141,30 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     const id = cfg.url!.split("/").pop()!;
     const idx = mockRoleAssignments.findIndex((r) => r.id === id);
     mockRoleAssignments.splice(idx, 1);
+    return [204];
+  });
+
+  // Time-Off Types:
+  mock.onGet("/settings/time-off-types").reply(200, mockTimeOffTypes);
+
+  mock.onPost("/settings/time-off-types").reply((cfg) => {
+    const item = JSON.parse(cfg.data) as (typeof mockTimeOffTypes)[0];
+    mockTimeOffTypes.push(item);
+    return [201, item];
+  });
+
+  mock.onPut(/\/settings\/time-off-types\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const idx = mockTimeOffTypes.findIndex((x) => x.id === id);
+    const item = JSON.parse(cfg.data) as (typeof mockTimeOffTypes)[0];
+    mockTimeOffTypes[idx] = item;
+    return [200, item];
+  });
+
+  mock.onDelete(/\/settings\/time-off-types\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const idx = mockTimeOffTypes.findIndex((x) => x.id === id);
+    if (idx !== -1) mockTimeOffTypes.splice(idx, 1);
     return [204];
   });
 }

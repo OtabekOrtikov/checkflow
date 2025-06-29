@@ -16,3 +16,10 @@ export interface RoleAssignment {
   specialPermissions: string[];
   location: string;
 }
+
+export interface TimeOffType {
+  id: string;
+  name: string;
+  color: string;        // CSS-цвет, например "#52C41A"
+  description: string;
+}

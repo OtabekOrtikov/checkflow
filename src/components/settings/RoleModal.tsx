@@ -96,7 +96,7 @@ export const RoleModal: React.FC<RoleModalProps> = ({
               >
                 <div className="relative">
                   <Combobox.Input
-                    className="w-full border border-(--gray-e6) rounded px-3 py-2"
+                    className="w-full border border-(--gray-e6) rounded-[15px] px-5 py-2"
                     onFocus={() => setEmpOpen(true)}
                     onBlur={() => setEmpOpen(false)}
                     displayValue={(v: string) => v}
@@ -106,14 +106,14 @@ export const RoleModal: React.FC<RoleModalProps> = ({
                   />
                   <Combobox.Options
                     static={empOpen}
-                    className="absolute mt-1 w-full bg-white border border-(--gray-e6) rounded shadow max-h-60 overflow-auto z-10"
+                    className="absolute mt-1 w-full bg-white border border-(--gray-e6) rounded-[15px] shadow max-h-60 overflow-auto z-10"
                   >
                     {employees.map((emp) => (
                       <Combobox.Option
                         key={emp}
                         value={emp}
                         className={({ active, selected }) =>
-                          `px-3 py-2 cursor-pointer ${
+                          `px-5 py-2 cursor-pointer ${
                             active ? "bg-(--primary) text-white" : ""
                           } ${selected ? "font-bold" : ""}`
                         }
@@ -129,7 +129,7 @@ export const RoleModal: React.FC<RoleModalProps> = ({
               <label className="block mb-1 font-medium">Email</label>
               <input
                 type="text"
-                className="w-full border border-(--gray-e6) rounded px-3 py-2"
+                className="w-full border border-(--gray-e6) rounded-[15px] px-5 py-2"
                 value={form.email}
                 onChange={(e) => handleChange("email", e.target.value)}
               />
@@ -142,7 +142,7 @@ export const RoleModal: React.FC<RoleModalProps> = ({
           <div>
             <label className="block mb-1 font-medium">Назначить роль</label>
             <select
-              className="w-full border border-(--gray-e6) rounded px-3 py-2"
+              className="w-full border border-(--gray-e6) rounded-[15px] px-5 py-2"
               value={form.role}
               onChange={(e) => handleChange("role", e.target.value)}
             >
@@ -169,21 +169,21 @@ export const RoleModal: React.FC<RoleModalProps> = ({
             >
               <div className="relative">
                 <Combobox.Input
-                  className="w-full border border-(--gray-e6) rounded px-3 py-2"
+                  className="w-full border border-(--gray-e6) rounded-[15px] px-5 py-2"
                   onFocus={() => setPerOpen(true)}
                   onBlur={() => setPerOpen(false)}
                   displayValue={(vals: string[]) => vals.join(", ")}
                 />
                 <Combobox.Options
                   static={perOpen}
-                  className="absolute mt-1 w-full bg-white border border-(--gray-e6) rounded shadow max-h-60 overflow-auto z-10"
+                  className="absolute mt-1 w-full bg-white border border-(--gray-e6) rounded-[15px] shadow max-h-60 overflow-auto z-10"
                 >
                   {permissions.map((perm) => (
                     <Combobox.Option
                       key={perm}
                       value={perm}
                       className={({ active, selected }) =>
-                        `px-3 py-2 cursor-pointer ${
+                        `px-5 py-2 cursor-pointer ${
                           active ? "bg-(--primary) text-white" : ""
                         } ${selected ? "font-bold" : ""}`
                       }
@@ -200,7 +200,7 @@ export const RoleModal: React.FC<RoleModalProps> = ({
           <div>
             <label className="block mb-1 font-medium">Локация</label>
             <select
-              className="w-full border border-(--gray-e6) rounded px-3 py-2"
+              className="w-full border border-(--gray-e6) rounded-[15px] px-5 py-2"
               value={form.location}
               onChange={(e) => handleChange("location", e.target.value)}
             >
@@ -215,7 +215,7 @@ export const RoleModal: React.FC<RoleModalProps> = ({
           <div>
             <label className="block mb-1 font-medium">Отдел</label>
             <select
-              className="w-full border border-(--gray-e6) rounded px-3 py-2"
+              className="w-full border border-(--gray-e6) rounded-[15px] px-5 py-2"
               value={form.department}
               onChange={(e) => handleChange("department", e.target.value)}
             >
