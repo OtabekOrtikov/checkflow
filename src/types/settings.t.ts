@@ -93,3 +93,18 @@ export interface PenaltyAssignment {
   penaltyTypeId: string;
   employee: string;
 }
+
+export interface DeductionAdditionType {
+  id: string;
+  name: string;
+  description?: string;
+  type: "sum" | "percentRate" | "percentTotal"; // Тип: сумма, процент от ставки или процент от итоговой суммы
+  amount: number;
+  isAddition: boolean; // true — доплата, false — удержание
+}
+
+export interface DeductionAdditionAssignment {
+  id: string;
+  typeId: string;
+  employeeId: string;
+}

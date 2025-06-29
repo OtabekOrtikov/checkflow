@@ -1,4 +1,6 @@
 import {
+  DeductionAdditionAssignment,
+  DeductionAdditionType,
   DismissalType,
   GeneralSettings,
   HolidayType,
@@ -101,3 +103,26 @@ export const assignPenalty = (penaltyTypeId: string, employee: string) =>
   api.post<PenaltyAssignment>(`/settings/penalties/${penaltyTypeId}/assign`, {
     employee,
   });
+
+export const fetchDeductionAdditionTypes = () =>
+  api.get<DeductionAdditionType[]>("/settings/deductions-additions");
+
+export const createDeductionAdditionType = (
+  data: Omit<DeductionAdditionType, "id">
+) => api.post<DeductionAdditionType>("/settings/deductions-additions", data);
+
+export const updateDeductionAdditionType = (
+  id: string,
+  data: Partial<DeductionAdditionType>
+) =>
+  api.put<DeductionAdditionType>(`/settings/deductions-additions/${id}`, data);
+
+export const deleteDeductionAdditionType = (id: string) =>
+  api.delete<void>(`/settings/deductions-additions/${id}`);
+
+// Назначение удержания/доплаты сотруднику
+export const assignDeductionAddition = (typeId: string, employeeId: string) =>
+  api.post<DeductionAdditionAssignment>(
+    `/settings/deductions-additions/${typeId}/assign`,
+    { employeeId }
+  );

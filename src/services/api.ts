@@ -16,6 +16,7 @@ import { mockSchedules } from "@/data/schedule";
 import { mockReports } from "@/data/reports";
 import { mockTimeOffRequests } from "@/data/timeOff";
 import {
+  mockDeductionAdditions,
   mockDismissalTypes,
   mockGeneralSettings,
   mockHolidays,
@@ -278,5 +279,39 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     const assign = { id: nextAssignId, penaltyTypeId: id, employee };
     mockPenaltyAssignments.push(assign);
     return [201, assign];
+  });
+
+  mock
+    .onGet("/settings/deductions-additions")
+    .reply(200, mockDeductionAdditions);
+
+  mock.onPost("/settings/deductions-additions").reply((cfg) => {
+    const data = JSON.parse(cfg.data);
+    const newItem = { id: String(mockDeductionAdditions.length + 1), ...data };
+    mockDeductionAdditions.push(newItem);
+    return [201, newItem];
+  });
+
+  mock.onPut(/\/settings\/deductions-additions\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const idx = mockDeductionAdditions.findIndex((r) => r.id === id);
+    if (idx === -1) return [404];
+    Object.assign(mockDeductionAdditions[idx], JSON.parse(cfg.data));
+    return [200, mockDeductionAdditions[idx]];
+  });
+
+  mock.onDelete(/\/settings\/deductions-additions\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const idx = mockDeductionAdditions.findIndex((r) => r.id === id);
+    if (idx !== -1) mockDeductionAdditions.splice(idx, 1);
+    return [204];
+  });
+
+  // Assign
+  mock.onPost(/\/settings\/deductions-additions\/\w+\/assign/).reply((cfg) => {
+    const [, , , typeId] = cfg.url!.split("/");
+    const { employeeId } = JSON.parse(cfg.data);
+    // в реале пушим в отдельный массив назначений
+    return [200, { id: Date.now().toString(), typeId, employeeId }];
   });
 }

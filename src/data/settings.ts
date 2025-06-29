@@ -1,4 +1,5 @@
 import {
+  DeductionAdditionType,
   DismissalType,
   GeneralSettings,
   HolidayType,
@@ -145,4 +146,23 @@ export const mockPenaltyTypes: PenaltyType[] = [
 
 export const mockPenaltyAssignments: PenaltyAssignment[] = [
   // …
+];
+
+export const mockDeductionAdditions: DeductionAdditionType[] = [
+  {
+    id: "1",
+    name: "Штраф за опоздание",
+    description: "Опоздание более 5 минут",
+    type: "sum",
+    amount: 100000,
+    isAddition: false,
+  },
+  {
+    id: "2",
+    name: "Надбавка ночная",
+    description: "Ночная смена",
+    type: "percentRate",
+    amount: 150000,
+    isAddition: true,
+  },
 ];
