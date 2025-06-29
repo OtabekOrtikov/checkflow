@@ -1,4 +1,4 @@
-import { DismissalType, GeneralSettings, RoleAssignment, TimeOffType } from "@/types/settings.t";
+import { DismissalType, GeneralSettings, RoleAssignment, TimeOffType, UserActivity } from "@/types/settings.t";
 import { api } from "./api";
 
 const base = "/settings/roles";
@@ -51,3 +51,6 @@ export const updateDismissalType = (id: string, d: DismissalType) =>
   api.put<DismissalType>(`/settings/fired-types/${id}`, d);
 export const deleteDismissalType = (id: string) =>
   api.delete(`/settings/fired-types/${id}`);
+
+export const fetchUserActivities = () =>
+  api.get<UserActivity[]>("/settings/user-activity");

@@ -20,6 +20,7 @@ import {
   mockGeneralSettings,
   mockRoleAssignments,
   mockTimeOffTypes,
+  mockUserActivities,
 } from "@/data/settings";
 import { RoleAssignment } from "@/types/settings.t";
 
@@ -196,4 +197,7 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     if (idx !== -1) mockDismissalTypes.splice(idx, 1);
     return [204];
   });
+
+  // User Activities
+  mock.onGet("/settings/user-activity").reply(200, mockUserActivities);
 }

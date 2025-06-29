@@ -20,13 +20,19 @@ export interface RoleAssignment {
 export interface TimeOffType {
   id: string;
   name: string;
-  color: string;        // CSS-цвет, например "#52C41A"
+  color: string; // CSS-цвет, например "#52C41A"
   description: string;
 }
 
 export interface DismissalType {
   id: string;
   name: string;
-  color: string;      // CSS-цвет, например "#F5222D"
+  color: string; // CSS-цвет, например "#F5222D"
   description: string;
+}
+
+export interface UserActivity {
+  id: string;
+  message: string;
+  time: string;
 }

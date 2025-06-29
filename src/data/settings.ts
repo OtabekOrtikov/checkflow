@@ -1,4 +1,9 @@
-import { DismissalType, GeneralSettings, RoleAssignment } from "@/types/settings.t";
+import {
+  DismissalType,
+  GeneralSettings,
+  RoleAssignment,
+  UserActivity,
+} from "@/types/settings.t";
 
 // мок-значения
 export let mockGeneralSettings: GeneralSettings = {
@@ -63,7 +68,6 @@ export const mockTimeOffTypes: TimeOffType[] = [
   },
 ];
 
-
 export const mockDismissalTypes: DismissalType[] = [
   {
     id: "1",
@@ -71,4 +75,19 @@ export const mockDismissalTypes: DismissalType[] = [
     color: "#F5222D",
     description: "Лох",
   },
+];
+
+export const mockUserActivities: UserActivity[] = [
+  {
+    id: "1",
+    message:
+      'Viktoriya добавил(а) событие "Приход" для сотрудника Viktoriya в 16 июня 2025 г.',
+    time: "Вчера 19:09",
+  },
+  {
+    id: "2",
+    message: "Иванов обновил(а) профиль сотрудника Kamron в 17 июня 2025 г.",
+    time: "Сегодня 08:45",
+  },
+  // …можно добавить ещё
 ];
