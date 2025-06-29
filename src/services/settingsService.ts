@@ -2,6 +2,7 @@ import {
   DismissalType,
   GeneralSettings,
   HolidayType,
+  PayrollRule,
   RoleAssignment,
   TimeOffType,
   UserActivity,
@@ -73,3 +74,13 @@ export const updateHoliday = (id: string, h: HolidayType) =>
 
 export const deleteHoliday = (id: string) =>
   api.delete<void>(`/settings/holidays/${id}`);
+
+// Payroll Rules
+export const fetchPayrollRules = () =>
+  api.get<PayrollRule[]>("/settings/payroll-rules");
+export const createPayrollRule = (data: PayrollRule) =>
+  api.post<PayrollRule>("/settings/payroll-rules", data);
+export const updatePayrollRule = (id: string, data: PayrollRule) =>
+  api.put<PayrollRule>(`/settings/payroll-rules/${id}`, data);
+export const deletePayrollRule = (id: string) =>
+  api.delete(`/settings/payroll-rules/${id}`);

@@ -2,6 +2,7 @@ import {
   DismissalType,
   GeneralSettings,
   HolidayType,
+  PayrollRule,
   RoleAssignment,
   UserActivity,
 } from "@/types/settings.t";
@@ -109,5 +110,20 @@ export const mockHolidays: HolidayType[] = [
     description: "Праздник независимости",
     startDate: "01.09.2025",
     endDate: "01.09.2025",
+  },
+];
+
+export const mockPayrollRules: PayrollRule[] = [
+  {
+    id: "1",
+    name: "По умолчанию",
+    payments: [
+      { id: "1", start: "00:00", end: "08:00", amount: 0, unit: "sum" },
+      { id: "2", start: "18:00", end: "23:59", amount: 1000, unit: "sum" },
+    ],
+    overtimes: [
+      { id: "1", start: "18:00", end: "23:59", amount: 150, unit: "percent" },
+    ],
+    algorithm: "daily",
   },
 ];

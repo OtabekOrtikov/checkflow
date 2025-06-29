@@ -45,3 +45,27 @@ export interface HolidayType {
   startDate: string; // в формате "DD.MM.YYYY"
   endDate: string; // в формате "DD.MM.YYYY"
 }
+
+export interface PayrollRulePayment {
+  id: string;
+  start: string; // время начала, например "08:00"
+  end: string; // время окончания
+  amount: number; // размер выплаты за час
+  unit: "sum" | "percent";
+}
+
+export interface PayrollRuleOvertime {
+  id: string;
+  start: string; // время начала
+  end: string; // время окончания
+  amount: number; // процент или сумма
+  unit: "sum" | "percent";
+}
+
+export interface PayrollRule {
+  id: string;
+  name: string;
+  payments: PayrollRulePayment[];
+  overtimes: PayrollRuleOvertime[];
+  algorithm: "daily" | "monthly";
+}

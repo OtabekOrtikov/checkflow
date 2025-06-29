@@ -19,11 +19,12 @@ import {
   mockDismissalTypes,
   mockGeneralSettings,
   mockHolidays,
+  mockPayrollRules,
   mockRoleAssignments,
   mockTimeOffTypes,
   mockUserActivities,
 } from "@/data/settings";
-import { HolidayType, RoleAssignment } from "@/types/settings.t";
+import { HolidayType, PayrollRule, RoleAssignment } from "@/types/settings.t";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
@@ -220,6 +221,26 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     const id = cfg.url!.split("/").pop()!;
     const idx = mockHolidays.findIndex((h) => h.id === id);
     mockHolidays.splice(idx, 1);
+    return [204];
+  });
+
+  mock.onGet("/settings/payroll-rules").reply(200, mockPayrollRules);
+  mock.onPost("/settings/payroll-rules").reply((cfg) => {
+    const newRule = JSON.parse(cfg.data) as PayrollRule;
+    mockPayrollRules.push(newRule);
+    return [201, newRule];
+  });
+  mock.onPut(/\/settings\/payroll-rules\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const updated = JSON.parse(cfg.data) as PayrollRule;
+    const idx = mockPayrollRules.findIndex((r) => r.id === id);
+    mockPayrollRules[idx] = updated;
+    return [200, updated];
+  });
+  mock.onDelete(/\/settings\/payroll-rules\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const idx = mockPayrollRules.findIndex((r) => r.id === id);
+    mockPayrollRules.splice(idx, 1);
     return [204];
   });
 }
