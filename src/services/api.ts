@@ -15,7 +15,12 @@ import { mockEmployees } from "@/data/employees";
 import { mockSchedules } from "@/data/schedule";
 import { mockReports } from "@/data/reports";
 import { mockTimeOffRequests } from "@/data/timeOff";
-import { mockGeneralSettings, mockRoleAssignments, mockTimeOffTypes } from "@/data/settings";
+import {
+  mockDismissalTypes,
+  mockGeneralSettings,
+  mockRoleAssignments,
+  mockTimeOffTypes,
+} from "@/data/settings";
 import { RoleAssignment } from "@/types/settings.t";
 
 export const api = axios.create({
@@ -165,6 +170,30 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     const id = cfg.url!.split("/").pop()!;
     const idx = mockTimeOffTypes.findIndex((x) => x.id === id);
     if (idx !== -1) mockTimeOffTypes.splice(idx, 1);
+    return [204];
+  });
+
+  // FiredTypes
+  mock.onGet("/settings/fired-types").reply(200, mockDismissalTypes);
+
+  mock.onPost("/settings/fired-types").reply((cfg) => {
+    const item = JSON.parse(cfg.data) as (typeof mockDismissalTypes)[0];
+    mockDismissalTypes.push(item);
+    return [201, item];
+  });
+
+  mock.onPut(/\/settings\/fired-types\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const idx = mockDismissalTypes.findIndex((x) => x.id === id);
+    const item = JSON.parse(cfg.data) as (typeof mockDismissalTypes)[0];
+    mockDismissalTypes[idx] = item;
+    return [200, item];
+  });
+
+  mock.onDelete(/\/settings\/fired-types\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const idx = mockDismissalTypes.findIndex((x) => x.id === id);
+    if (idx !== -1) mockDismissalTypes.splice(idx, 1);
     return [204];
   });
 }

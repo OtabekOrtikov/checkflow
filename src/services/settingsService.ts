@@ -1,4 +1,4 @@
-import { GeneralSettings, RoleAssignment, TimeOffType } from "@/types/settings.t";
+import { DismissalType, GeneralSettings, RoleAssignment, TimeOffType } from "@/types/settings.t";
 import { api } from "./api";
 
 const base = "/settings/roles";
@@ -40,3 +40,14 @@ export const updateTimeOffType = (id: string, d: TimeOffType) =>
   api.put<TimeOffType>(`/settings/time-off-types/${id}`, d);
 export const deleteTimeOffType = (id: string) =>
   api.delete(`/settings/time-off-types/${id}`);
+
+// Dismissal Types
+
+export const fetchDismissalTypes = () =>
+  api.get<DismissalType[]>("/settings/fired-types");
+export const createDismissalType = (d: DismissalType) =>
+  api.post<DismissalType>("/settings/fired-types", d);
+export const updateDismissalType = (id: string, d: DismissalType) =>
+  api.put<DismissalType>(`/settings/fired-types/${id}`, d);
+export const deleteDismissalType = (id: string) =>
+  api.delete(`/settings/fired-types/${id}`);

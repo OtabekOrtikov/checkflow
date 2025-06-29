@@ -1,4 +1,4 @@
-import { GeneralSettings, RoleAssignment } from "@/types/settings.t";
+import { DismissalType, GeneralSettings, RoleAssignment } from "@/types/settings.t";
 
 // мок-значения
 export let mockGeneralSettings: GeneralSettings = {
@@ -60,5 +60,15 @@ export const mockTimeOffTypes: TimeOffType[] = [
     name: "По семейным делам",
     color: "#F5222D",
     description: "Гулять",
+  },
+];
+
+
+export const mockDismissalTypes: DismissalType[] = [
+  {
+    id: "1",
+    name: "По умолчанию",
+    color: "#F5222D",
+    description: "Лох",
   },
 ];
