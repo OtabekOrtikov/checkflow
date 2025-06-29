@@ -328,4 +328,47 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
   mock.onGet("/user/time-worked").reply(200, mockTimeWorked);
   mock.onGet("/user/departments").reply(200, mockDepartmentAssignments);
   mock.onGet("/user/positions").reply(200, mockPositionAssignments);
+
+  // --- Departments by User ---
+  mock.onGet(/\/user\/[^\/]+\/departments$/).reply((config) => {
+    // GET /user/:userId/departments
+    return [200, mockDepartmentAssignments];
+  });
+
+  mock.onPost(/\/user\/[^\/]+\/departments$/).reply((config) => {
+    // POST /user/:userId/departments
+    const newDept = JSON.parse(config.data);
+    mockDepartmentAssignments.push(newDept);
+    return [201, newDept];
+  });
+
+  mock.onDelete(/\/user\/[^\/]+\/departments\/\d+$/).reply((config) => {
+    // DELETE /user/:userId/departments/:index
+    const idx = Number(config.url!.split("/").pop());
+    if (!isNaN(idx) && idx >= 0 && idx < mockDepartmentAssignments.length) {
+      mockDepartmentAssignments.splice(idx, 1);
+      return [204];
+    }
+    return [400];
+  });
+
+  // --- Positions by User ---
+  mock.onGet(/\/user\/[^\/]+\/positions$/).reply((config) => {
+    return [200, mockPositionAssignments];
+  });
+
+  mock.onPost(/\/user\/[^\/]+\/positions$/).reply((config) => {
+    const newPos = JSON.parse(config.data);
+    mockPositionAssignments.push(newPos);
+    return [201, newPos];
+  });
+
+  mock.onDelete(/\/user\/[^\/]+\/positions\/\d+$/).reply((config) => {
+    const idx = Number(config.url!.split("/").pop());
+    if (!isNaN(idx) && idx >= 0 && idx < mockPositionAssignments.length) {
+      mockPositionAssignments.splice(idx, 1);
+      return [204];
+    }
+    return [400];
+  });
 }
