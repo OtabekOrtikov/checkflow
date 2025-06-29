@@ -85,25 +85,16 @@ export const GridPositionTable: React.FC<Props> = ({
               {/* Edit */}
               <button
                 onClick={() => onUpdate(row.id, {})}
-                className="px-3 py-1 border rounded-full text-(--primary) bg-(--white)"
+                className="w-[60px] px-3 py-1 flex items-center justify-center border rounded-full text-(--primary) bg-(--white)"
               >
-                <PencilIcon />
+                <PencilIcon className="w-[16px]" />
               </button>
-              {/* Refresh */}
-              <button
-                onClick={() =>
-                  onUpdate(row.id, { employeeCount: row.employeeCount + 1 })
-                }
-                className="px-3 py-1 border border-(--gray-e6) rounded-full text-(--foreground) bg-(--white)"
-              >
-                <RefreshIcon />
-              </button>
-              {/* Delete */}
+              {/* Удалить */}
               <button
                 onClick={() => onDelete(row.id)}
-                className="px-3 py-1 border rounded-full text-(--red) bg-(--white)"
+                className="w-[60px] px-3 py-1 flex items-center justify-center border rounded-full text-(--red) bg-(--white)"
               >
-                <TrashIcon />
+                <TrashIcon className="w-[16px]" />
               </button>
             </div>
           </div>

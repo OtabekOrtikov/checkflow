@@ -15,7 +15,8 @@ import { mockEmployees } from "@/data/employees";
 import { mockSchedules } from "@/data/schedule";
 import { mockReports } from "@/data/reports";
 import { mockTimeOffRequests } from "@/data/timeOff";
-import { mockGeneralSettings } from "@/data/settings";
+import { mockGeneralSettings, mockRoleAssignments } from "@/data/settings";
+import { RoleAssignment } from "@/types/settings.t";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
@@ -75,24 +76,18 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     return [201, newReport];
   });
 
-  mock
-    .onGet("/reports/attendance")
-    .reply(200, {
-      title: "Отчёты о посещениях",
-      items: mockReports.filter((r) => r.type === "attendance"),
-    });
-  mock
-    .onGet("/reports/employee")
-    .reply(200, {
-      title: "Отчёты по сотруднику",
-      items: mockReports.filter((r) => r.type === "employee"),
-    });
-  mock
-    .onGet("/reports/salary")
-    .reply(200, {
-      title: "Отчёты по зарплате и штрафам",
-      items: mockReports.filter((r) => r.type === "salary"),
-    });
+  mock.onGet("/reports/attendance").reply(200, {
+    title: "Отчёты о посещениях",
+    items: mockReports.filter((r) => r.type === "attendance"),
+  });
+  mock.onGet("/reports/employee").reply(200, {
+    title: "Отчёты по сотруднику",
+    items: mockReports.filter((r) => r.type === "employee"),
+  });
+  mock.onGet("/reports/salary").reply(200, {
+    title: "Отчёты по зарплате и штрафам",
+    items: mockReports.filter((r) => r.type === "salary"),
+  });
 
   mock.onGet(/\/reports\/\w+\/\w+\/download/).reply(200);
   mock.onDelete(/\/reports\/\w+\/\w+/).reply(204);
@@ -123,5 +118,29 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     const updated = JSON.parse(cfg.data) as typeof mockGeneralSettings;
     Object.assign(mockGeneralSettings, updated);
     return [200, mockGeneralSettings];
+  });
+
+  // === Роли и права доступа ===
+  mock.onGet("/settings/roles").reply(200, mockRoleAssignments);
+
+  mock.onPost("/settings/roles").reply((cfg) => {
+    const item = JSON.parse(cfg.data) as RoleAssignment;
+    mockRoleAssignments.push(item);
+    return [201, item];
+  });
+
+  mock.onPut(/\/settings\/roles\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const updated = JSON.parse(cfg.data) as RoleAssignment;
+    const idx = mockRoleAssignments.findIndex((r) => r.id === id);
+    mockRoleAssignments[idx] = { ...mockRoleAssignments[idx], ...updated };
+    return [200, mockRoleAssignments[idx]];
+  });
+
+  mock.onDelete(/\/settings\/roles\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const idx = mockRoleAssignments.findIndex((r) => r.id === id);
+    mockRoleAssignments.splice(idx, 1);
+    return [204];
   });
 }

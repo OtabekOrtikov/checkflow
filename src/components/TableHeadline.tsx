@@ -16,20 +16,19 @@ export const TableHeadline = (props: TableHeadlineProps) => {
     <div className="flex justify-between items-center">
       <h3 className="flex justify-start items-center gap-x-[10px] 2xl:text-[24px] lg:text-[20px] md:text-[18px] text-[16px] font-[Bounded] font-[566] text-(--foreground)">
         {props.isIconVisible && (
-          <span className={`text-(--primary)`}>
-            {props.icon}
-          </span>
+          <span className={`text-(--primary)`}>{props.icon}</span>
         )}
         <span>{props.title}</span>
       </h3>
       {props.isButtonVisible && (
-        <Link
-          href={props.buttonLink || "#"}
+        <button
+          type="button"
+          onClick={props.onClick}
           className={`flex items-center gap-x-[5px] bg-transparent border border-(--black-10) p-[10px] rounded-[50px] text-(--primary) cursor-pointer`}
         >
           {props.btnIcon}
           <span>{props.buttonText}</span>
-        </Link>
+        </button>
       )}
     </div>
   );

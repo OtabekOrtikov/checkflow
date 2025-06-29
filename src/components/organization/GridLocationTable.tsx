@@ -34,7 +34,11 @@ export const GridLocationTable: React.FC<Props> = ({
 
   return (
     <div className="overflow-x-auto bg-white rounded-[20px] p-[20px] border border-(--gray-e6) flex flex-col gap-[10px]">
-      <TableHeadline title="Локации компании" isIconVisible={false} isButtonVisible={false}/>
+      <TableHeadline
+        title="Локации компании"
+        isIconVisible={false}
+        isButtonVisible={false}
+      />
 
       <div
         className="
@@ -72,25 +76,16 @@ export const GridLocationTable: React.FC<Props> = ({
               {/* Редактировать */}
               <button
                 onClick={() => onUpdate(row.id, {})}
-                className="px-3 py-1 border rounded-full text-(--primary) bg-(--white)"
+                className="w-[60px] px-3 py-1 flex items-center justify-center border rounded-full text-(--primary) bg-(--white)"
               >
-                <PencilIcon />
-              </button>
-              {/* Refresh — увеличиваем устройств на 1 */}
-              <button
-                onClick={() =>
-                  onUpdate(row.id, { deviceCount: row.deviceCount + 1 })
-                }
-                className="px-3 py-1 border border-(--gray-e6) rounded-full text-(--foreground) bg-(--white)"
-              >
-                <RefreshIcon />
+                <PencilIcon className="w-[16px]" />
               </button>
               {/* Удалить */}
               <button
                 onClick={() => onDelete(row.id)}
-                className="px-3 py-1 border rounded-full text-(--red) bg-(--white)"
+                className="w-[60px] px-3 py-1 flex items-center justify-center border rounded-full text-(--red) bg-(--white)"
               >
-                <TrashIcon />
+                <TrashIcon className="w-[16px]" />
               </button>
             </div>
           </div>

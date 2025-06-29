@@ -1,4 +1,4 @@
-import { GeneralSettings } from "@/types/settings.t";
+import { GeneralSettings, RoleAssignment } from "@/types/settings.t";
 
 // мок-значения
 export let mockGeneralSettings: GeneralSettings = {
@@ -24,3 +24,24 @@ export const TIME_FORMATS = ["12 часов", "24 часа"];
 export const DATE_FORMATS = ["dd.MM.yyyy", "MM/dd/yyyy", "yyyy-MM-dd"];
 
 export const CURRENCIES = ["UZS", "USD", "EUR"];
+
+export const mockRoleAssignments: RoleAssignment[] = [
+  {
+    id: "1",
+    name: "Исламов Камрон",
+    department: "Отдел по умолчанию",
+    login: "kamron@example.com",
+    role: "Админ",
+    specialPermissions: [
+      "TimePad",
+      "Заработная плата",
+      "Редактирование ЗП",
+      "Устройства",
+      "Удержание и доплата",
+      "Отгулы",
+      "Локации",
+      "Изменение профиля",
+    ],
+    location: "Ташкент",
+  },
+];

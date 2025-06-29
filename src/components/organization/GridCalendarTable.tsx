@@ -58,23 +58,18 @@ export const GridCalendarTable: React.FC<Props> = ({
           >
             <div>{row.name}</div>
             <div className="flex justify-center gap-2">
-              <button
+            <button
                 onClick={() => onEdit(row)}
-                className="px-3 py-1 border rounded-full text-(--primary) bg-(--white)"
+                className="w-[60px] px-3 py-1 flex items-center justify-center border rounded-full text-(--primary) bg-(--white)"
               >
-                <PencilIcon />
+                <PencilIcon className="w-[16px]" />
               </button>
-              <button
-                onClick={onRefresh}
-                className="px-3 py-1 border border-(--gray-e6) rounded-full text-(--foreground) bg-(--white)"
-              >
-                <RefreshIcon />
-              </button>
+              {/* Удалить */}
               <button
                 onClick={() => onDelete(row.id)}
-                className="px-3 py-1 border rounded-full text-(--red) bg-(--white)"
+                className="w-[60px] px-3 py-1 flex items-center justify-center border rounded-full text-(--red) bg-(--white)"
               >
-                <TrashIcon />
+                <TrashIcon className="w-[16px]" />
               </button>
             </div>
           </div>
