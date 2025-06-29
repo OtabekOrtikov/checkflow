@@ -15,6 +15,7 @@ import { mockEmployees } from "@/data/employees";
 import { mockSchedules } from "@/data/schedule";
 import { mockReports } from "@/data/reports";
 import { mockTimeOffRequests } from "@/data/timeOff";
+import { mockGeneralSettings } from "@/data/settings";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
@@ -76,16 +77,22 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
 
   mock
     .onGet("/reports/attendance")
-    .reply(200, { title: "Отчёты о посещениях", items: mockReports.filter((r) => r.type === "attendance") });
+    .reply(200, {
+      title: "Отчёты о посещениях",
+      items: mockReports.filter((r) => r.type === "attendance"),
+    });
   mock
     .onGet("/reports/employee")
-    .reply(200, { title: "Отчёты по сотруднику", items: mockReports.filter((r) => r.type === "employee") });
+    .reply(200, {
+      title: "Отчёты по сотруднику",
+      items: mockReports.filter((r) => r.type === "employee"),
+    });
   mock
     .onGet("/reports/salary")
-    .reply(
-      200,
-      { title: "Отчёты по зарплате и штрафам", items: mockReports.filter((r) => r.type === "salary") }
-    );
+    .reply(200, {
+      title: "Отчёты по зарплате и штрафам",
+      items: mockReports.filter((r) => r.type === "salary"),
+    });
 
   mock.onGet(/\/reports\/\w+\/\w+\/download/).reply(200);
   mock.onDelete(/\/reports\/\w+\/\w+/).reply(204);
@@ -107,5 +114,14 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     const req = mockTimeOffRequests.find((r) => r.id === id);
     if (req) req.status = "rejected";
     return [200, req];
+  });
+
+  // settings
+  mock.onGet("/settings/general").reply(200, mockGeneralSettings);
+  mock.onPut("/settings/general").reply((cfg) => {
+    // обновляем мок-объект и возвращаем его
+    const updated = JSON.parse(cfg.data) as typeof mockGeneralSettings;
+    Object.assign(mockGeneralSettings, updated);
+    return [200, mockGeneralSettings];
   });
 }

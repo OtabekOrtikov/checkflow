@@ -8,6 +8,7 @@ interface TableHeadlineProps {
   buttonLink?: string;
   icon?: React.ReactNode;
   btnIcon?: React.ReactNode;
+  onClick?: () => void;
 }
 
 export const TableHeadline = (props: TableHeadlineProps) => {
