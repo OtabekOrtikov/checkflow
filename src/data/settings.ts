@@ -1,6 +1,7 @@
 import {
   DismissalType,
   GeneralSettings,
+  HolidayType,
   RoleAssignment,
   UserActivity,
 } from "@/types/settings.t";
@@ -90,4 +91,23 @@ export const mockUserActivities: UserActivity[] = [
     time: "Сегодня 08:45",
   },
   // …можно добавить ещё
+];
+
+export const mockHolidays: HolidayType[] = [
+  {
+    id: "1",
+    name: "Новый год",
+    color: "#FF4D4F",
+    description: "Празднование нового года",
+    startDate: "01.01.2025",
+    endDate: "01.01.2025",
+  },
+  {
+    id: "2",
+    name: "День независимости",
+    color: "#52C41A",
+    description: "Праздник независимости",
+    startDate: "01.09.2025",
+    endDate: "01.09.2025",
+  },
 ];

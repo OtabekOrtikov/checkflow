@@ -1,4 +1,11 @@
-import { DismissalType, GeneralSettings, RoleAssignment, TimeOffType, UserActivity } from "@/types/settings.t";
+import {
+  DismissalType,
+  GeneralSettings,
+  HolidayType,
+  RoleAssignment,
+  TimeOffType,
+  UserActivity,
+} from "@/types/settings.t";
 import { api } from "./api";
 
 const base = "/settings/roles";
@@ -54,3 +61,15 @@ export const deleteDismissalType = (id: string) =>
 
 export const fetchUserActivities = () =>
   api.get<UserActivity[]>("/settings/user-activity");
+
+// Holiday Types
+export const fetchHolidays = () => api.get<HolidayType[]>("/settings/holidays");
+
+export const createHoliday = (h: HolidayType) =>
+  api.post<HolidayType>("/settings/holidays", h);
+
+export const updateHoliday = (id: string, h: HolidayType) =>
+  api.put<HolidayType>(`/settings/holidays/${id}`, h);
+
+export const deleteHoliday = (id: string) =>
+  api.delete<void>(`/settings/holidays/${id}`);

@@ -36,3 +36,12 @@ export interface UserActivity {
   message: string;
   time: string;
 }
+
+export interface HolidayType {
+  id: string;
+  name: string;
+  color: string; // CSS-цвет, например "#FF4D4F"
+  description: string;
+  startDate: string; // в формате "DD.MM.YYYY"
+  endDate: string; // в формате "DD.MM.YYYY"
+}

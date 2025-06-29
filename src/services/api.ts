@@ -18,11 +18,12 @@ import { mockTimeOffRequests } from "@/data/timeOff";
 import {
   mockDismissalTypes,
   mockGeneralSettings,
+  mockHolidays,
   mockRoleAssignments,
   mockTimeOffTypes,
   mockUserActivities,
 } from "@/data/settings";
-import { RoleAssignment } from "@/types/settings.t";
+import { HolidayType, RoleAssignment } from "@/types/settings.t";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
@@ -200,4 +201,25 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
 
   // User Activities
   mock.onGet("/settings/user-activity").reply(200, mockUserActivities);
+
+  // Holidays
+  mock.onGet("/settings/holidays").reply(200, mockHolidays);
+  mock.onPost("/settings/holidays").reply((cfg) => {
+    const newItem = JSON.parse(cfg.data) as HolidayType;
+    mockHolidays.push(newItem);
+    return [201, newItem];
+  });
+  mock.onPut(/\/settings\/holidays\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const updated = JSON.parse(cfg.data) as HolidayType;
+    const idx = mockHolidays.findIndex((h) => h.id === id);
+    mockHolidays[idx] = updated;
+    return [200, updated];
+  });
+  mock.onDelete(/\/settings\/holidays\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/").pop()!;
+    const idx = mockHolidays.findIndex((h) => h.id === id);
+    mockHolidays.splice(idx, 1);
+    return [204];
+  });
 }
