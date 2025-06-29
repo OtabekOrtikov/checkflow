@@ -3,6 +3,8 @@ import {
   GeneralSettings,
   HolidayType,
   PayrollRule,
+  PenaltyAssignment,
+  PenaltyType,
   RoleAssignment,
   TimeOffType,
   UserActivity,
@@ -84,3 +86,18 @@ export const updatePayrollRule = (id: string, data: PayrollRule) =>
   api.put<PayrollRule>(`/settings/payroll-rules/${id}`, data);
 export const deletePayrollRule = (id: string) =>
   api.delete(`/settings/payroll-rules/${id}`);
+
+// Penalty Types
+export const fetchPenaltyTypes = () =>
+  api.get<PenaltyType[]>("/settings/penalties");
+export const createPenaltyType = (data: Omit<PenaltyType, "id">) =>
+  api.post<PenaltyType>("/settings/penalties", data);
+export const updatePenaltyType = (id: string, data: PenaltyType) =>
+  api.put<PenaltyType>(`/settings/penalties/${id}`, data);
+export const deletePenaltyType = (id: string) =>
+  api.delete(`/settings/penalties/${id}`);
+
+export const assignPenalty = (penaltyTypeId: string, employee: string) =>
+  api.post<PenaltyAssignment>(`/settings/penalties/${penaltyTypeId}/assign`, {
+    employee,
+  });

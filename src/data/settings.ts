@@ -3,6 +3,8 @@ import {
   GeneralSettings,
   HolidayType,
   PayrollRule,
+  PenaltyAssignment,
+  PenaltyType,
   RoleAssignment,
   UserActivity,
 } from "@/types/settings.t";
@@ -126,4 +128,21 @@ export const mockPayrollRules: PayrollRule[] = [
     ],
     algorithm: "daily",
   },
+];
+
+export const mockPenaltyTypes: PenaltyType[] = [
+  {
+    id: "1",
+    name: "Штраф за опоздание",
+    latenessRules: [
+      { start: "00:00", end: "00:30", amount: 1000, unit: "Сум" },
+    ],
+    earlyLeaveRules: [],
+    absenceEnabled: false,
+  },
+  // …
+];
+
+export const mockPenaltyAssignments: PenaltyAssignment[] = [
+  // …
 ];

@@ -93,7 +93,7 @@ export const Navbar = () => {
     return (
       <aside
         className="max-w-[400px] min-w-[350px] 
-    w-full bg-white min-h-[calc(100vh-45px)] h-fit
+    w-full bg-white max-h-[calc(100vh-45px)] min-h-[calc(100vh-45px)] h-full
     flex flex-col gap-y-[25px] m-[20px] 
     p-[25px] rounded-[20px] mb-0"
       >
@@ -103,7 +103,7 @@ export const Navbar = () => {
 
         <BackToHome />
 
-        <nav className="flex items-start flex-col justify-start flex-1 gap-y-[5px]">
+        <nav className="flex items-start flex-col justify-start flex-1 gap-y-[5px] max-h-[540px] overflow-y-auto">
           <p className="text-black text-[16px] mb-[5px]">
             {parentSection.title}
           </p>
@@ -153,7 +153,7 @@ export const Navbar = () => {
   return (
     <aside
       className="max-w-[400px] min-w-[350px] 
-    w-full bg-white min-h-[calc(100vh-45px)] h-fit
+    w-full bg-white min-h-[calc(100vh-45px)] max-h-[calc(100vh-45px)] h-full
     flex flex-col gap-y-[25px] m-[20px] 
     p-[25px] rounded-[20px] mb-0"
     >
@@ -161,7 +161,7 @@ export const Navbar = () => {
 
       <SearchInput placeholder="Поиск" isSlashVisible id="search-navbar" />
 
-      <nav className="flex items-start flex-col justify-start flex-1 gap-y-[25px]">
+      <nav className="flex items-start flex-col justify-start flex-1 gap-y-[25px] max-h-[540px] overflow-y-auto">
         {navSections.map(({ title, items }) => (
           <div
             key={title}

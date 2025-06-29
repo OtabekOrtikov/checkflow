@@ -69,3 +69,27 @@ export interface PayrollRule {
   overtimes: PayrollRuleOvertime[];
   algorithm: "daily" | "monthly";
 }
+
+export interface PenaltyRule {
+  start: string;
+  end: string;
+  amount: number;
+  unit: string;
+}
+
+export interface PenaltyType {
+  id: string;
+  name: string;
+  latenessRules: PenaltyRule[];
+  earlyLeaveRules: PenaltyRule[];
+  absenceEnabled: boolean;
+  absenceAmount?: number;
+  absenceUnit?: string;
+  absenceThreshold?: number;
+}
+
+export interface PenaltyAssignment {
+  id: string;
+  penaltyTypeId: string;
+  employee: string;
+}

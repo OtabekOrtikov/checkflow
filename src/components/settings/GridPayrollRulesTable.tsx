@@ -73,13 +73,13 @@ export const GridPayrollRulesTable: React.FC<Props> = ({
               <div className="flex justify-center gap-[10px]">
                 <button
                   onClick={() => onEdit(rule)}
-                  className="w-[40px] h-[40px] flex items-center justify-center border rounded-full bg-(--white) text-(--primary)"
+                  className="w-[60px] px-3 py-1 flex items-center justify-center border rounded-full text-(--primary) bg-(--white)"
                 >
                   <PencilIcon className="w-[16px] h-[16px]" />
                 </button>
                 <button
                   onClick={() => onDelete(rule.id)}
-                  className="w-[40px] h-[40px] flex items-center justify-center border rounded-full bg-(--white) text-(--red)"
+                  className="w-[60px] px-3 py-1 flex items-center justify-center border rounded-full text-(--red) bg-(--white)"
                 >
                   <TrashIcon className="w-[16px] h-[16px]" />
                 </button>

@@ -20,6 +20,8 @@ import {
   mockGeneralSettings,
   mockHolidays,
   mockPayrollRules,
+  mockPenaltyAssignments,
+  mockPenaltyTypes,
   mockRoleAssignments,
   mockTimeOffTypes,
   mockUserActivities,
@@ -242,5 +244,39 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     const idx = mockPayrollRules.findIndex((r) => r.id === id);
     mockPayrollRules.splice(idx, 1);
     return [204];
+  });
+
+  // --- SETTINGS: penalties ---
+  // типы штрафов
+  mock.onGet("/settings/penalties").reply(200, mockPenaltyTypes);
+  mock.onPost("/settings/penalties").reply((cfg) => {
+    const data = JSON.parse(cfg.data);
+    const nextId = String(mockPenaltyTypes.length + 1);
+    const newType = { id: nextId, ...data };
+    mockPenaltyTypes.push(newType);
+    return [201, newType];
+  });
+  mock.onPut(/\/settings\/penalties\/\w+$/).reply((cfg) => {
+    const id = cfg.url!.split("/")[2];
+    const idx = mockPenaltyTypes.findIndex((p) => p.id === id);
+    if (idx === -1) return [404];
+    Object.assign(mockPenaltyTypes[idx], JSON.parse(cfg.data));
+    return [200, mockPenaltyTypes[idx]];
+  });
+  mock.onDelete(/\/settings\/penalties\/\w+$/).reply((cfg) => {
+    const id = cfg.url!.split("/")[2];
+    const idx = mockPenaltyTypes.findIndex((p) => p.id === id);
+    if (idx !== -1) mockPenaltyTypes.splice(idx, 1);
+    return [204];
+  });
+
+  // назначение штрафа
+  mock.onPost(/\/settings\/penalties\/\w+\/assign$/).reply((cfg) => {
+    const [_, , id] = cfg.url!.split("/"); // ['', 'settings','penalties','{id}','assign']
+    const { employee } = JSON.parse(cfg.data);
+    const nextAssignId = String(mockPenaltyAssignments.length + 1);
+    const assign = { id: nextAssignId, penaltyTypeId: id, employee };
+    mockPenaltyAssignments.push(assign);
+    return [201, assign];
   });
 }
