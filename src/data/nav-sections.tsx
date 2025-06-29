@@ -85,6 +85,10 @@ export const navSections: NavSection[] = [
             title: "Удержания и доплаты",
             href: "/settings/deductions-and-additions",
           },
+          {
+            title: "Настройки API",
+            href: "/settings/api",
+          },
         ],
       },
     ],

@@ -6,10 +6,11 @@ import { usePathname } from "next/navigation";
 import { navSections, profileTabs } from "@/data/nav-sections";
 import { useEffect, useState } from "react";
 import { ProfileInfo } from "@/types/profile.t";
-import { fetchProfileInfo } from "@/services/userService";
+import { fetchProfileInfo } from "@/services/profileService";
 import { BackToHome } from "@/components/BackToHome";
 import { TopHeader } from "@/components/TopHeader";
 import { ProfileCard } from "@/components/ProfileCard";
+import { formatShortName } from "@/utils/formatName";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -25,7 +26,7 @@ export const Navbar = () => {
     return (
       <aside
         className="max-w-[400px] min-w-[350px] 
-    w-full bg-white min-h-[calc(100vh-45px)] h-fit
+    w-full bg-white max-h-[calc(100vh-45px)] min-h-[calc(100vh-45px)] h-full
     flex flex-col gap-y-[25px] m-[20px] 
     p-[25px] rounded-[20px] mb-0"
       >
@@ -35,38 +36,42 @@ export const Navbar = () => {
 
         <BackToHome />
 
-        {/* карточка профиля */}
-        <div className="flex items-center px-[20px] h-[60px] bg-(--background) rounded-[15px] gap-x-[10px]">
-          <img
-            src={user.avatarUrl}
-            alt={user.fullName}
-            className="h-8 w-8 rounded-full"
-          />
-          <div>
-            <p className="font-semibold text-(--foreground)">{user.fullName}</p>
-            <p className="text-sm text-(--grey-80)">{user.role}</p>
-          </div>
-        </div>
+        <p className="text-black text-[16px] mb-[5px]">Профиль</p>
 
-        {/* табы профиля */}
-        <nav className="flex items-start flex-col justify-start flex-1 gap-y-[25px]">
-          {profileTabs.map((tab) => {
-            const isActive = pathname === tab.href;
-            return (
-              <Link
-                key={tab.href}
-                href={tab.href}
-                className={`flex items-center rounded-[15px] justify-start gap-x-[10px] text-[20px] font-semibold px-[20px] min-h-[60px] w-full border-1 border-transparent hover:border-(--black-10) hover:text-(--foreground) transition-all ${
-                  isActive
-                    ? "text-(--primary) bg-(--background)"
-                    : "text-(--grey-80)"
-                }`}
-              >
-                <p>{tab.title}</p>
-              </Link>
-            );
-          })}
-        </nav>
+        <div className="flex flex-col gap-y-[5px] w-full overflow-y-scroll">
+          {/* карточка профиля */}
+          <div className="flex items-center px-[10px] min-h-[80px] bg-(--background) rounded-[20px] gap-x-[10px]">
+            <img
+              src={user.avatarUrl}
+              alt={user.fullName}
+              className="w-[60px] aspect-square rounded-full"
+            />
+            <div>
+              <p className="font-semibold text-(--foreground) font-[Bounded] text-2xl w-full">
+                {formatShortName(user.fullName)}
+              </p>
+              <p className="text-sm text-(--foreground-50)">{user.role}</p>
+            </div>
+          </div>
+
+          {/* табы профиля */}
+          <nav className="flex items-start flex-col justify-start ml-auto w-[90%] gap-[5px] overflow-y-auto">
+            {profileTabs.map((tab) => {
+              const isActive = pathname === tab.href;
+              return (
+                <Link
+                  key={tab.href}
+                  href={tab.href}
+                  className={`flex items-center rounded-[15px] justify-start gap-x-[10px] text-[20px] font-semibold px-[20px] min-h-[60px] w-full border-1 border-transparent hover:border-(--black-10) hover:text-(--foreground) transition-all ${
+                    isActive ? "bg-(--background)" : "text-(--grey-80)"
+                  }`}
+                >
+                  <p>{tab.title}</p>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
       </aside>
     );
   }

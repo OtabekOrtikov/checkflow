@@ -108,3 +108,8 @@ export interface DeductionAdditionAssignment {
   typeId: string;
   employeeId: string;
 }
+
+export interface ApiSettings {
+  clientId: string;
+  clientSecret: string;
+}

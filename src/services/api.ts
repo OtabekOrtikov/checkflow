@@ -7,7 +7,7 @@ import {
   mockTimeWorked,
   mockDepartmentAssignments,
   mockPositionAssignments,
-} from "@/data/user";
+} from "@/data/profile";
 import { mockTodaySummary } from "@/data/attendance";
 import { mockDisciplined } from "@/data/discipline";
 import { mockDevices } from "@/data/devices";
@@ -16,6 +16,7 @@ import { mockSchedules } from "@/data/schedule";
 import { mockReports } from "@/data/reports";
 import { mockTimeOffRequests } from "@/data/timeOff";
 import {
+  mockApiSettings,
   mockDeductionAdditions,
   mockDismissalTypes,
   mockGeneralSettings,
@@ -314,4 +315,17 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     // в реале пушим в отдельный массив назначений
     return [200, { id: Date.now().toString(), typeId, employeeId }];
   });
+
+  mock.onGet("/settings/api").reply(200, mockApiSettings);
+  mock.onPut("/settings/api").reply((cfg) => {
+    const updated = JSON.parse(cfg.data) as typeof mockApiSettings;
+    Object.assign(mockApiSettings, updated);
+    return [200, mockApiSettings];
+  });
+
+  // PROFILE MODULE
+  mock.onGet("/user/profile").reply(200, mockProfileInfo);
+  mock.onGet("/user/time-worked").reply(200, mockTimeWorked);
+  mock.onGet("/user/departments").reply(200, mockDepartmentAssignments);
+  mock.onGet("/user/positions").reply(200, mockPositionAssignments);
 }

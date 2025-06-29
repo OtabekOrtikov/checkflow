@@ -6,7 +6,7 @@ export const BackToHome = () => {
     <Link
       href="/"
       className="flex items-center justify-start px-[20px] 
-      h-[60px] bg-(--background) rounded-[15px] 
+      min-h-[60px] bg-(--background) rounded-[15px] 
       text-(--primary) gap-x-[10px] font-semibold text-[16px] 2xl:text-[20px]"
     >
       <BackIcon width="24px" />

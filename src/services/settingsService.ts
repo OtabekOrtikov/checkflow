@@ -1,4 +1,5 @@
 import {
+  ApiSettings,
   DeductionAdditionAssignment,
   DeductionAdditionType,
   DismissalType,
@@ -126,3 +127,8 @@ export const assignDeductionAddition = (typeId: string, employeeId: string) =>
     `/settings/deductions-additions/${typeId}/assign`,
     { employeeId }
   );
+
+// Получить настройки API
+export const fetchApiSettings = () => api.get<ApiSettings>("/settings/api");
+export const updateApiSettings = (data: ApiSettings) =>
+  api.put<ApiSettings>("/settings/api", data);

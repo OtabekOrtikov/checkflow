@@ -1,4 +1,5 @@
 import {
+  ApiSettings,
   DeductionAdditionType,
   DismissalType,
   GeneralSettings,
@@ -166,3 +167,8 @@ export const mockDeductionAdditions: DeductionAdditionType[] = [
     isAddition: true,
   },
 ];
+
+export const mockApiSettings: ApiSettings = {
+  clientId: "24a5a05ce053d6463c66e472df2f38e6683552948f9fe",
+  clientSecret: "b341cea517f0af4543be644574975533683552948fa01",
+};

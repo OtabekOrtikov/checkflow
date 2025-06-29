@@ -23,7 +23,7 @@ export const PageHeadline = ({
           </span>
         )}
       </h2>
-        {children}
+      {children}
     </div>
   );
 };
