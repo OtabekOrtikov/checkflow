@@ -30,6 +30,11 @@ export const navSections: NavSection[] = [
         title: "Отчёты",
         href: "/reports",
         icon: <ReportsIcon className="fill-current" />,
+        items: [
+          { title: "Сотрудники", href: "/reports/employee" },
+          { title: "Посещаемость", href: "/reports/attendance" },
+          { title: "Зарплата", href: "/reports/salary" },
+        ],
       },
     ],
   },

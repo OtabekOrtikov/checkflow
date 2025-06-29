@@ -45,8 +45,50 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
   // schedulesService
   mock.onGet("/schedules").reply(200, mockSchedules);
 
-  // reportsService
+  // GET /reports — список
   mock.onGet("/reports").reply(200, mockReports);
+
+  // GET /reports/:type — детали одного отчёта
+  mock.onGet(/\/reports\/\w+/).reply((cfg) => {
+    const type = cfg.url!.split("/")[2];
+    const report = mockReports.find((r) => r.type === type);
+    return report ? [200, report] : [404, { message: "Report not found" }];
+  });
+
+  // POST /reports/:type/:id/ - изменение данных отчёта
+  mock.onPost(/\/reports\/\w+\/\w+/).reply((cfg) => {
+    const [type, id] = cfg.url!.split("/").slice(2);
+    const report = mockReports.find((r) => r.id === id);
+    if (!report) return [404, { message: "Report not found" }];
+    return [200, { message: "Report updated successfully" }];
+  });
+
+  // POST /reports/:type - создание нового отчёта
+  mock.onPost(/\/reports\/\w+/).reply((cfg) => {
+    const type = cfg.url!.split("/")[2];
+    const reportsByType = mockReports.filter((r) => r.type === type);
+    const newReportId = String(reportsByType.length + 1);
+    const requestData = JSON.parse(cfg.data);
+    const newReport = { id: newReportId, type, ...requestData };
+    mockReports.push(newReport);
+    return [201, newReport];
+  });
+
+  mock
+    .onGet("/reports/attendance")
+    .reply(200, { title: "Отчёты о посещениях", items: mockReports.filter((r) => r.type === "attendance") });
+  mock
+    .onGet("/reports/employee")
+    .reply(200, { title: "Отчёты по сотруднику", items: mockReports.filter((r) => r.type === "employee") });
+  mock
+    .onGet("/reports/salary")
+    .reply(
+      200,
+      { title: "Отчёты по зарплате и штрафам", items: mockReports.filter((r) => r.type === "salary") }
+    );
+
+  mock.onGet(/\/reports\/\w+\/\w+\/download/).reply(200);
+  mock.onDelete(/\/reports\/\w+\/\w+/).reply(204);
 
   // timeOffService
   mock.onGet(/\/time-off\?status=.*$/).reply((cfg) => {
