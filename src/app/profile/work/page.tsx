@@ -18,6 +18,7 @@ import GridDepartmentTable from "@/components/profile/GridDepartmentTable";
 import GridPositionTable from "@/components/profile/GridPositionTable";
 import { PositionAssignModal } from "@/components/profile/PositionAssignModal";
 import AssignDepartmentModal from "@/components/profile/AssignDepartmentModal";
+import { Footer } from "@/components/Footer";
 
 export default function WorkPage({ params }: { params: { id: string } }) {
   const userId = params.id;
@@ -66,7 +67,7 @@ export default function WorkPage({ params }: { params: { id: string } }) {
     <div className="flex items-start">
       <Navbar />
 
-      <main className="flex-1 p-8 flex flex-col gap-8">
+      <main className="flex-1 p-8 flex flex-col gap-8 min-h-screen">
         <PageHeadline title="Рабочие назначения" />
 
         {/* Отделы */}
@@ -121,6 +122,8 @@ export default function WorkPage({ params }: { params: { id: string } }) {
               : undefined
           }
         />
+
+        <Footer className="mt-auto" />
       </main>
     </div>
   );

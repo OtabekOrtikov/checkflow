@@ -23,7 +23,7 @@ export default function GridDepartmentTable({
   onDelete,
 }: Props) {
   return (
-    <div className="bg-white rounded-[20px] p-6 border border-[var(--gray-e6)] flex flex-col gap-4">
+    <div className="bg-white rounded-[20px] p-[20px] border border-[var(--gray-e6)] flex flex-col gap-4">
       <TableHeadline
         title="Отделы"
         isIconVisible={false}
@@ -33,10 +33,11 @@ export default function GridDepartmentTable({
         onClick={onAssign}
       />
 
-      <div className="overflow-x-auto bg-[var(--background)] rounded-[10px]">
-        <div className="grid grid-cols-[4fr_2fr_1fr] gap-4 p-3 font-bold border-b border-[var(--black-10)]">
+      <div className="overflow-x-auto bg-[var(--background)] rounded-[10px] border border-[var(--gray-e6)] p-3">
+        <div className="grid grid-cols-[3fr_2fr_2fr_1fr] gap-4 pb-2.5 font-bold border-b border-[var(--black-10)] *:opacity-50">
           <div>Отдел</div>
           <div>Дата начала работы</div>
+          <div>Дата окончания работы</div>
           <div className="text-center">Управлять</div>
         </div>
 
@@ -46,10 +47,19 @@ export default function GridDepartmentTable({
           data.map((row, i) => (
             <div
               key={i}
-              className="grid grid-cols-[4fr_2fr_1fr] items-center gap-4 p-3 border-b last:border-b-0"
+              className="grid grid-cols-[3fr_2fr_2fr_1fr] items-center gap-4 pt-2.5 border-b last:border-b-0"
             >
               <div>{row.department}</div>
               <div>{new Date(row.startDate).toLocaleDateString()}</div>
+              <div>
+                {row.endDate ? (
+                  row.endDate
+                ) : (
+                  <span className="inline-block px-2 py-1 border border-(--green) text-(--foreground) bg-(--white) rounded-full text-sm">
+                    Текущий
+                  </span>
+                )}
+              </div>
               <div className="flex justify-center gap-2">
                 <button
                   onClick={() => onEdit(i)}
