@@ -29,6 +29,8 @@ import {
   mockUserActivities,
 } from "@/data/settings";
 import { HolidayType, PayrollRule, RoleAssignment } from "@/types/settings.t";
+import { mockLocations } from "@/data/locations";
+import type { Location } from "@/types/location.t";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
@@ -370,5 +372,33 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
       return [204];
     }
     return [400];
+  });
+
+  mock.onGet("/locations").reply(200, mockLocations);
+  mock.onGet(/\/locations\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/")[2];
+    const loc = mockLocations.find((l) => l.id === id);
+    return loc ? [200, loc] : [404, { message: "Location not found" }];
+  });
+  mock.onPost("/locations").reply((cfg) => {
+    const data = JSON.parse(cfg.data) as Omit<Location, "id">;
+    const newId = String(mockLocations.length + 1);
+    const newLoc: Location = { id: newId, ...data };
+    mockLocations.push(newLoc);
+    return [201, newLoc];
+  });
+  mock.onPut(/\/locations\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/")[2];
+    const idx = mockLocations.findIndex((l) => l.id === id);
+    if (idx === -1) return [404, { message: "Location not found" }];
+    const updates = JSON.parse(cfg.data) as Partial<Location>;
+    mockLocations[idx] = { ...mockLocations[idx], ...updates };
+    return [200, mockLocations[idx]];
+  });
+  mock.onDelete(/\/locations\/\w+/).reply((cfg) => {
+    const id = cfg.url!.split("/")[2];
+    const idx = mockLocations.findIndex((l) => l.id === id);
+    if (idx !== -1) mockLocations.splice(idx, 1);
+    return [204];
   });
 }
