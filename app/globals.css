@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Bounded";
+  src: url("../assets/fonts/Bounded/Bounded-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Bounded";
+  src: url("../assets/fonts/Bounded/Bounded-Black.ttf") format("truetype");
+  font-weight: black;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Bounded";
+  src: url("../assets/fonts/Bounded/Bounded-ExtraLight.ttf") format("truetype");
+  font-weight: lighter;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Bounded";
+  src: url("../assets/fonts/Bounded/Bounded-Variable566.ttf") format("truetype");
+  font-weight: 566;
+}
+@font-face {
+  font-family: "Bounded";
+  src: url("../assets/fonts/Bounded/Bounded-Variable466.ttf") format("truetype");
+  font-weight: 466;
+}
+
+@font-face {
+  font-family: "VelaSans";
+  src: url("../assets/fonts/VelaSans/VelaSans-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "VelaSans";
+  src: url("../assets/fonts/VelaSans/VelaSans-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "VelaSans";
+  src: url("../assets/fonts/VelaSans/VelaSans-ExtraLight.ttf")
+    format("truetype");
+  font-weight: lighter;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "VelaSans";
+  src: url("../assets/fonts/VelaSans/VelaSans-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "VelaSans";
+  src: url("../assets/fonts/VelaSans/VelaSans-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+:root {
+  --background: #f3f5f7;
+  --foreground: #1a1a1a;
+  --foreground-50: rgba(26, 26, 26, 0.5);
+  --black-10: rgba(0, 0, 0, 0.1);
+  --grey-80: #808080;
+  --font-family: "VelaSans", sans-serif;
+  --font-bounded: "Bounded", sans-serif;
+  --black-05: rgba(0, 0, 0, 0.05);
+  --black-50: rgba(0, 0, 0, 0.5);
+  --black-30: rgba(0, 0, 0, 0.3);
+  --primary: #1967f2;
+  --red: #ff4545;
+  --white: #ffffff;
+  --yellow: #ffd527;
+  --green: #24d56d;
+  --gray-e6: #e6e6e6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #f3f5f7;
+    --foreground: #1a1a1a;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-family);
+}
+
+.login-bg {
+  background-image: url("./login-bg.png");
+  background-size: cover;
+  background-position: center;
+}

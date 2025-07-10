@@ -1,18 +1,7 @@
-// next.config.js
-/** @type {import('next').NextConfig} */
-const withSvgr = require('next-svgr');
+const withSvgr = require('next-plugin-svgr');
 
+/** @type {import('next').NextConfig} */
 module.exports = withSvgr({
   reactStrictMode: true,
-  // Остальной твой config (если нужен)
-  webpack(config) {
-    // отключаем стандартную загрузку svg как статичных файлов
-    const fileLoaderRule = config.module.rules.find(
-      (rule) => rule.test?.toString().includes('svg')
-    );
-    if (fileLoaderRule) {
-      fileLoaderRule.exclude = /\.svg$/i;
-    }
-    return config;
-  },
+  // any other next.config entries…
 });
