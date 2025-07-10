@@ -131,114 +131,110 @@ export default function EmployeesPage() {
   }
 
   return (
-    <div className="flex items-start max-w-screen overflow-hidden">
-      <Navbar />
+    <main className="flex-1 2xl:py-[45px] 2xl:px-[50px] lg:py-[30px] lg:px-[35px] flex flex-col gap-y-[20px]">
+      <PageHeadline title="Сотрудники" isCountVisible count={all.length} />
 
-      <main className="flex-1 2xl:py-[45px] 2xl:px-[50px] lg:py-[30px] lg:px-[35px] flex flex-col gap-y-[20px]">
-        <PageHeadline title="Сотрудники" isCountVisible count={all.length} />
+      {/* Фильтры */}
+      <div className="flex flex-3 items-center gap-[10px] justify-between overflow-x-auto flex-wrap">
+        <div className="flex text-nowrap w-fit gap-[5px] bg-(--white) border border-(--gray-e6) rounded-full p-[5px] items-center">
+          <DropdownSelect
+            options={statusOptions}
+            value={status}
+            onChange={(v) => {
+              setStatus(v as any);
+              setPage(1);
+            }}
+            placeholder="Статус"
+            className="w-fit"
+          />
 
-        {/* Фильтры */}
-        <div className="flex flex-3 items-center gap-[10px] justify-between overflow-x-auto flex-wrap">
-          <div className="flex text-nowrap w-fit gap-[5px] bg-(--white) border border-(--gray-e6) rounded-full p-[5px] items-center">
-            <DropdownSelect
-              options={statusOptions}
-              value={status}
-              onChange={(v) => {
-                setStatus(v as any);
+          <DropdownSelect
+            options={workPlaceOptions}
+            value={workType}
+            onChange={(v) => {
+              setWorkType(v);
+              setPage(1);
+            }}
+            className="w-fit"
+          />
+
+          <DropdownSelect
+            options={positionOptions}
+            value={position}
+            onChange={(v) => {
+              setPosition(v);
+              setPage(1);
+            }}
+            placeholder="Должность"
+            className="w-fit"
+          />
+
+          <DropdownSelect
+            options={createdOptions}
+            value={created}
+            onChange={(v) => {
+              setCreated(v as any);
+              setPage(1);
+            }}
+            placeholder="Дата создания"
+            className="w-fit"
+          />
+
+          <DropdownSelect
+            options={shiftOptions}
+            value={shift}
+            onChange={(v) => {
+              setShift(v as any);
+              setPage(1);
+            }}
+            placeholder="Смена"
+            className="w-fit"
+          />
+        </div>
+        <div className="flex items-center gap-x-[10px] w-full flex-1">
+          <div className="relative flex-1 h-[60px] min-w-[210px] ">
+            <SearchInput
+              id="search-employees"
+              placeholder="Поиск"
+              value={search}
+              onChange={(value) => {
+                setSearch(value);
                 setPage(1);
               }}
-              placeholder="Статус"
-              className="w-fit"
-            />
-
-            <DropdownSelect
-              options={workPlaceOptions}
-              value={workType}
-              onChange={(v) => {
-                setWorkType(v);
-                setPage(1);
-              }}
-              className="w-fit"
-            />
-
-            <DropdownSelect
-              options={positionOptions}
-              value={position}
-              onChange={(v) => {
-                setPosition(v);
-                setPage(1);
-              }}
-              placeholder="Должность"
-              className="w-fit"
-            />
-
-            <DropdownSelect
-              options={createdOptions}
-              value={created}
-              onChange={(v) => {
-                setCreated(v as any);
-                setPage(1);
-              }}
-              placeholder="Дата создания"
-              className="w-fit"
-            />
-
-            <DropdownSelect
-              options={shiftOptions}
-              value={shift}
-              onChange={(v) => {
-                setShift(v as any);
-                setPage(1);
-              }}
-              placeholder="Смена"
-              className="w-fit"
+              className="w-full h-full 2xl:min-h-[60px] min-w-[210px] rounded-[15px] border border-(--black-10) bg-(--white)"
             />
           </div>
-          <div className="flex items-center gap-x-[10px] w-full flex-1">
-            <div className="relative flex-1 h-[60px] min-w-[210px] ">
-              <SearchInput
-                id="search-employees"
-                placeholder="Поиск"
-                value={search}
-                onChange={(value) => {
-                  setSearch(value);
-                  setPage(1);
-                }}
-                className="w-full h-full 2xl:min-h-[60px] min-w-[210px] rounded-[15px] border border-(--black-10) bg-(--white)"
-              />
-            </div>
-            <Link
-              href="/employees/add-employee/"
-              className={`flex w-fit items-center gap-x-[10px] 
+          <Link
+            href="/employees/add-employee/"
+            className={`flex w-fit items-center gap-x-[10px] 
                 bg-(--primary) text-(--white) 2xl:text-[24px] text-[20px] font-medium
                 p-[10px] rounded-[50px]
                 cursor-pointer`}
-            >
-              <PlusInCircle />
-              <span>Добавить</span>
-            </Link>
-          </div>
+          >
+            <PlusInCircle />
+            <span>Добавить</span>
+          </Link>
         </div>
+      </div>
 
-        {/* Таблица */}
-        <GridEmployeeTable
-          data={paged}
-          loading={loading}
-          sortField={sortField}
-          sortOrder={sortOrder}
-          onHeaderClick={onHeaderClick}
-        />
+      {/* Таблица */}
+      <GridEmployeeTable
+        data={paged}
+        loading={loading}
+        sortField={sortField}
+        sortOrder={sortOrder}
+        onHeaderClick={onHeaderClick}
+      />
 
-        {/* Пагинация */}
-        <Pagination
-          total={total}
-          page={page}
-          pageSize={pageSize}
-          onPageChange={setPage}
-        />
+      {/* Пагинация */}
+      <Pagination
+        total={total}
+        page={page}
+        pageSize={pageSize}
+        onPageChange={setPage}
+      />
 
-        <Footer />
-      </main>
-    </div>
+      <Footer />
+    </main>
   );
 }
