@@ -9,9 +9,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        'h-sm': { raw: '(max-height: 600px)' },
+        'h-lg': { raw: '(min-height: 601px)' },
+      },
       fontFamily: {
         'sans': ['var(--font-bounded)', 'Inter', 'system-ui', 'sans-serif'],
         'bounded': ['var(--font-bounded)', 'Inter', 'system-ui', 'sans-serif'],
+        'velasans': ['var(--font-family)', 'Inter', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

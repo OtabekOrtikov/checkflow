@@ -116,3 +116,74 @@ body {
   background-size: cover;
   background-position: center;
 }
+
+.tables {
+  border: 1px solid var(--gray-e6);
+  display: flex;
+  flex-direction: column;
+  gap: 20px 0;
+  padding: 20px;
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.tables table {
+  min-width: 100%;
+  border: 1px solid var(--gray-e6);
+  padding: 12px 12px 8px 12px;
+  border-radius: 10px;
+  border-collapse: inherit;
+  background-color: var(--background);
+}
+
+.tables table thead tr th {
+  padding: 0 0 5px;
+  color: #1a1a1a;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-align: left;
+}
+
+.tables table tbody {
+  --tw-divide-y-reverse: 0;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-color: var(--white);
+}
+
+.tables table tbody tr td {
+  padding: 5px 0 5px;
+  border-top-width: 1px;
+  border-color: var(--gray-e6);
+  color: #1a1a1a;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  opacity: 0.5;
+}
+
+.tables table tbody tr td:first-child {
+  opacity: 1;
+  font-weight: 500;
+}
+
+.tables table tbody tr:last-child td {
+  padding-bottom: 0;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: var(--white);
+  border-radius: 20px;
+  border: 1px solid var(--gray-e6);
+  gap: 20px;
+}

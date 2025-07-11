@@ -44,7 +44,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-[120%]"
           }
-          max-w-[400px] min-w-[350px] w-full max-h-[calc(100vh-45px)] min-h-[calc(100vh-45px)] h-full
+          max-w-[400px] min-w-[350px] w-full max-h-[calc(100vh-45px)] min-h-[600px] h-lg:min-h-[calc(100vh-45px)] h-full
           flex flex-col gap-y-[25px] m-[20px] p-[25px] rounded-[20px] mb-0 mr-0
           `}
       >
@@ -58,7 +58,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="rounded-full border-1 border-[#E6E6E6] w-[60px] h-[60px] flex items-center justify-center cursor-pointer transition-colors bg-[#F3F5F7]"
+            className="rounded-full border-1 border-[#E6E6E6] w-[60px] h-[60px] lg:hidden flex items-center justify-center cursor-pointer transition-colors bg-[#F3F5F7]"
           >
             <X size={24} />
           </button>
@@ -95,7 +95,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {/* Navigation */}
         <nav className="flex items-start flex-col justify-start flex-1 gap-y-[25px] max-h-[540px] overflow-y-auto">
           {navSections.map(({ title, items }) => (
-            <div className="flex items-start flex-col justify-start gap-y-[10px] w-full">
+            <div key={title} className="flex items-start flex-col justify-start gap-y-[10px] w-full">
               <h3 className="text-black text-[16px] font-medium">{title}</h3>
               <ul className="space-y-1 w-full">
                 {items.map((item) => {
@@ -175,7 +175,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </button>
         </div>
       </header>
-      <main className="md:py-6 w-full md:pr-[50px] max-w-screen overflow-x-auto lg:pl-0 md:pl-[50px] p-4">
+      <main className="md:py-6 w-full md:pr-[50px] max-w-screen overflow-x-auto lg:pl-0 md:pl-[50px] p-4 flex flex-col gap-y-5">
         {children}
       </main>
     </div>

@@ -1,76 +1,70 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Device } from '@/types/checkflow';
-import { MapPin } from 'lucide-react';
+import React from "react";
+import { Device } from "@/types/checkflow";
+import MapPin from "@/assets/icons/MapPin.svg";
+import { TableHeadline } from "./layout/TableHeadline";
+import DeviceIcon from "@/assets/icons/DeviceIcon.svg";
+import { useRouter } from "next/navigation";
+import { formatDate } from "@/utils/formatDate";
 
 interface DashboardDevicesProps {
   devices: Device[];
 }
 
 const DashboardDevices: React.FC<DashboardDevicesProps> = ({ devices }) => {
-  const formatLastConnection = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU', { 
-      day: '2-digit', 
-      month: '2-digit', 
-      year: 'numeric' 
-    }) + ' в ' + date.toLocaleTimeString('ru-RU', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
+  const router = useRouter();
+  const handleAllDevicesClick = () => {
+    // Navigate to all devices page or perform any action
+    router.push("/devices");
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
-      <div className="px-6 py-4 border-b border-gray-100">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-lg">📱</span>
-            <h3 className="text-lg font-semibold text-gray-900">Устройства</h3>
-          </div>
-          <div className="text-sm text-blue-600 cursor-pointer hover:text-blue-700">
-            Все устройства
-          </div>
-        </div>
-      </div>
-      
-      <div className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <div>
-                  <p className="font-semibold text-gray-900">L42687655</p>
-                  <p className="text-sm text-gray-500">Последнее соединение</p>
-                  <p className="text-sm font-medium text-gray-900">11.06.2025 в 16:20</p>
-                </div>
-              </div>
+    <div className="board">
+      <TableHeadline
+        title={"Устройства"}
+        icon={
+          <DeviceIcon className="w-[24px] aspect-square text-[var(--primary)]" />
+        }
+        btn
+        btnText="Все устройства"
+        onClick={handleAllDevicesClick}
+      />
+
+      <div className="grid grid-col-1 lg:grid-cols-2 gap-2 5 flex-grow">
+        {devices.map((device) => (
+          <div
+            key={device.id}
+            className="flex flex-col min-h-[115px] lg:min-h-[220px] bg-[var(--background)] rounded-[10px] 
+            border border-[var(--gray-e6)] p-3 flex-grow"
+          >
+            <div className="flex items-center gap-2.5">
+              <div
+                className={`w-[20px] aspect-square rounded-full ${
+                  device.is_active ? "bg-[var(--green)]" : "bg-[var(--red)]"
+                }`}
+              ></div>
+              <p className="text-2xl text-[var(--foreground)] font-[Bounded] font-[466]">
+                {device.device_id}
+              </p>
             </div>
-            <div className="flex items-center space-x-2 text-sm text-blue-600">
-              <MapPin size={16} />
-              <span>Бектемирский район, улица Хусейна Байкара 87</span>
+
+            <div className="flex flex-col my-auto">
+              <p className="text-[16px] opacity-50">Последнее соединение</p>
+
+              <p className="text-2xl text-[var(--foreground)] font-[Bounded] font-[566]">
+                {formatDate(new Date(device.updated_at), "dd.MM.yyyy в HH:mm")}
+              </p>
             </div>
-          </div>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <div>
-                  <p className="font-semibold text-gray-900">L42687620</p>
-                  <p className="text-sm text-gray-500">Последнее соединение</p>
-                  <p className="text-sm font-medium text-gray-900">11.06.2025 в 16:59</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2 text-sm text-blue-600">
-              <MapPin size={16} />
-              <span>Бектемирский район, улица Хусейна Байкара 87</span>
+
+            <div className="flex items-center gap-2.5 mt-auto">
+              <MapPin className="text-[var(--primary)]" />
+              <p className="text-[16px] text-[var(--foreground)] font-[700]">
+                {device.location}
+              </p>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

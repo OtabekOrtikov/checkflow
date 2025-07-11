@@ -1,29 +1,46 @@
-import api from '@/utils/api';
-import { AttendanceSummary, DisciplineUser, Device, StatsResponse } from '@/types/checkflow';
+import api from "@/utils/api";
+import { Device, DisciplinedList, AttendanceStats } from "@/types/checkflow";
+import { AttendanceRecord, AttendanceSummary } from "@/types/attendance.t";
 
 export const camerasService = {
   getAttendanceSummary: async (): Promise<AttendanceSummary> => {
-    const response = await api.get<AttendanceSummary>('/cameras/attendance/summary/');
+    const response = await api.get<AttendanceSummary>(
+      "/cameras/attendance/summary/"
+    );
     return response.data;
   },
 
-  getTopDisciplined: async (): Promise<DisciplineUser[]> => {
-    const response = await api.get<DisciplineUser[]>('/cameras/attendance/top-discipline/');
+  getAttendance: async (params: {
+    date_from?: string;
+    date_to?: string;
+    department?: number;
+    employee_no?: string;
+    gender?: "male" | "female";
+    name?: string;
+    position?: number;
+  }): Promise<AttendanceRecord[]> => {
+    const response = await api.get<AttendanceRecord[]>("/cameras/attendance/", {
+      params,
+    });
     return response.data;
   },
 
-  getTopUndisciplined: async (): Promise<DisciplineUser[]> => {
-    const response = await api.get<DisciplineUser[]>('/cameras/attendance/top-undiscipline/');
+  getTopDisciplined: async (): Promise<DisciplinedList> => {
+    const response = await api.get<DisciplinedList>(
+      "/cameras/attendance/top-discipline/"
+    );
     return response.data;
   },
 
   getDevices: async (): Promise<Device[]> => {
-    const response = await api.get<Device[]>('/cameras/devices/');
+    const response = await api.get<Device[]>("/cameras/devices/");
     return response.data;
   },
 
-  getAttendanceStats: async (period: 'week' | 'month' | 'year' = 'week'): Promise<StatsResponse> => {
-    const response = await api.get<StatsResponse>(`/cameras/attendance/stats/?period=${period}`);
+  getAttendanceStats: async (): Promise<AttendanceStats[]> => {
+    const response = await api.get<AttendanceStats[]>(
+      `/cameras/attendance/stats/`
+    );
     return response.data;
   },
 };

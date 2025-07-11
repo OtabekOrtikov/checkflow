@@ -8,7 +8,7 @@ import PasswordIcon from "@/assets/icons/Password.svg";
 import LoginIcon from "@/assets/icons/login.svg";
 import Image from "next/image";
 import ReCAPTCHA from "react-google-recaptcha";
-import logo from "@/assets/images/logo-centered.svg";
+import Logo from "@/assets/images/logo-centered.svg";
 import xeondLogo from "@/assets/images/xeond.svg"; // Assuming you have a logo image
 
 const LoginForm: React.FC = () => {
@@ -49,7 +49,7 @@ const LoginForm: React.FC = () => {
       className={`min-h-screen login-bg flex items-center justify-center p-4`}
     >
       <div className="w-[230px] absolute top-11 left-1/2 transform -translate-x-1/2">
-        <Image src={logo} alt={"Logo"} className="w-full" />
+        <Logo className="w-full" />
       </div>
       <div className="w-full max-w-md flex flex-col">
         {/* Login Form */}
@@ -62,10 +62,8 @@ const LoginForm: React.FC = () => {
           >
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Image
-                  src={User}
+                <User
                   className="w-[24px] h-[24px] opacity-50"
-                  alt={"user Icon"}
                 />
               </div>
               <input
@@ -84,10 +82,8 @@ const LoginForm: React.FC = () => {
 
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Image
-                  src={PasswordIcon}
+                <PasswordIcon
                   className="w-[24px] h-[24px] opacity-50"
-                  alt={"password Icon"}
                 />
               </div>
               <input
@@ -111,7 +107,7 @@ const LoginForm: React.FC = () => {
                   "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
                 }
                 onChange={setCaptchaToken}
-                size="compact"
+                size="normal"
               />
             </div>
 
@@ -130,8 +126,7 @@ const LoginForm: React.FC = () => {
               transition-all duration-200 disabled:opacity-50 
               disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             >
-              <Image
-                src={LoginIcon}
+              <LoginIcon
                 className="w-[24px] h-[24px]"
                 alt={"login Icon"}
               />

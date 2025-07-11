@@ -1,204 +1,113 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { AttendanceSummary } from '@/types/checkflow';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React from "react";
+import MailBox from "@/assets/icons/Mailbox.svg";
+import PlusCircle from "@/assets/icons/PlusCircle.svg";
+import { TableHeadline } from "./layout/TableHeadline";
+import Pagination from "./layout/Pagination";
+import { AttendanceRecord } from "@/types/attendance.t";
 
 interface DashboardSummaryProps {
-  data: AttendanceSummary;
+  data: AttendanceRecord[];
+  total: number; // общее число записей (для пагинации)
+  page: number; // текущая страница (1-based)
+  pageSize: number; // элементов на страницу
+  onPageChange: (newPage: number) => void;
 }
 
-const DashboardSummary: React.FC<DashboardSummaryProps> = ({ data }) => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'arrived':
-        return 'text-green-600';
-      case 'late':
-        return 'text-yellow-600';
-      case 'no_show':
-        return 'text-red-600';
-      default:
-        return 'text-gray-600';
-    }
-  };
+const DashboardSummary: React.FC<DashboardSummaryProps> = ({
+  data,
+  total,
+  page,
+  pageSize,
+  onPageChange,
+}) => {
+  // форматирует ISO-строку в "HH:mm"
+  const formatTime = (iso?: string | null) =>
+    iso
+      ? new Date(iso).toLocaleTimeString("ru-RU", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      : "—";
 
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'arrived':
-        return 'Пришёл';
-      case 'late':
-        return 'Опоздал';
-      case 'no_show':
-        return 'Не пришёл';
-      default:
-        return 'Неизвестно';
-    }
+  // пример функции для расчёта разницы времени
+  const diffTime = (base: string, actual: string | null): string => {
+    if (!actual) return "—";
+    const [bh, bm] = base.split(":").map(Number);
+    const baseMin = bh * 60 + bm;
+    const dt = new Date(actual);
+    const actualMin = dt.getHours() * 60 + dt.getMinutes();
+    const diff = actualMin - baseMin;
+    const sign = diff < 0 ? "-" : "";
+    const absVal = Math.abs(diff);
+    const hh = String(Math.floor(absVal / 60)).padStart(2, "0");
+    const mm = String(absVal % 60).padStart(2, "0");
+    return `${sign}${hh}:${mm}`;
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
-      <div className="px-6 py-4 border-b border-gray-100">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900">📊 Сводка на сегодня</h3>
-          </div>
-          <div className="text-sm text-blue-600 cursor-pointer hover:text-blue-700">
-            Добавить приход и уход
-          </div>
-        </div>
-      </div>
-      
+    <div className="tables board">
+      {/* Заголовок таблицы */}
+      <TableHeadline
+        title="Сводка на сегодня"
+        icon={<MailBox className="w-6 text-[var(--primary)]" />}
+        btn
+        btnIcon={<PlusCircle className="w-4 text-[var(--primary)]" />}
+        btnText="Добавить приход и уход"
+      />
+
+      {/* Таблица */}
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50">
+        <table>
+          <thead>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Сотрудник
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Должность
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Пришёл
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Ушёл
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Опоздал
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Ушёл раньше
-              </th>
+              <th>Сотрудник</th>
+              <th>Смена</th>
+              <th>Пришел</th>
+              <th>Ушел</th>
+              <th>Опоздал</th>
+              <th>Ушел раньше</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-100">
-            <tr className="hover:bg-gray-50">
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm font-medium text-gray-900">Абдиев Амир</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-600">Product менеджер</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">10:22</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">18:00</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-yellow-600 font-medium">00:22</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-red-600 font-medium">03:00</div>
-              </td>
-            </tr>
-            <tr className="hover:bg-gray-50">
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm font-medium text-gray-900">Латыпов Артём</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-600">Flutter разработчик</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">10:00</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">18:00</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-400">-</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-red-600 font-medium">01:00</div>
-              </td>
-            </tr>
-            <tr className="hover:bg-gray-50">
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm font-medium text-gray-900">Аслан</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-600">Backend Developer</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">08:34</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">-</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-400">-</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-400">-</div>
-              </td>
-            </tr>
-            <tr className="hover:bg-gray-50">
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm font-medium text-gray-900">Исламов Камрон</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-600">UX/UI Дизайнер</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">12:56</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">17:50</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-yellow-600 font-medium">02:56</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-red-600 font-medium">01:10</div>
-              </td>
-            </tr>
-            <tr className="hover:bg-gray-50">
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm font-medium text-gray-900">Ахмедов Ислом</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-600">Frontend Developer</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">10:01</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">-</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-yellow-600 font-medium">00:01</div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-400">-</div>
-              </td>
-            </tr>
+
+          <tbody>
+            {data.map((rec) => (
+              <tr key={rec.id}>
+                <td>
+                  {rec.user_name}
+                </td>
+                <td>
+                  {rec.shift?.name ?? "—"}
+                </td>
+                <td>
+                  {formatTime(rec.event_time_in)}
+                </td>
+                <td>
+                  {formatTime(rec.event_time_out)}
+                </td>
+                <td className="!text-[var(--yellow)] !font-[700] !opacity-100">
+                  {rec.shift
+                    ? diffTime(rec.shift.start_time, rec.event_time_in)
+                    : "—"}
+                </td>
+                <td className="!text-[var(--red)] !font-[700] !opacity-100">
+                  {rec.shift
+                    ? diffTime(rec.shift.end_time, rec.event_time_out)
+                    : "—"}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
-      
-      <div className="px-6 py-4 border-t border-gray-100">
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-500">
-            Показаны пришедшие <span className="font-medium">1-6 из 32</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <button className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50">
-              <ChevronLeft size={16} />
-            </button>
-            <div className="flex items-center space-x-1">
-              <button className="px-3 py-1 rounded-lg bg-blue-600 text-white text-sm font-medium">1</button>
-              <button className="px-3 py-1 rounded-lg text-gray-600 hover:bg-gray-50 text-sm">2</button>
-              <button className="px-3 py-1 rounded-lg text-gray-600 hover:bg-gray-50 text-sm">3</button>
-              <span className="text-gray-400">...</span>
-              <button className="px-3 py-1 rounded-lg text-gray-600 hover:bg-gray-50 text-sm">12</button>
-            </div>
-            <button className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50">
-              <ChevronRight size={16} />
-            </button>
-          </div>
-        </div>
-      </div>
+      {/* Пагинация */}
+      <Pagination
+        total={total}
+        page={page}
+        pageSize={pageSize}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 };

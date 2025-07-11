@@ -20,45 +20,36 @@ export interface SummaryItem {
   id: number;
   name: string;
   department: string;
-  status: 'arrived' | 'late' | 'no_show';
+  status: "arrived" | "late" | "no_show";
   time: string;
   avatar?: string;
 }
 
-export interface AttendanceSummary {
-  date: string;
-  totalNoShow: number;
-  totalLate: number;
-  totalArrived: number;
-  items: SummaryItem[];
+export interface Disciplinary {
+  full_name: string;
+  position: string;
+  attendance_percent: number;
 }
 
-export interface DisciplineUser {
-  id: number;
-  name: string;
-  department: string;
-  score: number;
-  avatar?: string;
-  attendanceRate: number;
+export interface DisciplinedList {
+  top_disciplinary: Disciplinary[];
+  top_undisciplined: Disciplinary[];
 }
 
 export interface Device {
   id: string;
+  device_id: string;
+  device_type: string;
   name: string;
+  ip_address: string;
   location: string;
-  status: 'online' | 'offline';
-  lastConnection: string;
-  ip: string;
+  is_active: boolean;
+  brand: number;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface AttendanceStats {
-  date: string;
-  arrived: number;
-  late: number;
-  noShow: number;
-}
-
-export interface StatsResponse {
-  period: 'week' | 'month' | 'year';
-  data: AttendanceStats[];
+  label: string;
+  count: number;
 }

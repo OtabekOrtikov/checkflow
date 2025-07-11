@@ -1,46 +1,60 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { DisciplineUser } from '@/types/checkflow';
+import React from "react";
+import { TableHeadline } from "./layout/TableHeadline";
+import TopIcon from "@/assets/icons/TopIcon.svg";
+import { Disciplinary } from "@/types/checkflow";
 
 interface DashboardTopProps {
-  disciplined: DisciplineUser[];
-  undisciplined: DisciplineUser[];
+  disciplined: Disciplinary[];
+  undisciplined: Disciplinary[];
 }
 
-const DashboardTop: React.FC<DashboardTopProps> = ({ disciplined, undisciplined }) => {
-  const TopCard = ({ 
-    title, 
-    users, 
+const DashboardTop: React.FC<DashboardTopProps> = ({
+  disciplined,
+  undisciplined,
+}) => {
+  const TopCard = ({
+    title,
+    users,
     icon,
-    isDisciplined = true
-  }: { 
-    title: string, 
-    users: DisciplineUser[], 
-    icon: string,
-    isDisciplined?: boolean
+    isDisciplined = true,
+  }: {
+    title: string;
+    users: Disciplinary[];
+    icon: React.ReactNode;
+    isDisciplined?: boolean;
   }) => (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-      <div className="flex items-center space-x-2 mb-6">
-        <span className="text-lg">{icon}</span>
-        <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-      </div>
-      <div className="space-y-4">
-        {users.slice(0, 4).map((user, index) => (
-          <div key={user.id} className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className={`w-3 h-3 rounded-full ${isDisciplined ? 'bg-gray-400' : 'bg-red-500'}`}></div>
-              <div>
-                <div className="flex items-center space-x-2">
-                  <span className={`text-lg font-bold ${isDisciplined ? 'text-gray-700' : 'text-red-600'}`}>
-                    {user.attendanceRate}%
-                  </span>
-                  <span className="text-sm text-gray-500">
-                    {isDisciplined ? 'Full Stack Developer' : 'UX/UI Designer'}
-                  </span>
-                </div>
-                <p className="text-sm font-medium text-gray-900">{user.name}</p>
-              </div>
+    <div className="board">
+      <TableHeadline title={title} icon={icon} />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5 flex-grow">
+        {users.map((user, index) => (
+          <div
+            key={index}
+            className="flex flex-col min-h-[105px] 
+            px-3 pt-3 pb-2 bg-[var(--background)] 
+            rounded-[10px] border border-[var(--gray-e6)] flex-grow"
+          >
+            <div className="flex items-center gap-2.5">
+              <div
+                className={`
+                w-[20px] aspect-square rounded-full 
+                ${isDisciplined ? "bg-[#808080]" : "bg-[var(--red)]"}
+                `}
+              ></div>
+              <p className="text-2xl font-[466] font-[Bounded] text-[var(--foreground)]">
+                {user.attendance_percent}%
+              </p>
+            </div>
+
+            <div className="flex flex-col mt-auto">
+              <p className="text-[16px] opacity-50 font-[400]">
+                {user.position}
+              </p>
+              <p className="text-2xl font-[466] font-[Bounded] text-[var(--foreground)]">
+                {user.full_name}
+              </p>
             </div>
           </div>
         ))}
@@ -53,13 +67,13 @@ const DashboardTop: React.FC<DashboardTopProps> = ({ disciplined, undisciplined 
       <TopCard
         title="Топ дисциплинированные"
         users={disciplined}
-        icon="📊"
+        icon={<TopIcon className="w-[24px] h-[24px] text-[var(--primary)]" />}
         isDisciplined={true}
       />
       <TopCard
         title="Топ недисциплинированные"
         users={undisciplined}
-        icon="📊"
+        icon={<TopIcon className="w-[24px] h-[24px] text-[var(--red)]" />}
         isDisciplined={false}
       />
     </div>

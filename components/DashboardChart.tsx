@@ -1,101 +1,97 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { StatsResponse } from '@/types/checkflow';
+import React, { useState } from "react";
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
+import { AttendanceStats } from "@/types/checkflow";
+import { TableHeadline } from "./layout/TableHeadline";
+import StatsIcon from "@/assets/icons/StatsIcon.svg";
 
 interface DashboardChartProps {
-  data: StatsResponse;
-  onPeriodChange: (period: 'week' | 'month' | 'year') => void;
+  data: AttendanceStats[];
 }
 
-const DashboardChart: React.FC<DashboardChartProps> = ({ data, onPeriodChange }) => {
-  const [selectedPeriod, setSelectedPeriod] = useState('week');
+const DashboardChart: React.FC<DashboardChartProps> = ({ data }) => {
+  const [selectedPeriod, setSelectedPeriod] = useState("week");
 
-  const handlePeriodChange = (period: 'week' | 'month' | 'year') => {
+  const handlePeriodChange = (period: "week" | "month" | "year") => {
     setSelectedPeriod(period);
-    onPeriodChange(period);
   };
 
-  const chartData = [
-    { name: 'Понедельник', value: 125 },
-    { name: 'Вторник', value: 75 },
-    { name: 'Среда', value: 100 },
-    { name: 'Четверг', value: 125 },
-    { name: 'Пятница', value: 50 },
-    { name: 'Суббота', value: 25 },
-    { name: 'Воскресенье', value: 25 },
-  ];
+  let chartData = data.map((item) => ({
+    name: item.label,
+    value: item.count,
+  }));
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
-      <div className="px-6 py-4 border-b border-gray-100">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-lg">📈</span>
-            <h3 className="text-lg font-semibold text-gray-900">Статистика посещений</h3>
-          </div>
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => handlePeriodChange('week')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedPeriod === 'week'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              Неделя
-            </button>
-            <button
-              onClick={() => handlePeriodChange('month')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedPeriod === 'month'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              Месяц
-            </button>
-            <button
-              onClick={() => handlePeriodChange('year')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedPeriod === 'year'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              Год
-            </button>
-          </div>
+    <div className="board">
+      <div className="flex flex-col gap-2.5">
+        <TableHeadline
+          title={"Статистика посещений"}
+          icon={
+            <StatsIcon className="w-[24px] aspect-square text-[var(--primary)]" />
+          }
+        />
+        <div className="flex gap-[5px]">
+          <button
+            onClick={() => handlePeriodChange("week")}
+            className={`px-2.5 h-[40px] border border-[var(--gray-e6)] rounded-full text-base font-bold ${
+              selectedPeriod === "week"
+                ? "bg-[var(--primary)] text-white border-[var(--primary)]"
+                : "bg-transparent text-[var(--foreground)]"
+            }`}
+          >
+            Неделя
+          </button>
+          <button
+            onClick={() => handlePeriodChange("month")}
+            className={`px-2.5 h-[40px] border border-[var(--gray-e6)] rounded-full text-base font-bold ${
+              selectedPeriod === "month"
+                ? "bg-[var(--primary)] text-white border-[var(--primary)]"
+                : "bg-transparent text-[var(--foreground)]"
+            }`}
+          >
+            Месяц
+          </button>
+          <button
+            onClick={() => handlePeriodChange("year")}
+            className={`px-2.5 h-[40px] border border-[var(--gray-e6)] rounded-full text-base font-bold ${
+              selectedPeriod === "year"
+                ? "bg-[var(--primary)] text-white border-[var(--primary)]"
+                : "bg-transparent text-[var(--foreground)]"
+            }`}
+          >
+            Год
+          </button>
         </div>
       </div>
-      
-      <div className="p-6">
-        <div className="h-80">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-              <XAxis 
-                dataKey="name" 
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12, fill: '#6B7280' }}
-              />
-              <YAxis 
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12, fill: '#6B7280' }}
-                domain={[0, 200]}
-                ticks={[0, 25, 50, 75, 100, 150, 200]}
-              />
-              <Bar 
-                dataKey="value" 
-                fill="#3B82F6" 
-                radius={[8, 8, 0, 0]}
-                maxBarSize={60}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+      <div
+        className="w-full overflow-x-auto min-h-fit h-[400px] p-5 bg-[var(--background)] rounded-[10px] 
+      border border-[var(--gray-e6)]"
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={chartData}>
+            <XAxis
+              dataKey="name"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12, fill: "#1A1A1A", fontWeight: 600 }}
+            />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12, fill: "#1A1A1A", fontWeight: 600 }}
+              domain={[0, 200]}
+              ticks={[0, 25, 50, 75, 100, 150, 200]}
+            />
+            <Bar
+              dataKey="value"
+              fill="#1967F2"
+              radius={[10, 10, 10, 10]}
+              maxBarSize={50}
+              style={{ marginBottom: "10px" }}
+            />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
