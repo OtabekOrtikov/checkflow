@@ -16,15 +16,6 @@ export interface User {
   email?: string;
 }
 
-export interface SummaryItem {
-  id: number;
-  name: string;
-  department: string;
-  status: "arrived" | "late" | "no_show";
-  time: string;
-  avatar?: string;
-}
-
 export interface Disciplinary {
   full_name: string;
   position: string;
@@ -47,9 +38,4 @@ export interface Device {
   brand: number;
   created_at: string;
   updated_at: string;
-}
-
-export interface AttendanceStats {
-  label: string;
-  count: number;
 }

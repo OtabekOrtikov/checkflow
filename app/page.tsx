@@ -6,13 +6,13 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Layout from "@/components/Layout";
 import DashboardSummary from "@/components/DashboardSummary";
 import { camerasService } from "@/services/cameras";
-import { AttendanceRecord, AttendanceSummary } from "@/types/attendance.t";
+import { AttendanceRecord, AttendanceStats, AttendanceSummary } from "@/types/attendance.t";
 import { MainHeadline } from "@/components/app/MainHeadline";
 import DashboardTop from "@/components/DashboardTop";
 import DashboardDevices from "@/components/DashboardDevices";
 import DashboardChart from "@/components/DashboardChart";
-import { AttendanceStats } from "@/types/checkflow";
 import { Footer } from "@/components/Footer";
+import { attendanceService } from "@/services/attendanceService";
 
 export default function Dashboard() {
   // фиксированные даты для примера
@@ -29,12 +29,12 @@ export default function Dashboard() {
     AttendanceRecord[],
     any
   >(["attendance", todayStr, tomorrowStr], () =>
-    camerasService.getAttendance({ date_from: todayStr, date_to: tomorrowStr })
+    attendanceService.getAttendance({ date_from: todayStr, date_to: tomorrowStr })
   );
 
   const { data: summary, error: summaryError } = useSWR<AttendanceSummary>(
     "attendance-summary",
-    camerasService.getAttendanceSummary
+    attendanceService.getAttendanceSummary
   );
 
   const { data: disipline_list, error: disciplineError } = useSWR(
@@ -49,7 +49,7 @@ export default function Dashboard() {
 
   const { data: attendanceStats, error: statsError } = useSWR<AttendanceStats[]>(
     "attendance-stats",
-    camerasService.getAttendanceStats
+    attendanceService.getAttendanceStats
   );
 
   if (attendanceError || summaryError || disciplineError || devicesError || statsError) {

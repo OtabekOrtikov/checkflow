@@ -4,6 +4,15 @@ export interface AttendanceSummary {
   on_time: number;
 }
 
+export interface SummaryItem {
+  id: number;
+  name: string;
+  department: string;
+  status: "arrived" | "late" | "no_show";
+  time: string;
+  avatar?: string;
+}
+
 export interface AttendanceRecord {
   id: number;
   camera_in: {
@@ -49,4 +58,10 @@ export interface AttendanceRecord {
   } | null;
   verify_mode: string;
   created_at: string;
+}
+
+
+export interface AttendanceStats {
+  label: string;
+  count: number;
 }

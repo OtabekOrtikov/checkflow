@@ -187,3 +187,40 @@ body {
   border: 1px solid var(--gray-e6);
   gap: 20px;
 }
+
+.page-headline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-headline .page-headline__title {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  gap: 10px;
+}
+
+.page-headline .page-headline__title .page-headline__h {
+  font-family: "Bounded", sans-serif;
+  font-size: 48px;
+  font-weight: 566;
+  color: var(--foreground);
+}
+
+.page-headline .page-headline__title .page-headline__counter {
+  font-size: 32px;
+  font-family: "Bounded", sans-serif;
+  font-weight: 466;
+  color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .page-headline .page-headline__title .page-headline__h {
+    font-size: 36px;
+  }
+
+  .page-headline .page-headline__title .page-headline__counter {
+    font-size: 24px;
+  }
+}
