@@ -124,7 +124,9 @@ export default function EmployeesPage() {
     <ProtectedRoute>
       <Layout>
         <div className="page-headline mb-4">
-          <h2 className="text-2xl font-semibold">Сотрудники</h2>
+          <div className="page-headline__title">
+            <h2 className="text-2xl font-semibold page-headline__h">Сотрудники</h2>
+          </div>
         </div>
 
         <FilterBar

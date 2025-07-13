@@ -69,7 +69,7 @@ export default function Pagination({
         <button
           onClick={() => onPageChange(page - 1)}
           disabled={page === 1}
-          className="2xl:py-[10px] 2xl:px-[15px] px-[10px] cursor-pointer py-[5px] rounded-[50px] block border border-[var(--black-10)] disabled:opacity-50"
+          className="2xl:py-[10px] 2xl:px-[15px] px-[10px] bg-white cursor-pointer py-[5px] rounded-[50px] block border border-[var(--black-10)] disabled:opacity-50"
         >
           <ChevronLeftIcon className="w-[32px]" />
         </button>
@@ -109,7 +109,7 @@ export default function Pagination({
         <button
           onClick={() => onPageChange(page + 1)}
           disabled={page === totalPages}
-          className="2xl:py-[10px] 2xl:px-[15px] px-[10px] py-[5px] cursor-pointer rounded-[50px] block border border-[var(--black-10)] disabled:opacity-50"
+          className="2xl:py-[10px] 2xl:px-[15px] bg-white px-[10px] py-[5px] cursor-pointer rounded-[50px] block border border-[var(--black-10)] disabled:opacity-50"
         >
           <ChevronRightIcon className="w-[32px]" />
         </button>
