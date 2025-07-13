@@ -10,11 +10,11 @@ import { Footer } from "@/components/Footer";
 export default function ReportsIndexPage() {
   // Статичные карточки
   const cards = [
+    { title: "Отчёт по сотруднику (PDF)", href: "/reports/employee" },
     { title: "Отчёт по посещениям (Excel)", href: "/reports/attendance" },
     { title: "Отчёт по зарплате и штрафам", href: "/reports/salary" },
-    { title: "Отчёт по сотруднику (PDF)", href: "/reports/employee" },
-    { title: "Отчёт по отделам (Excel)", href: "/reports/department" },
     { title: "Отчёт по гендеру (Excel)", href: "/reports/gender" },
+    { title: "Отчёт по отделам (Excel)", href: "/reports/department" },
   ];
 
   return (

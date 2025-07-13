@@ -3,6 +3,8 @@
 
 import React from "react";
 
+import SearchIcon from "@/assets/icons/searchIcon.svg";
+
 interface PageHeadlineProps {
   title: string;
   searchValue?: string;
@@ -28,37 +30,44 @@ export function PageHeadline({
         {title}
       </h2>
 
-      {/* Поиск */}
-      {onSearchChange && (
-        <input
-          type="search"
-          value={searchValue}
-          onChange={(e) => onSearchChange?.(e.target.value)}
-          placeholder="Поиск…"
-          className="px-4 py-2 border rounded-full max-w-sm flex-1 lg:flex-none"
-        />
-      )}
+      <div className="flex gap-2.5">
+        {/* Поиск */}
+        <div className="relative">
+          <p className="absolute left-3 top-1/2 -translate-y-1/2">
+            <SearchIcon className="w-[24px] h-[24px] opacity-50" />
+          </p>
+          {onSearchChange && (
+            <input
+              type="search"
+              value={searchValue}
+              onChange={(e) => onSearchChange?.(e.target.value)}
+              placeholder="Поиск…"
+              className="input !pl-12"
+            />
+          )}
+        </div>
 
-      {/* Добавить */}
-      {onAdd && addText && (
-        <button
-          onClick={onAdd}
-          className="px-4 py-2 bg-[var(--primary)] text-white rounded-full
-          text-2xl font-medium flex items-center gap-2.5"
-        >
-          <span>{btnIcon}</span> <span>{addText}</span>
-        </button>
-      )}
+        {/* Добавить */}
+        {onAdd && addText && (
+          <button
+            onClick={onAdd}
+            className="px-4 py-2 bg-[var(--primary)] text-white rounded-full
+          text-2xl font-medium flex items-center gap-2.5 whitespace-nowrap"
+          >
+            <span>{btnIcon}</span> <span>{addText}</span>
+          </button>
+        )}
 
-      {/* Печать */}
-      {onPrint && (
-        <button
-          onClick={onPrint}
-          className="px-4 py-2 border border-[var(--gray-e6)] rounded-full hover:bg-gray-100 transition"
-        >
-          Печать
-        </button>
-      )}
+        {/* Печать */}
+        {onPrint && (
+          <button
+            onClick={onPrint}
+            className="px-4 py-2 border border-[var(--gray-e6)] rounded-full hover:bg-gray-100 transition"
+          >
+            Печать
+          </button>
+        )}
+      </div>
     </div>
   );
 }

@@ -59,8 +59,10 @@ export default function DepartmentModal({ open, onClose, onSaved }: Props) {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="w-full max-w-md bg-white p-6 space-y-4 rounded-2xl">
+            <Dialog.Panel className="w-full max-w-4xl bg-white p-6 space-y-4 rounded-2xl">
               <ModalTitle title="Добавление отдела" onClose={onClose} />
+
+              <hr className="opacity-10" />
 
               <div>
                 <label className="block mb-1 font-medium">Название</label>
@@ -76,20 +78,37 @@ export default function DepartmentModal({ open, onClose, onSaved }: Props) {
 
               <hr className="opacity-10" />
 
-              <div className="flex gap-4 justify-end">
+              <div className="flex gap-5 flex-wrap lg:flex-nowrap">
                 <button
-                  type="button"
+                  type="submit"
                   onClick={handleSave}
                   disabled={saving}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition disabled:opacity-50"
+                  className="px-5 bg-[var(--primary)] rounded-[15px] text-xl font-semibold text-[var(--white)] flex items-center 
+                      justify-center gap-2.5 w-full min-h-[60px]"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M7 12.9005L10.1429 16.5005L18 7.50049"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                   Сохранить
                 </button>
                 <button
                   type="button"
                   onClick={handleSaveAndAnother}
                   disabled={saving}
-                  className="px-6 py-2 border border-gray-300 rounded-full hover:bg-gray-100 transition disabled:opacity-50"
+                  className="px-5 border border-[var(--gray-e6)] rounded-[15px] text-xl font-semibold text-[var(--foreground)] flex items-center 
+                      justify-center gap-2.5 w-full min-h-[60px] whitespace-nowrap"
                 >
                   Сохранить и добавить другой объект
                 </button>

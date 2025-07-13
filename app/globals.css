@@ -252,7 +252,7 @@ body {
 }
 
 .input {
-  @apply w-full min-h-[60px] bg-transparent border border-[var(--gray-e6)] rounded-[15px] px-5 flex items-center text-xl font-semibold text-[var(--foreground)] focus:outline-none;
+  @apply w-full bg-[var(--white)] min-h-[60px] border border-[var(--gray-e6)] rounded-[15px] px-5 flex items-center text-xl font-semibold text-[var(--foreground)] focus:outline-none;
 }
 
 /* Скрываем всё на странице при печати */

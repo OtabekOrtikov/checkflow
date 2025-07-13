@@ -18,6 +18,7 @@ import { Menu, X } from "lucide-react";
 import { navSections } from "@/data/nav-section";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { Navbar } from "./Navbar";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -45,7 +46,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             sidebarOpen ? "translate-x-0" : "-translate-x-[120%]"
           }
           lg:max-w-[400px] max-w-full min-w-[350px] w-full max-h-[calc(100vh-45px)] min-h-[600px] h-lg:min-h-[calc(100vh-45px)] h-full
-          flex flex-col gap-y-[25px] lg:m-[20px] p-[25px] rounded-[20px] mb-0 mr-0
+          flex flex-col gap-y-[25px] lg:m-[20px] p-[25px] rounded-[20px] mb-0 !mr-0
           `}
       >
         <div className="flex items-center justify-between gap-x-4">
@@ -94,39 +95,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
         {/* Navigation */}
         <nav className="flex items-start flex-col justify-start flex-1 gap-y-[25px] max-h-[540px] overflow-y-auto">
-          {navSections.map(({ title, items }) => (
-            <div key={title} className="flex items-start flex-col justify-start gap-y-[10px] w-full">
-              <h3 className="text-black text-[16px] font-medium">{title}</h3>
-              <ul className="space-y-1 w-full">
-                {items.map((item) => {
-                  const isActive = pathname === item.href;
-
-                  return (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className={`flex items-center rounded-[15px] 
-                        justify-start gap-x-[10px] text-[20px] 
-                        font-semibold text-[var(--grey-80)] px-[20px] 
-                        min-h-[60px] w-full border border-transparent 
-                        hover:border-[var(--black-10)] hover:text-[var(--foreground)] transition-all 
-                        ${
-                          isActive
-                            ? `text-[var(--primary)] bg-[var(--background)]
-                            hover:border-transparent 
-                            hover:text-[var(--primary)] hover:bg-[var(--background)]`
-                            : ""
-                        }`}
-                      >
-                        <p>{item.icon}</p>
-                        <p>{item.title}</p>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
+          <Navbar data={navSections} />
         </nav>
 
         {/* User Profile */}

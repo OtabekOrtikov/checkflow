@@ -53,7 +53,27 @@ const DashboardSummary: React.FC<DashboardSummaryProps> = ({
         title="Сводка на сегодня"
         icon={<MailBox className="w-6 text-[var(--primary)]" />}
         btn
-        btnIcon={<PlusCircle className="w-4 text-[var(--primary)]" />}
+        btnIcon={
+          <>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="M8.00004 14.6667C11.6819 14.6667 14.6667 11.6819 14.6667 7.99999C14.6667 4.3181 11.6819 1.33333 8.00004 1.33333C4.31814 1.33333 1.33337 4.3181 1.33337 7.99999C1.33337 11.6819 4.31814 14.6667 8.00004 14.6667Z"
+                stroke="#1967F2"
+              />
+              <path
+                d="M10 8H8M8 8H6M8 8V6M8 8V10"
+                stroke="#1967F2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </>
+        }
         btnText="Добавить приход и уход"
       />
 
@@ -74,18 +94,10 @@ const DashboardSummary: React.FC<DashboardSummaryProps> = ({
           <tbody>
             {data.map((rec) => (
               <tr key={rec.id}>
-                <td>
-                  {rec.user_name}
-                </td>
-                <td>
-                  {rec.shift?.name ?? "—"}
-                </td>
-                <td>
-                  {formatTime(rec.event_time_in)}
-                </td>
-                <td>
-                  {formatTime(rec.event_time_out)}
-                </td>
+                <td>{rec.user_name}</td>
+                <td>{rec.shift?.name ?? "—"}</td>
+                <td>{formatTime(rec.event_time_in)}</td>
+                <td>{formatTime(rec.event_time_out)}</td>
                 <td className="!text-[var(--yellow)] !font-[700] !opacity-100">
                   {rec.shift
                     ? diffTime(rec.shift.start_time, rec.event_time_in)
