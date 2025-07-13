@@ -28,7 +28,7 @@ const DashboardTop: React.FC<DashboardTopProps> = ({
     <div className="board">
       <TableHeadline title={title} icon={icon} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5 flex-grow">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-2.5 flex-grow">
         {users.map((user, index) => (
           <div
             key={index}
@@ -63,7 +63,7 @@ const DashboardTop: React.FC<DashboardTopProps> = ({
   );
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 2xl:grid-cols-2 gap-6">
       <TopCard
         title="Топ дисциплинированные"
         users={disciplined}

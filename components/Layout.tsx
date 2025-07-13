@@ -41,11 +41,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Sidebar */}
       <div
         className={`fixed inset-y-0 left-0 z-50 bg-white transform 
-          transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
+          transition-transform duration-300 ease-in-out lg:translate-x-0  m-0 lg:static lg:inset-0 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-[120%]"
           }
-          max-w-[400px] min-w-[350px] w-full max-h-[calc(100vh-45px)] min-h-[600px] h-lg:min-h-[calc(100vh-45px)] h-full
-          flex flex-col gap-y-[25px] m-[20px] p-[25px] rounded-[20px] mb-0 mr-0
+          lg:max-w-[400px] max-w-full min-w-[350px] w-full max-h-[calc(100vh-45px)] min-h-[600px] h-lg:min-h-[calc(100vh-45px)] h-full
+          flex flex-col gap-y-[25px] lg:m-[20px] p-[25px] rounded-[20px] mb-0 mr-0
           `}
       >
         <div className="flex items-center justify-between gap-x-4">

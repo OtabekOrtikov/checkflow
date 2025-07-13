@@ -56,26 +56,26 @@ export default function Pagination({
   );
 
   return (
-    <div className="flex items-center justify-between">
-      <p className="xl:text-[24px] font-[Bounded] font-[566] flex flex-col gap-0">
+    <div className="flex items-center justify-between flex-wrap lg:flex-nowrap gap-2.5">
+      <p className="xl:text-[24px] font-[Bounded] font-[566] flex flex-row lg:flex-col gap-1 justify-between w-full">
         <span className="text-[var(--black-30)]">Показаны пришедшие</span>
         <span className="text-[var(--foreground)]">
           {total !== 0 ? `${start}-` : ""}
           {Math.min(start - 1 + pageSize, total)} из {total}
         </span>
       </p>
-      <div className="flex items-center gap-x-[10px]">
+      <div className="flex items-center gap-x-[10px] w-full lg:w-auto justify-between">
         {/* Назад */}
         <button
           onClick={() => onPageChange(page - 1)}
           disabled={page === 1}
           className="2xl:py-[10px] 2xl:px-[15px] px-[10px] cursor-pointer py-[5px] rounded-[50px] block border border-[var(--black-10)] disabled:opacity-50"
         >
-          <ChevronLeftIcon className="xl:w-[32px] w-[24px]" />
+          <ChevronLeftIcon className="w-[32px]" />
         </button>
 
         {/* Номера страниц */}
-        <div className="flex items-center gap-x-[10px]">
+        <div className="flex items-center gap-x-[10px] justify-evenly w-full lg:w-auto">
           {uniquePages.map((p, i) => {
             const key = `${i}-${typeof p === "number" ? p : "ellipsis"}`;
             return p === "..." ? (
@@ -111,7 +111,7 @@ export default function Pagination({
           disabled={page === totalPages}
           className="2xl:py-[10px] 2xl:px-[15px] px-[10px] py-[5px] cursor-pointer rounded-[50px] block border border-[var(--black-10)] disabled:opacity-50"
         >
-          <ChevronRightIcon className="xl:w-[32px] w-[24px]" />
+          <ChevronRightIcon className="w-[32px]" />
         </button>
       </div>
     </div>

@@ -196,7 +196,7 @@ body {
 
 .page-headline .page-headline__title {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
   gap: 10px;
 }
@@ -223,4 +223,17 @@ body {
   .page-headline .page-headline__title .page-headline__counter {
     font-size: 24px;
   }
+}
+
+.selection-btn {
+  @apply w-full flex justify-between items-center gap-2.5 whitespace-nowrap
+  border border-[var(--gray-e6)] bg-[var(--background)] rounded-full text-xl font-medium text-[var(--foreground)] py-3 pl-5 pr-3;
+}
+
+.selection-options {
+  @apply absolute mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-10 overflow-auto max-h-60;
+}
+
+.input {
+  @apply w-full min-h-[60px] bg-transparent border border-[var(--gray-e6)] rounded-[15px] px-5 flex items-center text-xl font-semibold text-[var(--foreground)] focus:outline-none 
 }
