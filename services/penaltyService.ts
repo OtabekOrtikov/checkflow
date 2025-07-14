@@ -20,7 +20,7 @@ export const penaltyService = {
   // назначить штраф (ручной) — замените endpoint, если у вас другой
   assign: async (payload: { penalty: number; employee: number }) => {
     const { data } = await api.post<ManualPenalty>(
-      "/penalties/manual/assign/", 
+      "/penalties/manual/create/", 
       payload
     );
     return data;
