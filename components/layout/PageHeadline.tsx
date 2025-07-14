@@ -32,11 +32,12 @@ export function PageHeadline({
 
       <div className="flex gap-2.5">
         {/* Поиск */}
-        <div className="relative">
-          <p className="absolute left-3 top-1/2 -translate-y-1/2">
-            <SearchIcon className="w-[24px] h-[24px] opacity-50" />
-          </p>
-          {onSearchChange && (
+        {onSearchChange && (
+          <div className="relative">
+            <p className="absolute left-3 top-1/2 -translate-y-1/2">
+              <SearchIcon className="w-[24px] h-[24px] opacity-50" />
+            </p>
+
             <input
               type="search"
               value={searchValue}
@@ -44,8 +45,8 @@ export function PageHeadline({
               placeholder="Поиск…"
               className="input !pl-12"
             />
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Добавить */}
         {onAdd && addText && (

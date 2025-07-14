@@ -54,28 +54,28 @@ export const navSections: NavSection[] = [
       },
       {
         title: "Настройки",
-        href: "/settings",
+        href: "/settings/general",
         icon: <SettingsIcon className="fill-current" />,
         items: [
           { title: "Общие настройки", href: "/settings/general" },
-          { title: "Роли и права доступа", href: "/settings/roles" },
-          { title: "Типы отгулов", href: "/settings/time-off-types" },
+          // { title: "Роли и права доступа", href: "/settings/roles" },
+          // { title: "Типы отгулов", href: "/settings/time-off-types" },
           { title: "Типы увольнений", href: "/settings/termination-types" },
           {
             title: "Активность пользователей",
             href: "/settings/user-activity",
           },
-          { title: "Праздники", href: "/settings/holidays" },
-          { title: "Правила зарплаты", href: "/settings/payroll-rules" },
+          // { title: "Праздники", href: "/settings/holidays" },
+          // { title: "Правила зарплаты", href: "/settings/payroll-rules" },
           { title: "Штрафы", href: "/settings/penalties" },
-          {
-            title: "Удержания и доплаты",
-            href: "/settings/deductions-and-additions",
-          },
-          {
-            title: "Настройки API",
-            href: "/settings/api",
-          },
+          // {
+          //   title: "Удержания и доплаты",
+          //   href: "/settings/deductions-and-additions",
+          // },
+          // {
+          //   title: "Настройки API",
+          //   href: "/settings/api",
+          // },
         ],
       },
     ],

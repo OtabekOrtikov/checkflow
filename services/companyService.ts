@@ -4,7 +4,7 @@ import api from "@/utils/api";
 
 export const companyService = {
   getCompanyById: async (id: number): Promise<Company> => {
-    const { data } = await api.get<Company>(`/api/companies/${id}/`);
+    const { data } = await api.get<Company>(`/companies/${id}/`);
     return data;
   },
 };

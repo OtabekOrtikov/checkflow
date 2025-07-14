@@ -1,390 +1,200 @@
 // src/app/settings/general/page.tsx
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import useSWR from "swr";
-import Layout from "@/components/Layout";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import Layout from "@/components/Layout";
 import { PageHeadline } from "@/components/layout/PageHeadline";
-import { TableHeadline } from "@/components/layout/TableHeadline";
-import { Listbox, Transition } from "@headlessui/react";
-import { Check } from "lucide-react";
-import ArrowDownIcon from "@/assets/icons/arrow-down.svg";
-
-import { settingsService } from "@/services/settingsService";
-import { companyService } from "@/services/companyService";
-import { Company } from "@/types/company.t";
 import { CompanySettings } from "@/types/settings.t";
+import { settingsService } from "@/services/settingsService";
+import { TableHeadline } from "@/components/layout/TableHeadline";
+import { is } from "date-fns/locale";
 
 export default function GeneralSettingsPage() {
-  // 1) Подтягиваем компанию
-  const { data: company, isLoading: companyLoading } = useSWR<Company>(
-    "company",
-    () => companyService.getCompanyById(1) // TODO: заменить 1 на реальный ID из конекста
-  );
-
-  // 2) Подтягиваем текущие настройки
-  const { data: settings, mutate } = useSWR<CompanySettings>(
+  const [isLoading, setIsLoading] = useState(false);
+  // Загрузка текущих настроек
+  const { data: settings } = useSWR<CompanySettings>(
     "generalSettings",
     settingsService.getGeneralSettings
   );
 
+  // Локальный стейт формы
   const [form, setForm] = useState<CompanySettings>({
-    id_display: "full_name",
+    id_display: "",
     timezone: "",
     language: "",
     time_format: "24",
     date_format: "",
     currency: "",
   });
-  const [saving, setSaving] = useState(false);
 
+  const { data: company } = useSWR(
+    "company",
+    () => settingsService.getCompanyById(1) // Предположим, что ID компании 1
+  );
+
+  // Когда настройки загрузятся, заполняем форму
   useEffect(() => {
-    if (settings) setForm(settings);
+    if (settings) {
+      setForm(settings);
+    }
   }, [settings]);
 
+  // Сохранение (пока просто вызывает API, без обработки ошибки)
   const handleSave = async () => {
-    setSaving(true);
-    try {
-      await settingsService.updateGeneralSettings(form);
-      await mutate();
-    } catch {
-      // пока эндпоинта нет — просто молча
-    }
-    setSaving(false);
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // Имитируем задержку
+    // await settingsService.updateGeneralSettings(form);
+    // Можно добавить уведомление об успешном сохранении...
   };
 
-  // варианты для списков
-  const idDisplayOptions = [
-    { value: "full_name", label: "Отображение Ф.И.О." },
-    { value: "first_last", label: "Камрон Исламов" },
-    { value: "initials", label: "К.И." },
-  ];
-  const timezoneOptions = [
-    "(UTC +02:00) Europe/Berlin",
-    "(UTC +03:00) Europe/Moscow",
-    "(UTC +05:00) Asia/Tashkent",
-  ];
-  const languageOptions = ["Русский", "English"];
-  const timeFormatOptions = ["12", "24"];
-  const dateFormatOptions = ["DD.MM.YYYY", "MM/DD/YYYY", "YYYY-MM-DD"];
-  const currencyOptions = ["UZS (сум)", "USD ($)", "EUR (€)"];
+  // Пока не загрузились — ничего не рендерим (можно заменить на spinner)
+  if (!settings) return null;
 
   return (
     <ProtectedRoute>
       <Layout>
-        {/* Заголовок страницы с именем компании */}
-        <PageHeadline
-          title={companyLoading ? "Загрузка..." : company?.name || "—"}
-          subtitle={company?.description}
-          btn={false}
-        />
+        <PageHeadline title={company?.name || "Общие настройка"} />
 
-        {/* Белый бокс */}
-        <div className="tables board p-6 space-y-6">
-          {/* «пустой» TableHeadline для бордюра */}
-          <TableHeadline title="" icon={<></>} btn={false} />
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Отображение ФИО */}
-            <div>
-              <p className="uppercase text-sm text-gray-400 mb-1">
-                Отображение Ф.И.О.
-              </p>
-              <Listbox
+        <div className="board">
+          <TableHeadline title={"Настройки"} />
+          <form className="grid grid-cols-1 lg:grid-cols-2 gap-2.5 items-stretch">
+            {/* Формат отображения Ф.И.О. */}
+            <div className="card">
+              <label className="">Формат Ф.И.О.</label>
+              <input
+                type="text"
+                className=""
                 value={form.id_display}
-                onChange={(v) =>
-                  setForm((f) => ({ ...f, id_display: v }))
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, id_display: e.target.value }))
                 }
-              >
-                <div className="relative">
-                  <Listbox.Button className="input w-full flex justify-between items-center">
-                    {
-                      idDisplayOptions.find(
-                        (o) => o.value === form.id_display
-                      )!.label
-                    }
-                    <ArrowDownIcon className="w-5 h-5 text-gray-500" />
-                  </Listbox.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow max-h-60 overflow-auto">
-                      {idDisplayOptions.map((opt) => (
-                        <Listbox.Option
-                          key={opt.value}
-                          value={opt.value}
-                          className={({ active }) =>
-                            `cursor-pointer px-4 py-2 flex justify-between ${
-                              active ? "bg-gray-100" : ""
-                            }`
-                          }
-                        >
-                          {opt.label}
-                          {form.id_display === opt.value && (
-                            <Check className="w-4 h-4 text-blue-600" />
-                          )}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </Transition>
-                </div>
-              </Listbox>
+              />
             </div>
 
             {/* Часовой пояс */}
-            <div>
-              <p className="uppercase text-sm text-gray-400 mb-1">
-                Часовой пояс
-              </p>
-              <Listbox
+            <div className="card">
+              <label className="">Часовой пояс</label>
+              <select
+                className=""
                 value={form.timezone}
-                onChange={(v) =>
-                  setForm((f) => ({ ...f, timezone: v }))
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, timezone: e.target.value }))
                 }
               >
-                <div className="relative">
-                  <Listbox.Button className="input w-full flex justify-between items-center">
-                    {form.timezone || "Выберите…"}
-                    <ArrowDownIcon className="w-5 h-5 text-gray-500" />
-                  </Listbox.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow max-h-60 overflow-auto">
-                      {timezoneOptions.map((tz) => (
-                        <Listbox.Option
-                          key={tz}
-                          value={tz}
-                          className={({ active }) =>
-                            `cursor-pointer px-4 py-2 flex justify-between ${
-                              active ? "bg-gray-100" : ""
-                            }`
-                          }
-                        >
-                          {tz}
-                          {form.timezone === tz && (
-                            <Check className="w-4 h-4 text-blue-600" />
-                          )}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </Transition>
-                </div>
-              </Listbox>
+                <option value="">Выберите часовой пояс</option>
+                <option value="(UTC+05:00) Asia/Tashkent">
+                  (UTC+05:00) Asia/Tashkent
+                </option>
+                <option value="(UTC+03:00) Europe/Moscow">
+                  (UTC+03:00) Europe/Moscow
+                </option>
+                {/* Добавьте сюда другие варианты при необходимости */}
+              </select>
             </div>
 
             {/* Язык */}
-            <div>
-              <p className="uppercase text-sm text-gray-400 mb-1">Язык</p>
-              <Listbox
+            <div className="card">
+              <label className="">Язык</label>
+              <select
+                className=""
                 value={form.language}
-                onChange={(v) =>
-                  setForm((f) => ({ ...f, language: v }))
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, language: e.target.value }))
                 }
               >
-                <div className="relative">
-                  <Listbox.Button className="input w-full flex justify-between items-center">
-                    {form.language || "Выберите…"}
-                    <ArrowDownIcon className="w-5 h-5 text-gray-500" />
-                  </Listbox.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow max-h-60 overflow-auto">
-                      {languageOptions.map((lang) => (
-                        <Listbox.Option
-                          key={lang}
-                          value={lang}
-                          className={({ active }) =>
-                            `cursor-pointer px-4 py-2 flex justify-between ${
-                              active ? "bg-gray-100" : ""
-                            }`
-                          }
-                        >
-                          {lang}
-                          {form.language === lang && (
-                            <Check className="w-4 h-4 text-blue-600" />
-                          )}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </Transition>
-                </div>
-              </Listbox>
+                <option value="">Выберите язык</option>
+                <option value="ru">Русский</option>
+                <option value="en">English</option>
+              </select>
             </div>
 
             {/* Формат времени */}
-            <div>
-              <p className="uppercase text-sm text-gray-400 mb-1">
-                Формат времени
-              </p>
-              <Listbox
+            <div className="card">
+              <label className="">Формат времени</label>
+              <select
+                className=""
                 value={form.time_format}
-                onChange={(v) =>
-                  setForm((f) => ({ ...f, time_format: v }))
+                onChange={(e) =>
+                  setForm((f) => ({
+                    ...f,
+                    time_format: e.target.value as "12" | "24",
+                  }))
                 }
               >
-                <div className="relative">
-                  <Listbox.Button className="input w-full flex justify-between items-center">
-                    {form.time_format === "24" ? "24 часа" : "12 часов"}
-                    <ArrowDownIcon className="w-5 h-5 text-gray-500" />
-                  </Listbox.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow max-h-60 overflow-auto">
-                      {timeFormatOptions.map((tf) => (
-                        <Listbox.Option
-                          key={tf}
-                          value={tf}
-                          className={({ active }) =>
-                            `cursor-pointer px-4 py-2 flex justify-between ${
-                              active ? "bg-gray-100" : ""
-                            }`
-                          }
-                        >
-                          {tf === "24" ? "24 часа" : "12 часов"}
-                          {form.time_format === tf && (
-                            <Check className="w-4 h-4 text-blue-600" />
-                          )}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </Transition>
-                </div>
-              </Listbox>
+                <option value="12">12-часовой</option>
+                <option value="24">24-часовой</option>
+              </select>
             </div>
 
             {/* Формат даты */}
-            <div>
-              <p className="uppercase text-sm text-gray-400 mb-1">
-                Формат даты
-              </p>
-              <Listbox
+            <div className="card">
+              <label className="">Формат даты</label>
+              <select
+                className=""
                 value={form.date_format}
-                onChange={(v) =>
-                  setForm((f) => ({ ...f, date_format: v }))
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, date_format: e.target.value }))
                 }
               >
-                <div className="relative">
-                  <Listbox.Button className="input w-full flex justify-between items-center">
-                    {form.date_format || "Выберите…"}
-                    <ArrowDownIcon className="w-5 h-5 text-gray-500" />
-                  </Listbox.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow max-h-60 overflow-auto">
-                      {dateFormatOptions.map((df) => (
-                        <Listbox.Option
-                          key={df}
-                          value={df}
-                          className={({ active }) =>
-                            `cursor-pointer px-4 py-2 flex justify-between ${
-                              active ? "bg-gray-100" : ""
-                            }`
-                          }
-                        >
-                          {df}
-                          {form.date_format === df && (
-                            <Check className="w-4 h-4 text-blue-600" />
-                          )}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </Transition>
-                </div>
-              </Listbox>
+                <option value="">Выберите формат даты</option>
+                <option value="DD.MM.YYYY">DD.MM.YYYY</option>
+                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+              </select>
             </div>
 
             {/* Валюта */}
-            <div>
-              <p className="uppercase text-sm text-gray-400 mb-1">Валюта</p>
-              <Listbox
+            <div className="card">
+              <label className="">Валюта</label>
+              <select
+                className=""
                 value={form.currency}
-                onChange={(v) =>
-                  setForm((f) => ({ ...f, currency: v }))
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, currency: e.target.value }))
                 }
               >
-                <div className="relative">
-                  <Listbox.Button className="input w-full flex justify-between items-center">
-                    {form.currency || "Выберите…"}
-                    <ArrowDownIcon className="w-5 h-5 text-gray-500" />
-                  </Listbox.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow max-h-60 overflow-auto">
-                      {currencyOptions.map((c) => (
-                        <Listbox.Option
-                          key={c}
-                          value={c}
-                          className={({ active }) =>
-                            `cursor-pointer px-4 py-2 flex justify-between ${
-                              active ? "bg-gray-100" : ""
-                            }`
-                          }
-                        >
-                          {c}
-                          {form.currency === c && (
-                            <Check className="w-4 h-4 text-blue-600" />
-                          )}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </Transition>
-                </div>
-              </Listbox>
+                <option value="">Выберите валюту</option>
+                <option value="UZS">UZS</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+              </select>
             </div>
-          </div>
-
-          {/* Сохранить */}
-          <div className="mt-6 flex justify-end">
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="px-6 py-3 bg-blue-600 text-white rounded-full font-semibold"
+          </form>
+        </div>
+        {/* Кнопки Сброс и Сохранить */}
+        <div className="flex justify-center">
+          {/* <button
+            type="button"
+            onClick={() => settings && setForm(settings)}
+            className="px-5 border border-[var(--gray-e6)] rounded-[15px] text-xl font-semibold"
+          >
+            Сбросить
+          </button> */}
+          <button
+            type="button"
+            onClick={handleSave}
+            className="h-[60px] py-3 px-5 bg-[var(--primary)] text-white rounded-full text-2xl font-medium flex items-center justify-center gap-2.5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
             >
-              ✓ Сохранить изменения
-            </button>
-          </div>
+              <path
+                d="M7 12.9L10.1429 16.5L18 7.5"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            {isLoading ? "Сохранение..." : "Сохранить"}
+          </button>
         </div>
       </Layout>
     </ProtectedRoute>

@@ -278,3 +278,19 @@ body {
   /* Если нужно — отключить цветные фоны, обрезать тени и т.д. */
   /* @page { color-adjust: exact; } */
 }
+
+.card {
+  @apply bg-[var(--background)] border border-[var(--gray-e6)] rounded-[10px] p-3 pb-2 flex flex-col gap-2 min-h-[105px] justify-between;
+}
+
+.card label {
+  @apply font-[Bounded] text-[var(--foreground)] text-2xl font-[466] opacity-50;
+}
+
+.card input {
+  @apply w-full bg-transparent outline-none text-2xl font-[Bounded] font-[466];
+}
+
+.card select {
+  @apply w-full bg-transparent outline-none text-2xl font-[Bounded] font-[466] p-0;
+}
