@@ -27,11 +27,6 @@ export default function SchedulesPage() {
   // pagination
   const [page, setPage] = useState(1);
   const pageSize = 10;
-
-  if (error) return <div className="p-4 text-red-500">Ошибка загрузки</div>;
-  if (!shifts) return <div>Loading…</div>;
-
-  // filter by name
   const filtered = useMemo(
     () =>
       shifts.filter((s) =>
@@ -39,6 +34,11 @@ export default function SchedulesPage() {
       ),
     [shifts, search]
   );
+
+  if (error) return <div className="p-4 text-red-500">Ошибка загрузки</div>;
+  if (!shifts) return <div>Loading…</div>;
+
+  // filter by name
 
   // compute slice
   const total = filtered.length;

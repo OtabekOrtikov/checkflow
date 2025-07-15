@@ -38,7 +38,7 @@ export default function DevicesPage() {
       <Layout>
         {/* Заголовок страницы с опциональным поиском */}
         <PageHeadline
-          title="Устройства"
+          title="Организация"
           searchValue={search}
           onSearchChange={setSearch}
         />

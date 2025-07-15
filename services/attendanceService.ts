@@ -24,9 +24,11 @@ export const attendanceService = {
     return response.data;
   },
 
-  getAttendanceStats: async (): Promise<AttendanceStats[]> => {
+  getAttendanceStats: async (params: {
+    period: string;
+  }): Promise<AttendanceStats[]> => {
     const response = await api.get<AttendanceStats[]>(
-      `/cameras/attendance/stats/`
+      `/cameras/attendance/stats/?period=${params.period}`
     );
     return response.data;
   },

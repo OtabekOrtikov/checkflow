@@ -1,5 +1,6 @@
 import api from '@/utils/api';
 import { LoginRequest, LoginResponse, User } from '@/types/checkflow';
+import { get } from 'node:http';
 
 export const authService = {
   login: async (credentials: LoginRequest): Promise<LoginResponse> => {
@@ -48,4 +49,9 @@ export const authService = {
       localStorage.removeItem('refresh_token');
     }
   },
+
+  getUser: async (): Promise<User> => {
+    const response = await api.get<User>('/authentication/get-user/');
+    return response.data;
+  }
 };

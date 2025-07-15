@@ -17,6 +17,7 @@ import { positionService } from "@/services/positionService";
 import { Employee } from "@/types/employee.t";
 import { Department } from "@/types/department.t";
 import { Position } from "@/types/position.t";
+import { Loading } from "@/components/Loading";
 
 export default function EmployeesPage() {
   // 1. Data-fetching hooks
@@ -116,7 +117,7 @@ export default function EmployeesPage() {
   }
 
   if (!allEmployees.length || !departments.length || !positions.length) {
-    return <div className="p-4">Загрузка...</div>;
+    return <Loading />;
   }
 
   // 7. Finally, render your layout

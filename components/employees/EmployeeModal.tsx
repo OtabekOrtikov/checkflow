@@ -144,7 +144,7 @@ export default function EmployeeModal({
           <div className="fixed inset-0 bg-black" style={{ opacity: 0.3 }} />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-y-auto">
+        <div className="fixed inset-0 overflow-y-auto p-5">
           <div className="flex min-h-full items-center justify-center py-4">
             <Transition.Child
               as={Fragment}

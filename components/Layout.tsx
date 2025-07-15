@@ -10,7 +10,7 @@ import FileText from "@/assets/icons/ReportsIcon.svg";
 import Building2 from "@/assets/icons/OrgIcon.svg";
 import Settings from "@/assets/icons/SettingsIcon.svg";
 
-import profileAvatar from "@/public/assets/user.jpg";
+import profileAvatar from "@/public/assets/user.png";
 
 import Link from "next/link";
 import SearchIcon from "@/assets/icons/searchIcon.svg";
@@ -19,6 +19,9 @@ import { navSections } from "@/data/nav-section";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Navbar } from "./Navbar";
+import useSWR from "swr";
+import { authService } from "@/services/auth";
+import { User } from "@/types/checkflow";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -28,6 +31,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+
+  const { data: user, error: userError } = useSWR<User>(
+    "user",
+    authService.getUser
+  );
 
   return (
     <div className="min-h-screen lg:flex block gap-x-[50px]">
@@ -66,7 +74,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </div>
 
         {/* Search */}
-        <div className="relative w-full 2xl:min-h-[60px] h-fit">
+        {/* <div className="relative w-full 2xl:min-h-[60px] h-fit">
           <label
             htmlFor="nav-search"
             className="absolute top-[50%] translate-y-[-50%] left-[20px]"
@@ -91,7 +99,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           >
             <p className="text-[var(--black-50)] font-medium">/</p>
           </div>
-        </div>
+        </div> */}
 
         {/* Navigation */}
         <nav className="flex items-start flex-col justify-start flex-1 gap-y-[25px] max-h-[540px] overflow-y-auto">
@@ -116,10 +124,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             />
             <div>
               <p className="font-[Bounded] text-[24px] font-[566]">
-                {"Исламов Камрон"
-                  .split(" ")
-                  .map((w, i) => (i === 0 ? w[0] + "." : w))
-                  .join(" ")}
+                {
+                  user?.username
+                  // .split(" ")
+                  // .map((w, i) => (i === 0 ? w[0] + "." : w))
+                  // .join(" ")
+                }
               </p>
               <p className="text-[15px] opacity-[0.5] font-normal">
                 {"Администратор"}

@@ -40,145 +40,163 @@ export default function FilterBar({
   onChange,
   setModalOpen,
 }: FilterBarProps) {
-  const workplaces = pickUnique(all, "place_of_work").sort();
   const positions = pickUnique(all, "position").sort();
+
+  function useDepartments(workplaceIds: number[]) {
+    const { data, error } = useSWR("departments/all", () =>
+      Promise.all(
+        workplaceIds.map((id) =>
+          departmentService.getDepartmentById(id).then((dep) => [id, dep])
+        )
+      ).then(
+        (results) => Object.fromEntries(results) as Record<number, Department>
+      )
+    );
+
+    return {
+      departments: data,
+      isLoading: !data && !error,
+      isError: error,
+    };
+  }
+
+  const workplaces = pickUnique(all, "place_of_work").sort();
+  const { departments, isLoading } = useDepartments(workplaces);
 
   return (
     <div className="flex items-center gap-2.5 flex-col-reverse xl:flex-row w-full max-w-full">
-      <div className="board !flex-row !rounded-full justify-between flex-grow !w-fit !p-[5px] !gap-2.5 max-w-full overflow-scroll">
-        {/* — Status */}
-        <Listbox
-          value={filters.status}
-          onChange={(v) => onChange({ status: v })}
-        >
-          <div className="relative">
-            <Listbox.Button className="selection-btn">
-              {filters.status === "all"
-                ? "Статус"
-                : filters.status === "active"
-                ? "Активные"
-                : "Уволенные"}
-              <ChevronDown className="w-6 h-6" />
-            </Listbox.Button>
-            <Transition
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="selection-options absolute">
-                {[
-                  { value: "all", label: "Все" },
-                  { value: "active", label: "Активные" },
-                  { value: "fired", label: "Уволенные" },
-                ].map((o) => (
-                  <Listbox.Option
-                    key={o.value}
-                    value={o.value}
-                    className="px-4 py-2 flex justify-between hover:bg-gray-100"
-                  >
-                    {o.label}
-                    {filters.status === o.value && (
-                      <Check className="w-4 h-4 text-green-500" />
-                    )}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Transition>
-          </div>
-        </Listbox>
+      <div className="relative overflow-x-auto w-full scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <div className="flex overflow-visible text-nowrap min-w-fit gap-[5px] bg-[var(--white)] flex-nowrap border border-[var(--gray-e6)] rounded-full p-[5px] items-center">
+          {/* — Status */}
+          <Listbox
+            value={filters.status}
+            onChange={(v) => onChange({ status: v })}
+          >
+            <div className="relative">
+              <Listbox.Button className="selection-btn">
+                {filters.status === "all"
+                  ? "Статус"
+                  : filters.status === "active"
+                  ? "Активные"
+                  : "Уволенные"}
+                <ChevronDown className="w-6 h-6" />
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="selection-options fixed z-50 min-w-max max-h-48 overflow-y-auto left-0 top-full">
+                  {[
+                    { value: "all", label: "Все" },
+                    { value: "active", label: "Активные" },
+                    { value: "fired", label: "Уволенные" },
+                  ].map((o) => (
+                    <Listbox.Option
+                      key={o.value}
+                      value={o.value}
+                      className="px-4 py-2 flex justify-between hover:bg-gray-100"
+                    >
+                      {o.label}
+                      {filters.status === o.value && (
+                        <Check className="w-4 h-4 text-green-500" />
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Transition>
+            </div>
+          </Listbox>
 
-        {/* — Workplace */}
-        <Listbox
-          value={filters.workplace}
-          onChange={(v) => onChange({ workplace: v })}
-        >
-          <div className="relative">
-            <Listbox.Button className="selection-btn">
-              {filters.workplace === "all" ? "Место работы" : filters.workplace}
-              <ArrowDown className="w-6 h-6" />
-            </Listbox.Button>
-            <Transition
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="selection-options max-h-48 overflow-y-auto">
-                <Listbox.Option
-                  value="all"
-                  className="px-4 py-2 hover:bg-gray-100"
-                >
-                  Все
-                </Listbox.Option>
-                {workplaces.map((w) => {
-                  const { data } = useSWR<Department>(`departments/${w}`, () =>
-                    departmentService.getDepartmentById(w)
-                  );
-                  return (
+          {/* — Workplace */}
+          <Listbox
+            value={filters.workplace}
+            onChange={(v) => onChange({ workplace: v })}
+          >
+            <div className="relative">
+              <Listbox.Button className="selection-btn">
+                {filters.workplace === "all"
+                  ? "Место работы"
+                  : filters.workplace}
+                <ArrowDown className="w-6 h-6" />
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="selection-options fixed z-50 min-w-max max-h-48 overflow-y-auto left-0 top-full">
+                  <Listbox.Option
+                    value="all"
+                    className="px-4 py-2 hover:bg-gray-100"
+                  >
+                    Все
+                  </Listbox.Option>
+                  {workplaces.map((w) => (
                     <Listbox.Option
                       key={w}
                       value={w}
                       className="px-4 py-2 hover:bg-gray-100"
                     >
-                      {data ? data.name : `Отдел ${w}`}
+                      {departments?.[w]?.name || `Отдел ${w}`}
                     </Listbox.Option>
-                  );
-                })}
-              </Listbox.Options>
-            </Transition>
-          </div>
-        </Listbox>
+                  ))}
+                </Listbox.Options>
+              </Transition>
+            </div>
+          </Listbox>
 
-        {/* — Position */}
-        <Listbox
-          value={filters.position}
-          onChange={(v) => onChange({ position: v })}
-        >
-          <div className="relative">
-            <Listbox.Button className="selection-btn">
-              {filters.position === "all" ? "Должность" : filters.position}
-              <ArrowDown className="w-6 h-6" />
-            </Listbox.Button>
-            <Transition
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="selection-options max-h-48 overflow-y-auto">
-                <Listbox.Option
-                  value="all"
-                  className="px-4 py-2 hover:bg-gray-100"
-                >
-                  Все
-                </Listbox.Option>
-                {positions.map((p) => (
+          {/* — Position */}
+          <Listbox
+            value={filters.position}
+            onChange={(v) => onChange({ position: v })}
+          >
+            <div className="relative">
+              <Listbox.Button className="selection-btn">
+                {filters.position === "all" ? "Должность" : filters.position}
+                <ArrowDown className="w-6 h-6" />
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="selection-options fixed z-50 min-w-max max-h-48 overflow-y-auto left-0 top-full">
                   <Listbox.Option
-                    key={p}
-                    value={p}
+                    value="all"
                     className="px-4 py-2 hover:bg-gray-100"
                   >
-                    {p}
+                    Все
                   </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Transition>
+                  {positions.map((p) => (
+                    <Listbox.Option
+                      key={p}
+                      value={p}
+                      className="px-4 py-2 hover:bg-gray-100"
+                    >
+                      {p}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Transition>
+            </div>
+          </Listbox>
+
+          {/* — Created date */}
+          <div className="relative">
+            <input
+              type="date"
+              value={filters.created}
+              onChange={(e) => onChange({ created: e.target.value })}
+              className="selection-btn pr-10"
+            />
           </div>
-        </Listbox>
 
-        {/* — Created date */}
-        <div className="relative">
-          <input
-            type="date"
-            value={filters.created}
-            onChange={(e) => onChange({ created: e.target.value })}
-            className="selection-btn pr-10"
-          />
-        </div>
-
-        {/* — Salary */}
-        {/* <input
+          {/* — Salary */}
+          {/* <input
         type="number"
         placeholder="Мин зарпл."
         value={filters.salaryMin}
@@ -192,10 +210,11 @@ export default function FilterBar({
         onChange={(e) => onChange({ salaryMax: e.target.value })}
         className="selection-btn w-24"
       /> */}
+        </div>
       </div>
-      <div className="min-h-68px flex w-full flex-grow items-center gap-2.5">
+      <div className="min-h-68px flex w-full items-center gap-2.5">
         {/* — Search */}
-        <div className="relative flex-grow max-w-full w-full min-w[300px] h-[68px]">
+        <div className="relative flex-grow max-w-full w-full min-w-[300px] h-[68px]">
           <input
             type="text"
             placeholder="Поиск..."

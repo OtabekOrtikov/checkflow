@@ -2,16 +2,17 @@
 
 import React, { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
-import { AttendanceStats } from "@/types/checkflow";
 import { TableHeadline } from "./layout/TableHeadline";
 import StatsIcon from "@/assets/icons/StatsIcon.svg";
+import { AttendanceStats } from "@/types/attendance.t";
 
 interface DashboardChartProps {
   data: AttendanceStats[];
+  selectedPeriod: "week" | "month" | "year";
+  setSelectedPeriod: (period: "week" | "month" | "year") => void;
 }
 
-const DashboardChart: React.FC<DashboardChartProps> = ({ data }) => {
-  const [selectedPeriod, setSelectedPeriod] = useState("week");
+const DashboardChart: React.FC<DashboardChartProps> = ({ data, selectedPeriod, setSelectedPeriod }) => {
 
   const handlePeriodChange = (period: "week" | "month" | "year") => {
     setSelectedPeriod(period);
@@ -21,6 +22,9 @@ const DashboardChart: React.FC<DashboardChartProps> = ({ data }) => {
     name: item.label,
     value: item.count,
   }));
+
+  const values = chartData.map((item) => item.value);
+  const maxValue = Math.max(...values);
 
   return (
     <div className="board">
@@ -65,7 +69,7 @@ const DashboardChart: React.FC<DashboardChartProps> = ({ data }) => {
         </div>
       </div>
       <div
-        className="w-full overflow-x-auto min-h-fit h-[400px] p-5 bg-[var(--background)] rounded-[10px] 
+        className="w-full overflow-x-auto min-h-[400px] h-fit p-5 bg-[var(--background)] rounded-[10px] 
       border border-[var(--gray-e6)]"
       >
         <ResponsiveContainer width="100%" height="100%">
@@ -80,8 +84,8 @@ const DashboardChart: React.FC<DashboardChartProps> = ({ data }) => {
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 12, fill: "#1A1A1A", fontWeight: 600 }}
-              domain={[0, 200]}
-              ticks={[0, 25, 50, 75, 100, 150, 200]}
+              domain={[0, maxValue]}
+              ticks={values}
             />
             <Bar
               dataKey="value"

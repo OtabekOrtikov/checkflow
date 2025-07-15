@@ -28,9 +28,9 @@ export default function ScheduleTable({
               {[
                 "Название",
                 "Начало и конец",
-                "Норма часов",
-                "Ночное время",
-                "Обед",
+                // "Норма часов",
+                // "Ночное время",
+                // "Обед",
                 "Сотрудников",
               ].map((h) => (
                 <th key={h} className="last:!text-left">
@@ -46,10 +46,10 @@ export default function ScheduleTable({
                 <td className="">
                   {s.start_time.slice(0, 5)}–{s.end_time.slice(0, 5)}
                 </td>
-                <td className="">—</td>
-                <td className="">—</td>
-                <td className="">—</td>
-                <td className="">0</td>
+                {/* <td className="">—</td> */}
+                {/* <td className="">—</td> */}
+                {/* <td className="">—</td> */}
+                <td className="!text-left">{s.employees_count}</td>
               </tr>
             ))}
           </tbody>

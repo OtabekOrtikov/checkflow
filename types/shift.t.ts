@@ -4,4 +4,5 @@ export interface Shift {
   name: string;
   start_time: string;
   end_time: string;
+  employees_count: number;
 }

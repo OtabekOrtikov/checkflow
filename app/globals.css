@@ -275,6 +275,10 @@ body {
     width: 100%;
   }
 
+  .pagination {
+    display: none;
+  }
+
   /* Если нужно — отключить цветные фоны, обрезать тени и т.д. */
   /* @page { color-adjust: exact; } */
 }

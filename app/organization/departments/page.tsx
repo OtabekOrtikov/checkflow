@@ -1,11 +1,10 @@
-// src/app/organization/departments/page.tsx
 "use client";
 
 import { useState, useMemo } from "react";
+import { Department } from "@/types/department.t";
 import useSWR from "swr";
 import Layout from "@/components/Layout";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { Department } from "@/types/department.t";
 import { departmentService } from "@/services/departmentService";
 import { PageHeadline } from "@/components/layout/PageHeadline";
 import { TableHeadline } from "@/components/layout/TableHeadline";
@@ -23,6 +22,7 @@ export default function DepartmentsPage() {
 
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [edit, setEdit] = useState<Department | null>(null);
 
   // фильтрация по названию
   const filtered = useMemo(
@@ -40,9 +40,12 @@ export default function DepartmentsPage() {
     <ProtectedRoute>
       <Layout>
         <PageHeadline
-          title="Отделы"
+          title="Организация"
           addText="Добавить отдел"
-          onAdd={() => setModalOpen(true)}
+          onAdd={() => {
+            setEdit(null);
+            setModalOpen(true);
+          }}
           searchValue={search}
           onSearchChange={setSearch}
           btnIcon={
@@ -75,6 +78,7 @@ export default function DepartmentsPage() {
             mutate();
             setModalOpen(false);
           }}
+          department={edit}
         />
 
         <div className="tables board">
@@ -97,8 +101,8 @@ export default function DepartmentsPage() {
                     <td className="flex gap-2 justify-center !opacity-100">
                       <button
                         onClick={() => {
+                          setEdit(d);
                           setModalOpen(true);
-                          // сюда можно передать в DepartmentModal id для редактирования
                         }}
                         className="px-3 py-1 min-w-[60px] flex justify-center border border-[var(--primary)] bg-white text-[var(--red)] rounded-full"
                       >

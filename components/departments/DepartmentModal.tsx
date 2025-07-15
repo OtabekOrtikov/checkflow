@@ -1,24 +1,38 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ModalTitle } from "@/components/ModalTitle";
 import { departmentService } from "@/services/departmentService";
+import { Department } from "@/types/department.t";
 
 interface Props {
   open: boolean;
   onClose(): void;
   onSaved(): void;
+  department: Department | null;
 }
 
-export default function DepartmentModal({ open, onClose, onSaved }: Props) {
+export default function DepartmentModal({ open, onClose, onSaved, department }: Props) {
   const [name, setName] = useState("");
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (department) {
+      setName(department.name);
+    } else {
+      setName("");
+    }
+  }, [department, open]);
 
   const handleSave = async () => {
     if (!name.trim()) return;
     setSaving(true);
-    await departmentService.createDepartment({ name });
+    if (department) {
+      await departmentService.updateDepartment(department.id, { name });
+    } else {
+      await departmentService.createDepartment({ name });
+    }
     setSaving(false);
     onSaved();
   };
@@ -60,7 +74,10 @@ export default function DepartmentModal({ open, onClose, onSaved }: Props) {
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="w-full max-w-4xl bg-white p-6 space-y-4 rounded-2xl">
-              <ModalTitle title="Добавление отдела" onClose={onClose} />
+              <ModalTitle
+                title={department ? "Редактирование отдела" : "Добавление отдела"}
+                onClose={onClose}
+              />
 
               <hr className="opacity-10" />
 
@@ -103,15 +120,17 @@ export default function DepartmentModal({ open, onClose, onSaved }: Props) {
                   </svg>
                   Сохранить
                 </button>
-                <button
-                  type="button"
-                  onClick={handleSaveAndAnother}
-                  disabled={saving}
-                  className="px-5 border border-[var(--gray-e6)] rounded-[15px] text-xl font-semibold text-[var(--foreground)] flex items-center 
-                      justify-center gap-2.5 w-full min-h-[60px] whitespace-nowrap"
-                >
-                  Сохранить и добавить другой объект
-                </button>
+                {!department && (
+                  <button
+                    type="button"
+                    onClick={handleSaveAndAnother}
+                    disabled={saving}
+                    className="px-5 border border-[var(--gray-e6)] rounded-[15px] text-xl font-semibold text-[var(--foreground)] flex items-center 
+                        justify-center gap-2.5 w-full min-h-[60px] whitespace-nowrap"
+                  >
+                    Сохранить и добавить другой объект
+                  </button>
+                )}
               </div>
             </Dialog.Panel>
           </Transition.Child>

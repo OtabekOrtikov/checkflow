@@ -56,7 +56,7 @@ export default function Pagination({
   );
 
   return (
-    <div className="flex items-center justify-between flex-wrap lg:flex-nowrap gap-2.5">
+    <div className="pagination flex items-center justify-between flex-wrap lg:flex-nowrap gap-2.5">
       <p className="xl:text-[24px] font-[Bounded] font-[566] flex flex-row lg:flex-col gap-1 justify-between w-full">
         <span className="text-[var(--black-30)]">Показаны пришедшие</span>
         <span className="text-[var(--foreground)]">

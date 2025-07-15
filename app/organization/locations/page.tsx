@@ -21,19 +21,17 @@ export default function LocationsPage() {
     branchService.getBranches(companyId)
   );
 
-  const branches = all || [];
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [edit, setEdit] = useState<Branch | null>(null);
 
   // фильтрация
-  const filtered = useMemo(
-    () =>
-      branches.filter((b) =>
-        b.name.toLowerCase().includes(search.trim().toLowerCase())
-      ),
-    [branches, search]
-  );
+  const filtered = useMemo(() => {
+    const branches = all || [];
+    return branches.filter((b) =>
+      b.name.toLowerCase().includes(search.trim().toLowerCase())
+    );
+  }, [all, search]);
 
   const total = filtered.length;
   const paged = filtered.slice((page - 1) * pageSize, page * pageSize);
@@ -51,7 +49,7 @@ export default function LocationsPage() {
     <ProtectedRoute>
       <Layout>
         <PageHeadline
-          title="Локации компании"
+          title="Организация"
           addText="Добавить"
           onAdd={openNew}
           searchValue={search}

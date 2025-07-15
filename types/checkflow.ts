@@ -11,9 +11,7 @@ export interface LoginResponse {
 export interface User {
   id: number;
   username: string;
-  firstName: string;
-  lastName: string;
-  email?: string;
+  company: number;
 }
 
 export interface Disciplinary {

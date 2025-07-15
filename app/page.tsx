@@ -13,6 +13,7 @@ import DashboardDevices from "@/components/DashboardDevices";
 import DashboardChart from "@/components/DashboardChart";
 import { Footer } from "@/components/Footer";
 import { attendanceService } from "@/services/attendanceService";
+import { Loading } from "@/components/Loading";
 
 export default function Dashboard() {
   // фиксированные даты для примера
@@ -23,6 +24,8 @@ export default function Dashboard() {
   const [departmentFilter, setDepartmentFilter] = useState<number>();
   const [page, setPage] = useState(1);
   const pageSize = 10;
+
+  const [selectedPeriod, setSelectedPeriod] = useState<"week" | "month" | "year">("week");
 
   // 1) Сначала загружаем _все_ записи за период
   const { data: attendanceAll, error: attendanceError } = useSWR<
@@ -48,15 +51,15 @@ export default function Dashboard() {
   );
 
   const { data: attendanceStats, error: statsError } = useSWR<AttendanceStats[]>(
-    "attendance-stats",
-    attendanceService.getAttendanceStats
+    ["attendance-stats", selectedPeriod],
+    () => attendanceService.getAttendanceStats({ period: selectedPeriod })
   );
 
   if (attendanceError || summaryError || disciplineError || devicesError || statsError) {
     return <div>Ошибка при загрузке данных</div>;
   }
-  if (!attendanceAll || !summary || !disipline_list || !devices || !attendanceStats) {
-    return <div>Загрузка...</div>;
+  if (!attendanceAll || !summary || !disipline_list || !devices) {
+    return <Loading />;
   }
 
   // 2) Применяем фронтенд-фильтр по отделу
@@ -91,7 +94,9 @@ export default function Dashboard() {
         <DashboardDevices devices={devices} />
 
         <DashboardChart
-          data={attendanceStats}
+          data={attendanceStats ? attendanceStats : []}
+          selectedPeriod={selectedPeriod}
+          setSelectedPeriod={setSelectedPeriod}
         />
 
         <Footer />

@@ -75,7 +75,7 @@ export default function EmployeeTable({
                   </p>
                 </td>
                 <td className="!opacity-100 flex justify-center items-center">
-                  <p className={`${e.id % 2 === 0 ? "text-[var(--green)]" : "text-[var(--foreground)] opacity-30"}`}>
+                  {/* <p className={`${e.id % 2 === 0 ? "text-[var(--green)]" : "text-[var(--foreground)] opacity-30"}`}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="32"
@@ -130,8 +130,8 @@ export default function EmployeeTable({
                         />
                       </g>
                     </svg>
-                  </p>
-                  <p className={`${e.id % 2 === 1 ? "text-[var(--green)]" : "text-[var(--foreground)] opacity-30"}`}>
+                  </p> */}
+                  <p className={`${e.id ? "text-[var(--green)]" : "text-[var(--foreground)] opacity-30"}`}>
                     <svg
                       width="32"
                       height="32"
